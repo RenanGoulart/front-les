@@ -1,0 +1,45 @@
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+
+export const SideBar = styled.aside`
+  width: 300px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  padding: 20px;
+
+  background-color: ${({ theme }) => theme.colors.blue_24};
+  border-top-right-radius: 45px;
+`;
+
+export const ProfileCircle = styled.div`
+  width: 100px;
+  height: 100px;
+
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.white_ff};
+`;
+
+export const Menu = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  margin-top: 40px;
+`;
+
+export const MenuItem = styled(NavLink)`
+  font-size: 1.5rem;
+  font-family: 'Inter-Bold';
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.white_ff};
+
+  padding: 16px 0;
+
+  border-bottom: 2px solid ${({ theme }) => theme.colors.white_ff};
+`;
