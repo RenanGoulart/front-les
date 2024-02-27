@@ -29,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     height: 100vh;
-    font-family: 'Inter';
+    font-family: 'Poppins', sans-serif;
     background-color: #fff;
   }
 

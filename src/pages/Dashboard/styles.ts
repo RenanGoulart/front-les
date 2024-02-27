@@ -13,7 +13,7 @@ export const SideBar = styled.aside`
   position: fixed;
   padding: 20px;
 
-  background-color: ${({ theme }) => theme.colors.blue_24};
+  background-color: ${({ theme }) => theme.colors.purple_1f};
   border-top-right-radius: 45px;
 `;
 
@@ -35,7 +35,6 @@ export const Menu = styled.div`
 
 export const MenuItem = styled(NavLink)`
   font-size: 1.5rem;
-  font-family: 'Inter-Bold';
   text-decoration: none;
   color: ${({ theme }) => theme.colors.white_ff};
 
