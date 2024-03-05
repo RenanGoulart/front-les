@@ -1,17 +1,26 @@
 import { useForm } from "react-hook-form";
 import Input from "../Input/Input";
-import { Background, Container, GenderWrapper, Label, PhoneWrapper, Row } from "./styles";
-import RadioInput from "../RadioInput/RadioInput";
+import { Background, Button, Container, GenderWrapper, Label, PhoneWrapper, Row } from "./styles";
 import Select from "../Select/Select";
+import { CreateClientForm, CreateClientSchema } from "../../validations/createClient.validation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import RadioOptions from "../RadioOptions/RadioOptions";
+import { genderOptions, phoneTypeOptions } from "../../data/createClientOptions";
 
 const ModalCreateClient = () => {
-  const { control } = useForm();
+  const { control, handleSubmit } = useForm<CreateClientForm>({
+    resolver: yupResolver(CreateClientSchema)
+  });
+
+  const onSubmit = (data: CreateClientForm) => {
+    console.log(data);
+  }
   
   return (
     <Background>
       <Container>
         <h1>Informações do Cliente</h1>
-        <Row >
+        <Row>
           <Input 
             control={control} 
             name='name' 
@@ -21,35 +30,23 @@ const ModalCreateClient = () => {
           />
           <GenderWrapper>
             <Label>Gênero</Label>
-            <RadioInput 
+            <RadioOptions 
               control={control}
-              name="gender"
-              value='MASCULINO'
-              label='Masculino'
-              checked
-            />
-            <RadioInput 
-              control={control}
-              name="gender"
-              value='FEMININO'
-              label='Feminino'
-            />
-            <RadioInput 
-              control={control}
-              name="gender"
-              value='NAO_INFORMADO'
-              label='Prefiro não informar'
+              name='gender'
+              options={genderOptions}
             />
           </GenderWrapper>
         </Row>
         <Row>
-          <Input control={control} 
-            name='birthDate' 
-            label='Data de 
-            Nascimento' type="date"
+          <Input 
+            control={control} 
+            name='birth_date' 
+            label='Data de Nascimento' 
+            type="date"
             containerStyle={styles.inputStyle}
           />
-          <Input control={control} 
+          <Input 
+            control={control} 
             name='cpf' 
             label='CPF' 
             placeholder='100.200.300.40' 
@@ -59,14 +56,16 @@ const ModalCreateClient = () => {
         </Row>
         <Row>
           <PhoneWrapper>
-            <Input control={control} 
+            <Input 
+              control={control} 
               name='ddd' 
               label='DDD' 
               placeholder='11' 
               mask="99"
               containerStyle={{ width: '18%' }}
               />
-            <Input control={control} 
+            <Input 
+              control={control} 
               name='phone' 
               label='Telefone' 
               placeholder='99999-9999' 
@@ -76,25 +75,39 @@ const ModalCreateClient = () => {
           </PhoneWrapper>
           <Select 
             control={control}
-            name="phoneType" 
+            name="phone_type" 
             label='Tipo de Telefone'
-            options={[{ value: 'CELULAR', label: 'Celular' }, { value: 'RESIDENCIAL', label: 'Residencial' }]}  
+            options={phoneTypeOptions}  
             containerStyle={styles.inputStyle}
           />
         </Row>
         <Row>
-          <Input control={control} 
+          <Input 
+            control={control} 
             name='email' 
             label='E-mail' 
             placeholder='maria@gmail.com' 
             containerStyle={styles.inputStyle}
           />
-          <Input control={control} 
+          <Input 
+            control={control} 
             name='password' 
             label='Senha' 
             placeholder='********' 
             containerStyle={styles.inputStyle}
+            type="password"
           />
+        </Row>
+        <Row>
+          <Input
+            control={control} 
+            name='confirm_password' 
+            label='Confirmar Senha' 
+            placeholder='********' 
+            containerStyle={styles.inputStyle}
+            type="password"
+          />
+          <Button onClick={handleSubmit(onSubmit)}>Cadastrar</Button>
         </Row>
       </Container>
     </Background>

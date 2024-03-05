@@ -1,4 +1,4 @@
-import { FieldValues, UseControllerProps, useController } from "react-hook-form";
+import { FieldValues, Path, PathValue, UseControllerProps, useController } from "react-hook-form";
 import { Container, ErrorMessage, Label, SelectOption } from "./styles";
 
 interface IOption {
@@ -30,7 +30,8 @@ const Select = <TFieldValues extends FieldValues>({
     fieldState: { error },
   } = useController({ 
     name, 
-    control 
+    control,
+    defaultValue: options[0].value as PathValue<TFieldValues, Path<TFieldValues>>,
   });
 
   return (
@@ -38,7 +39,7 @@ const Select = <TFieldValues extends FieldValues>({
       <Label>{label}</Label>
       <SelectOption style={style} onChange={field.onChange}>
         {options.map((option) => (
-          <option value={option.value}>{option.label}</option>
+          <option key={option.value} value={option.value}>{option.label}</option>
         ))}
       </SelectOption>
       <ErrorMessage>{error?.message}</ErrorMessage>
