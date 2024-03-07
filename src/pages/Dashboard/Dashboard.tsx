@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
-import ModalCreateClient from "../../components/ModalCreateClient/ModalCreateClient";
-import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
-import { Menu, MenuItem, ProfileCircle, SideBar } from "./styles";
-=======
-import { useState } from "react";
 import { Container, Menu, MenuItem, ProfileCircle, SideBar } from "./styles";
+import { useState } from "react";
 import Clients from "../../components/Clients/Clients";
+import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
 
 type Pages = 'clients' | 'dashboard';
->>>>>>> 35e988b9228f3c80d29fa04a06bfc7af82e634e3
 
 const Dashboard = () => {
   const [page, setPage] = useState<Pages>('clients');
@@ -32,15 +26,9 @@ const Dashboard = () => {
           <MenuItem onClick={() => setPage('clients')}>Clients</MenuItem>
         </Menu>
       </SideBar>
-<<<<<<< HEAD
-      <ModalCreateClient />
-      <ModalCreateAddress />
-      <ModalCreateCreditCard />
-    </>
-=======
+      <ModalCreateCreditCard />    
       {renderPage()}
     </Container>
->>>>>>> 35e988b9228f3c80d29fa04a06bfc7af82e634e3
   )
 }
 
