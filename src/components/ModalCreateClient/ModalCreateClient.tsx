@@ -40,7 +40,7 @@ const ModalCreateClient = () => {
         <Row>
           <Input 
             control={control} 
-            name='birth_date' 
+            name='birthDate' 
             label='Data de Nascimento' 
             type="date"
             containerStyle={styles.inputStyle}
@@ -75,7 +75,7 @@ const ModalCreateClient = () => {
           </PhoneWrapper>
           <Select 
             control={control}
-            name="phone_type" 
+            name="phoneType" 
             label='Tipo de Telefone'
             options={phoneTypeOptions}  
             containerStyle={styles.inputStyle}
@@ -101,7 +101,7 @@ const ModalCreateClient = () => {
         <Row>
           <Input
             control={control} 
-            name='confirm_password' 
+            name='confirmPassword' 
             label='Confirmar Senha' 
             placeholder='********' 
             containerStyle={styles.inputStyle}
