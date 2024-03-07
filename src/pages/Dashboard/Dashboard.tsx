@@ -1,5 +1,6 @@
 import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
 import ModalCreateClient from "../../components/ModalCreateClient/ModalCreateClient";
+import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
 import { Menu, MenuItem, ProfileCircle, SideBar } from "./styles";
 
 const Dashboard = () => {
@@ -14,6 +15,7 @@ const Dashboard = () => {
       </SideBar>
       <ModalCreateClient />
       <ModalCreateAddress />
+      <ModalCreateCreditCard />
     </>
   )
 }
