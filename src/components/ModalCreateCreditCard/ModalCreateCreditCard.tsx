@@ -44,7 +44,7 @@ const ModalCreateCreditCard = () => {
             label='CVV' 
             placeholder='999' 
             mask="999"            
-            containerStyle={{ width: '50%' }}
+            containerStyle={{ width: '48%' }}
           />
         </Row>
         <Row>          
