@@ -1,13 +1,18 @@
 import { useForm } from "react-hook-form";
 import Input from "../Input/Input";
-import { Background, Button, Container, GenderWrapper, Label, PhoneWrapper, Row } from "./styles";
+import { Background, Container, GenderWrapper, Label, PhoneWrapper, Row } from "./styles";
 import Select from "../Select/Select";
 import { CreateClientForm, CreateClientSchema } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import RadioOptions from "../RadioOptions/RadioOptions";
 import { genderOptions, phoneTypeOptions } from "../../data/createClientOptions";
+import Button from "../Button/Button";
 
-const ModalCreateClient = () => {
+interface Props {
+  closeModal: () => void;
+}
+
+const ModalCreateClient = ({ closeModal }: Props) => {
   const { control, handleSubmit } = useForm<CreateClientForm>({
     resolver: yupResolver(CreateClientSchema)
   });
@@ -17,8 +22,8 @@ const ModalCreateClient = () => {
   }
   
   return (
-    <Background>
-      <Container>
+    <Background onClick={closeModal}>
+      <Container onClick={e => e.stopPropagation()}>
         <h1>Informações do Cliente</h1>
         <Row>
           <Input 
@@ -26,7 +31,7 @@ const ModalCreateClient = () => {
             name='name' 
             label='Nome' 
             placeholder='Maria Alice' 
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <GenderWrapper>
             <Label>Gênero</Label>
@@ -43,7 +48,7 @@ const ModalCreateClient = () => {
             name='birthDate' 
             label='Data de Nascimento' 
             type="date"
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <Input 
             control={control} 
@@ -51,7 +56,7 @@ const ModalCreateClient = () => {
             label='CPF' 
             placeholder='100.200.300.40' 
             mask="999.999.999-99"
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
         </Row>
         <Row>
@@ -78,7 +83,7 @@ const ModalCreateClient = () => {
             name="phoneType" 
             label='Tipo de Telefone'
             options={phoneTypeOptions}  
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
         </Row>
         <Row>
@@ -87,14 +92,14 @@ const ModalCreateClient = () => {
             name='email' 
             label='E-mail' 
             placeholder='maria@gmail.com' 
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <Input 
             control={control} 
             name='password' 
             label='Senha' 
             placeholder='********' 
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
             type="password"
           />
         </Row>
@@ -104,10 +109,10 @@ const ModalCreateClient = () => {
             name='confirmPassword' 
             label='Confirmar Senha' 
             placeholder='********' 
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
             type="password"
           />
-          <Button onClick={handleSubmit(onSubmit)}>Cadastrar</Button>
+          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>Cadastrar</Button>
         </Row>
       </Container>
     </Background>
@@ -115,7 +120,7 @@ const ModalCreateClient = () => {
 };
 
 const styles = {
-  inputStyle: {
+  elementStyle: {
     width: '48%',
   }
 }
