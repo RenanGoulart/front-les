@@ -1,0 +1,18 @@
+import styled from "styled-components";
+
+export const ButtonContainer = styled.button`
+  width: 200px;
+  height: 50px;
+
+  align-self: center;
+
+  background-color: ${({ theme }) => theme.colors.purple_48};
+  border: none;
+  border-radius: 5px;
+
+  font-size: 16px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.white_ff};
+
+  cursor: pointer;
+`;

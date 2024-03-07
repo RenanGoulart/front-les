@@ -9,6 +9,8 @@ export const Background = styled.div`
   align-items: center;
 
   position: absolute;
+  top: 0;
+  left: 0;
 
   background-color: ${({ theme }) => theme.colors.black_00}50;
 `;
@@ -49,21 +51,4 @@ export const PhoneWrapper = styled.div`
 
 export const GenderWrapper = styled.div`
   width: 48%;
-`;
-
-export const Button = styled.button`
-  width: 48%;
-  height: 50px;
-
-  align-self: center;
-
-  background-color: ${({ theme }) => theme.colors.purple_48};
-  border: none;
-  border-radius: 5px;
-
-  font-size: 16px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.white_ff};
-
-  cursor: pointer;
 `;
