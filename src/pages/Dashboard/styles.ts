@@ -1,8 +1,15 @@
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
+export const Container = styled.main`
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: row;  
+`;
+
 export const SideBar = styled.aside`
-  width: 300px;
+  width: 15%;
   height: 100vh;
 
   display: flex;
@@ -10,7 +17,6 @@ export const SideBar = styled.aside`
   align-items: center;
   justify-content: center;
 
-  position: fixed;
   padding: 20px;
 
   background-color: ${({ theme }) => theme.colors.purple_1f};
@@ -33,7 +39,9 @@ export const Menu = styled.div`
   margin-top: 40px;
 `;
 
-export const MenuItem = styled(NavLink)`
+export const MenuItem = styled.li`
+  list-style: none;
+
   font-size: 1.5rem;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.white_ff};
