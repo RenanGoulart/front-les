@@ -33,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #fff;
   }
 
-  h1, h2, h3, h4, h5 ,h6 p, span, label, input {
+  h1, h2, h3, h4, h5 ,h6 p, span, label, input, select, option {
     font-family: 'Poppins', sans-serif;
   }
 
