@@ -9,6 +9,8 @@ export const Background = styled.div`
   align-items: center;
 
   position: absolute;
+  top: 0;
+  left: 0;
 
   background-color: ${({ theme }) => theme.colors.black_00}50;
 `;

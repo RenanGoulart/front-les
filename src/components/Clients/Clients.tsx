@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
 import { Container, TableCell, TableContainer } from './styles';
 import Button from '../Button/Button';
+import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
+import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
 
 const Clients = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModalClient, setOpenModalClient] = useState(false);
+  const [openModalAddress, setOpenModalAddress] = useState(false);
+  const [openModalCreditCard, setOpenModalCreditCard] = useState(false);
 
   return (
     <Container>
       <h1>Clients</h1>
-      <Button onClick={() => setOpenModal(true)}>Create Client</Button>
+      <Button onClick={() => setOpenModalClient(true)}>Criar Cliente</Button>
+      <Button onClick={() => setOpenModalAddress(true)}>Criar Endereço</Button>
+      <Button onClick={() => setOpenModalCreditCard(true)}>Criar Cartão de crédito</Button>
 
       <TableContainer>
         <TableCell>
@@ -82,68 +88,9 @@ const Clients = () => {
         </TableCell>
       </TableContainer>
 
-      {/* <TableContainer>
-        <TableHeader>
-          <TableColumn>
-            <h4>Nome</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>CPF</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>E-mail</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>Gênero</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>Data de Nascimento</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>Telefone</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>Status</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>Cartões</h4>
-          </TableColumn>
-          <TableColumn>
-            <h4>Endereços</h4>
-          </TableColumn>
-        </TableHeader>
-        <TableRow>
-          <TableColumn>
-            <p>Maria Alice</p>
-          </TableColumn>
-          <TableColumn>
-            <p>100.200.300.40</p>
-          </TableColumn>
-          <TableColumn>
-            <p>mamaicegatinha@gmail.com</p>
-          </TableColumn>
-          <TableColumn>
-            <p>Maria Alice</p>
-          </TableColumn>
-          <TableColumn>
-            <p>Maria Alice</p>
-          </TableColumn>
-          <TableColumn>
-            <p>Maria Alice</p>
-          </TableColumn>
-          <TableColumn>
-            <p>Maria Alice</p>
-          </TableColumn>
-          <TableColumn>
-            <p>Maria Alice</p>
-          </TableColumn>
-          <TableColumn>
-            <p>Maria Alice</p>
-          </TableColumn>
-        </TableRow>
-      </TableContainer> */}
-
-      {openModal && <ModalCreateClient closeModal={() => setOpenModal(false)} />}
+      {openModalClient && <ModalCreateClient closeModal={() => setOpenModalClient(false)} />}
+      {openModalAddress && <ModalCreateAddress closeModal={() => setOpenModalAddress(false)} />}
+      {openModalCreditCard && <ModalCreateCreditCard closeModal={() => setOpenModalCreditCard(false)} />}
     </Container>
   )
 }

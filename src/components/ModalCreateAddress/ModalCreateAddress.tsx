@@ -5,19 +5,53 @@ import Select from "../Select/Select";
 import { CreateAddressSchema, CreateAddressForm } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addressTypesOptions, residenceTypeOptions, streetTypeOptions} from "../../data/createClientOptions";
+import { useEffect } from "react";
 
-const ModalCreateAddress = () => {
-  const { control, handleSubmit } = useForm<CreateAddressForm>({
+interface Props {
+  closeModal: () => void;
+}
+
+const ModalCreateAddress = ({ closeModal }: Props) => {
+  const { control, handleSubmit, watch, setValue } = useForm<CreateAddressForm>({
     resolver: yupResolver(CreateAddressSchema)
   });
+  const zipCode = watch('zipCode');
 
   const onSubmit = (data: CreateAddressForm) => {
     console.log(data);
   }
+
+  const handleZipCodeBlur = async () => {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${zipCode.replace(/\D/g, '')}/json/`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+            'content-type': 'application/json;charset=utf-8',
+        }
+    });
+      const data = await response.json();
+      setValue('street', data.logradouro);
+      setValue('state', data.uf);
+      setValue('district', data.bairro);
+      setValue('city', data.localidade);
+      setValue('country', 'Brasil');
+      console.log(data);
+    } catch (error: unknown) {
+      console.log(error);
+    }
+  }
   
+  useEffect(() => {
+    if(zipCode?.length === 9) {
+      console.log('fetch')
+      handleZipCodeBlur();
+    }
+  }, [zipCode]);
+
   return (
-    <Background>
-      <Container>
+    <Background onClick={closeModal}>
+      <Container onClick={e => e.stopPropagation()}>
         <h1>Informações de Endereço</h1>
         <Row>
           <Input 

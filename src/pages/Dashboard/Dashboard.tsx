@@ -1,7 +1,6 @@
 import { Container, Menu, MenuItem, ProfileCircle, SideBar } from "./styles";
 import { useState } from "react";
 import Clients from "../../components/Clients/Clients";
-import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
 
 type Pages = 'clients' | 'dashboard';
 
@@ -26,7 +25,6 @@ const Dashboard = () => {
           <MenuItem onClick={() => setPage('clients')}>Clients</MenuItem>
         </Menu>
       </SideBar>
-      <ModalCreateCreditCard />    
       {renderPage()}
     </Container>
   )

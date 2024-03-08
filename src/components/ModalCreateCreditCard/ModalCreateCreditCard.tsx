@@ -1,13 +1,16 @@
 import { useForm } from "react-hook-form";
 import Input from "../Input/Input";
-import { Background, Button, Container, GenderWrapper, Label, PhoneWrapper, Row } from "./styles";
+import { Background, Button, Container, Row } from "./styles";
 import Select from "../Select/Select";
 import { CreateCreditCardForm, CreateCreditCardSchema } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import RadioOptions from "../RadioOptions/RadioOptions";
-import { cardBrandOptions, genderOptions, phoneTypeOptions } from "../../data/createClientOptions";
+import { cardBrandOptions } from "../../data/createClientOptions";
 
-const ModalCreateCreditCard = () => {
+interface Props {
+  closeModal: () => void;
+}
+
+const ModalCreateCreditCard = ({ closeModal }: Props) => {
   const { control, handleSubmit } = useForm<CreateCreditCardForm>({
     resolver: yupResolver(CreateCreditCardSchema)
   });
@@ -17,8 +20,8 @@ const ModalCreateCreditCard = () => {
   }
   
   return (
-    <Background>
-      <Container>
+    <Background onClick={closeModal}>
+      <Container onClick={e => e.stopPropagation()}>
         <h1>Informações do Cartão de Crédito</h1>
         <Row>
           <Select 
