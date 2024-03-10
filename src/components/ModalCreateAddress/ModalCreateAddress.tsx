@@ -7,6 +7,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { addressTypesOptions, residenceTypeOptions, streetTypeOptions} from "../../data/createClientOptions";
 import { FormType } from "../Clients/Clients";
 import { useClient } from "../../hooks/useClient";
+import { useEffect, useState } from "react";
+import { listCitiesByStateId, listCountries, listStatesByCountryId } from "../../service/address";
+
+interface DropdownOption {
+  value: string;
+  label: string;
+}
 
 interface Props {
   changeForm: (form: FormType) => void;
@@ -15,10 +22,16 @@ interface Props {
 
 const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
   const { createFormData, setCreateFormData } = useClient();
+  const [countries, setCountries] = useState<DropdownOption[]>([]);
+  const [states, setStates] = useState<DropdownOption[]>([]);
+  const [cities, setCities] = useState<DropdownOption[]>([]);
 
-  const { control, handleSubmit,} = useForm<CreateAddressForm>({
+  const { control, handleSubmit, watch } = useForm<CreateAddressForm>({
     resolver: yupResolver(CreateAddressSchema)
   });
+
+  const country = watch('country');
+  const state = watch('state');
 
   const onSubmit = (data: CreateAddressForm) => {
     const formattedAddress = {
@@ -38,6 +51,48 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
     changeForm('creditCard');
   }
 
+  const getCountries = async () => {
+    const allCountries = await listCountries();
+    if (allCountries) {
+      const formattedCountries = allCountries.map((country) => ({ value: country.id, label: country.name }));
+      setCountries(formattedCountries);
+    }
+  }
+
+  const getStates = async (countryId: string) => {
+    const allStates = await listStatesByCountryId(countryId);
+    if (allStates) {
+      const formattedStates = allStates.map((state) => ({ value: state.id, label: state.name }));
+      setStates(formattedStates);
+    }
+  }
+
+  const getCities = async (stateId: string) => {
+    const allCities = await listCitiesByStateId(stateId);
+    if (allCities) {
+      const formattedCities = allCities.map((city) => ({ value: city.id, label: city.name }));
+      setCities(formattedCities);
+    }
+  }
+
+  console.log(countries, states, cities);
+
+  useEffect(() => {
+    getCountries();
+  }, []);
+
+  useEffect(() => {
+    if (country) {
+      getStates(country);
+    }
+  }, [country]);
+
+  useEffect(() => {
+    if (state) {
+      getCities(state);
+    }
+  }, [state]);
+
   return (
     <Background onClick={closeModal}>
       <Container onClick={e => e.stopPropagation()}>
@@ -53,13 +108,36 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             />
         </Row>
         <Row>
+          <Select 
+            control={control}
+            name="country" 
+            label='País'
+            options={countries || []}
+            containerStyle={styles.inputStyle}
+          />              
+          <Select 
+            control={control}
+            name="state" 
+            label='Estado'
+            options={states || []}
+            containerStyle={styles.inputStyle}
+          />           
+        </Row>  
+        <Row>
+          <Select 
+            control={control}
+            name="city" 
+            label='Cidade'
+            options={cities || []}
+            containerStyle={styles.inputStyle}
+          />
           <Input 
             control={control} 
             name='street'  
             label='Rua' 
             placeholder='Rua Joaquim Afonso' 
-            containerStyle={styles.inputStyle}            
-          /> 
+            containerStyle={{ width: '30%' }}            
+          />   
           <Input 
             control={control} 
             name='number' 
@@ -67,15 +145,8 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             placeholder='100' 
             containerStyle={{ width: '14%' }}
           />
-          <Select 
-            control={control}
-            name="state" 
-            label='Estado'
-            options={[{ value: 'SP', label: 'São Paulo' }, { value: 'RJ', label: 'Rio de janeiro' }]}
-            containerStyle={{ width: '30%' }}
-          />           
-        </Row>  
-        <Row>
+        </Row>                
+        <Row>     
           <Input 
             control={control} 
             name='district' 
@@ -83,22 +154,6 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             placeholder='Bairro Bom Sucesso' 
             containerStyle={styles.inputStyle}
           />
-          <Select 
-            control={control}
-            name="city" 
-            label='Cidade'
-            options={[{ value: 'Mogi', label: 'Mogi das Cruzes' }, { value: 'Itaqua', label: 'Itaquaquecetuba' }]}
-            containerStyle={styles.inputStyle}
-          />
-        </Row>                
-        <Row>     
-          <Select 
-            control={control}
-            name="country" 
-            label='País'
-            options={[{ value: 'BR', label: 'Brasil' }, { value: 'IR', label: 'Irlanda' }]}
-            containerStyle={styles.inputStyle}
-          />    
           <Input 
             control={control} 
             name='observation' 

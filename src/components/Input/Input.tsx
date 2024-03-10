@@ -1,5 +1,5 @@
-import { FieldValues, UseControllerProps, useController } from "react-hook-form";
-import { Container, ErrorMessage, Label, MaskedTextInput, TextInput  } from "./styles";
+import { Controller, FieldValues, UseControllerProps, useController,  } from "react-hook-form";
+import { Container,  ErrorMessage,  Label, MaskedTextInput, TextInput  } from "./styles";
 
 type Props<TFieldValues extends FieldValues> = {
   label: string;
@@ -22,30 +22,41 @@ const Input = <TFieldValues extends FieldValues>({
 }: Props<TFieldValues>) => {
   
   const {
-    field,
     fieldState: { error },
   } = useController({ 
-    name, 
-    control 
+    name,
+    control
   });
 
   return (
     <Container style={containerStyle}>
       <Label>{label}</Label>
       {mask ? (
-        <MaskedTextInput
-          onChange={field.onChange}  
-          type={type || 'text'} 
-          placeholder={placeholder} 
-          mask={mask} 
-          style={style}
+        <Controller 
+          control={control} 
+          name={name}
+          render={({ field }) => (
+            <MaskedTextInput
+              type={type || 'text'} 
+              placeholder={placeholder} 
+              mask={mask} 
+              style={style}
+              {...field}
+            />
+          )}
         />
       ) : (
-        <TextInput 
-          onChange={field.onChange}  
-          type={type || 'text'} 
-          placeholder={placeholder}  
-          style={style}
+        <Controller 
+          control={control} 
+          name={name}
+          render={({ field }) => (
+            <TextInput
+              type={type || 'text'} 
+              placeholder={placeholder}  
+              style={style}
+              {...field}
+            />
+          )}
         />
       )}
       <ErrorMessage>{error?.message}</ErrorMessage>

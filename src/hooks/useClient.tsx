@@ -43,6 +43,10 @@ interface IClientProvider {
   createClient: (cardData: IFormCard) => void;
   currentUserId: string | null;
   setCurrentUserId: (id: string | null) => void;
+  currentAddressId: string | null;
+  setCurrentAddressId: (id: string | null) => void;
+  currentCreditCardId: string | null;
+  setCurrentCreditCardId: (id: string | null) => void;
 }
 
 const ClientContext = createContext({} as IClientProvider);
@@ -50,6 +54,8 @@ const ClientContext = createContext({} as IClientProvider);
 const ClientProvider = ({ children }: PropsWithChildren) => {
   const [createFormData, setCreateFormData] = useState({} as Partial<IFormUser>);
   const [currentUserId, setCurrentUserId] = useState(null as string | null);
+  const [currentAddressId, setCurrentAddressId] = useState(null as string | null);
+  const [currentCreditCardId, setCurrentCreditCardId] = useState(null as string | null);
 
   const createClient = async (cardData: IFormCard) => {
     const formattedBody = {
@@ -69,6 +75,10 @@ const ClientProvider = ({ children }: PropsWithChildren) => {
         createClient,
         currentUserId,
         setCurrentUserId,
+        currentAddressId,
+        setCurrentAddressId,
+        currentCreditCardId,
+        setCurrentCreditCardId,
       }}
     >
       {children}

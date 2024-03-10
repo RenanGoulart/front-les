@@ -5,25 +5,53 @@ import Select from "../Select/Select";
 import { CreateCreditCardForm, CreateCreditCardSchema } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cardBrandOptions } from "../../data/createClientOptions";
-import { FormType } from "../Clients/Clients";
 import { useClient } from "../../hooks/useClient";
+import { ICreditCardResponse, findCreditCardById, updateCreditCard } from "../../service/creditCard";
+import { useEffect, useState } from "react";
 
 interface Props {
-  changeForm: (form: FormType) => void;
   closeModal: () => void;
+  refetch: () => void;
 }
 
-const ModalCreateCreditCard = ({ changeForm, closeModal }: Props) => {
-  const { createClient } = useClient();
+const ModalCreateCreditCard = ({ closeModal, refetch }: Props) => {
+  const { createClient, currentCreditCardId } = useClient();
+  const [cardInfo , setCardInfo] = useState<ICreditCardResponse | null>(null);
 
-  const { control, handleSubmit } = useForm<CreateCreditCardForm>({
-    resolver: yupResolver(CreateCreditCardSchema)
+  const { control, handleSubmit, setValue } = useForm<CreateCreditCardForm>({
+    resolver: yupResolver(CreateCreditCardSchema),
   });
 
   const onSubmit = (data: CreateCreditCardForm) => {
+    if (currentCreditCardId) {
+      updateCreditCard({ ...cardInfo, ...data });
+      refetch();
+      return closeModal();
+    }
     createClient(data);
-    changeForm(null);
+    closeModal();
   }
+
+  const setCreditCardFields = async (cardInfo: ICreditCardResponse) => {
+    setCardInfo(cardInfo);
+    setValue('cardBrand', cardInfo.cardBrand);
+    setValue('number', cardInfo.number);
+    setValue('cvv', cardInfo.cvv);
+    setValue('cardHolder', cardInfo.cardHolder);
+  }
+
+  const getCreditCardInfo = async (creditCardId: string) => {
+    const creditCardInfo = await findCreditCardById(creditCardId);
+    if (creditCardInfo) {
+      return setCreditCardFields(creditCardInfo);
+    }
+  }
+  
+  useEffect(() => {
+    if (currentCreditCardId) {
+      getCreditCardInfo(currentCreditCardId);
+    }
+  }, []);
   
   return (
     <Background onClick={closeModal}>
@@ -41,7 +69,7 @@ const ModalCreateCreditCard = ({ changeForm, closeModal }: Props) => {
         <Row>
           <Input 
             control={control} 
-            name='number' 
+            name='number'
             label='Número do cartão' 
             placeholder='9999 9999 9999 9999' 
             mask="9999 9999 9999 9999"
@@ -49,7 +77,7 @@ const ModalCreateCreditCard = ({ changeForm, closeModal }: Props) => {
           />
           <Input 
             control={control} 
-            name='cvv' 
+            name='cvv'
             label='CVV' 
             placeholder='999' 
             mask="999"            
@@ -64,7 +92,7 @@ const ModalCreateCreditCard = ({ changeForm, closeModal }: Props) => {
             placeholder='Renan Goulart' 
             containerStyle={styles.inputStyle}
           /> 
-          <Button onClick={handleSubmit(onSubmit)}>Cadastrar</Button>          
+          <Button onClick={handleSubmit(onSubmit)}>{currentCreditCardId ? 'Atualizar' : 'Cadastrar'}</Button>          
         </Row>
       </Container>
     </Background>

@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from './styles';
 import Button from '../Button/Button';
-import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
 import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
-import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
-import { ICreditCardResponse, listCreditCards } from '../../service/user';
+import { ICreditCardResponse, deleteCreditCard, listCreditCards } from '../../service/user';
 import { useClient } from '../../hooks/useClient';
 import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
 
@@ -16,28 +14,29 @@ interface Props {
 }
 
 const CreditCard = ({ navigateTo }: Props) => {
-  const { currentUserId } = useClient();
+  const { currentUserId, setCurrentCreditCardId } = useClient();
 
   const [form, setForm] = useState<FormType>(null);
   const [cards, setCards] = useState([] as ICreditCardResponse[]);
-
-  const handleChangeForm = (form: FormType) => {
-    setForm(form);
-  }
 
   const closeModal = () => {
     setForm(null);
   }
 
-  const getUsers = async () => {
-    const allUsers = await listCreditCards(currentUserId as string);
-    if (allUsers) {
-      setCards(allUsers);
+  const getCreditCards = async () => {
+    const allCreditCards = await listCreditCards(currentUserId as string);
+    if (allCreditCards) {
+      setCards(allCreditCards);
     }
   }
 
+  const handleDeleteCreditCard = async (creditCardId: string) => {
+    await deleteCreditCard(creditCardId);
+    getCreditCards();
+  }
+
   useEffect(() => {
-    getUsers();
+    getCreditCards();
   }, []);
 
   return (
@@ -61,17 +60,23 @@ const CreditCard = ({ navigateTo }: Props) => {
           </TableRow>
         </thead>
         <tbody>
-          {cards.map((cards) => (
-            <TableRow key={cards.id}>
-              <TableColumn>{cards.cardHolder}</TableColumn>
-              <TableColumn>{cards.cardBrand}</TableColumn>
-              <TableColumn>{cards.number}</TableColumn>
-              <TableColumn>{cards.cvv}</TableColumn>
-              <TableColumn>{cards.isMain ? 'SIM' : 'NÃO'}</TableColumn>
+          {cards.map((card) => (
+            <TableRow key={card.id}>
+              <TableColumn>{card.cardHolder}</TableColumn>
+              <TableColumn>{card.cardBrand}</TableColumn>
+              <TableColumn>{card.number}</TableColumn>
+              <TableColumn>{card.cvv}</TableColumn>
+              <TableColumn>{card.isMain ? 'SIM' : 'NÃO'}</TableColumn>
               <TableColumn>
-                <button>Editar</button>  
+                <button onClick={() => {
+                    setCurrentCreditCardId(card.id);
+                    setForm('creditCard');
+                  }}
+                >
+                  Editar
+                </button>  
               </TableColumn>
-              <TableColumn>
+              <TableColumn onClick={() => handleDeleteCreditCard(card.id)}>
                 <button>Excluir</button>  
               </TableColumn>
             </TableRow>
@@ -79,9 +84,7 @@ const CreditCard = ({ navigateTo }: Props) => {
         </tbody>
       </TableContainer>      
 
-      {form === 'client' && <ModalCreateClient changeForm={handleChangeForm} closeModal={closeModal} />}
-      {form === 'address' && <ModalCreateAddress changeForm={handleChangeForm} closeModal={closeModal} />}
-      {form === 'creditCard' && <ModalCreateCreditCard  changeForm={handleChangeForm} closeModal={closeModal} />}
+      {form === 'creditCard' && <ModalCreateCreditCard closeModal={closeModal} refetch={getCreditCards} />}
     </Container>
   )
 }

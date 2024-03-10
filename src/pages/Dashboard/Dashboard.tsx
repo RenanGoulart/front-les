@@ -2,6 +2,7 @@ import { Container, Menu, MenuItem, ProfileCircle, SideBar } from "./styles";
 import { useState } from "react";
 import Clients from "../../components/Clients/Clients";
 import Address from "../../components/Address/Address";
+import CreditCard from "../../components/CreditCards/CreditCards";
 
 export type ClientPagesType = 'clients' | 'addresses' | 'creditCards';
 
@@ -18,6 +19,8 @@ const Dashboard = () => {
         return <Clients navigateTo={navigateTo} />;
       case 'addresses':
         return <Address navigateTo={navigateTo} />;
+      case 'creditCards':
+        return <CreditCard navigateTo={navigateTo} />;
     }
   }
 

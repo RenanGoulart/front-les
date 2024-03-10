@@ -4,9 +4,10 @@ import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Ro
 import Button from '../Button/Button';
 import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
 import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
-import { IUserResponse, listUsers } from '../../service/user';
+import { IUserResponse, deleteUser, listUsers } from '../../service/user';
 import { format } from 'date-fns';
 import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
+import { useClient } from '../../hooks/useClient';
 
 export type FormType = 'client' | 'address' | 'creditCard' | null;
 
@@ -15,6 +16,8 @@ interface Props {
 }
 
 const Clients = ({ navigateTo }: Props) => {
+  const { setCurrentUserId } = useClient();
+
   const [form, setForm] = useState<FormType>(null);
   const [clients, setClients] = useState([] as IUserResponse[]);
 
@@ -26,11 +29,21 @@ const Clients = ({ navigateTo }: Props) => {
     setForm(null);
   }
 
+  const navigateToList = (userId: string, page: ClientPagesType) => {
+    setCurrentUserId(userId);
+    navigateTo(page);
+  }
+
   const getUsers = async () => {
     const allUsers = await listUsers();
     if (allUsers) {
       setClients(allUsers);
     }
+  }
+
+  const handleDeleteClient = async (clientId: string) => {
+    await deleteUser(clientId);
+    getUsers();
   }
 
   useEffect(() => {
@@ -71,16 +84,16 @@ const Clients = ({ navigateTo }: Props) => {
               <TableColumn>{`(${client.ddd}) ${client.phone}`}</TableColumn>
               <TableColumn>{client.status}</TableColumn>
               <TableColumn>
-                <button onClick={() => navigateTo('creditCards')}>Ver cartões</button>  
+                <button onClick={() => navigateToList(client.id, 'creditCards')}>Ver cartões</button>  
               </TableColumn>
               <TableColumn>
-                <button onClick={() => navigateTo('addresses')}>Ver endereços</button>  
+                <button onClick={() => navigateToList(client.id, 'addresses')}>Ver endereços</button>  
               </TableColumn>
               <TableColumn>
                 <button>Editar</button>  
               </TableColumn>
               <TableColumn>
-                <button>Excluir</button>  
+                <button onClick={() => handleDeleteClient(client.id)}>Excluir</button>  
               </TableColumn>
             </TableRow>
           ))}
