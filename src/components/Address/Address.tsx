@@ -29,7 +29,6 @@ const Address = ({ navigateTo }: Props) => {
   const getAddresses = async () => {
     const allAddresses = await listAddresses(currentUserId as string);
     if (allAddresses) {
-      console.log(allAddresses);
       setAddresses(allAddresses);
     }
   }

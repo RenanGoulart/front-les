@@ -9,6 +9,9 @@ import { genderOptions, phoneTypeOptions } from "../../data/createClientOptions"
 import Button from "../Button/Button";
 import { FormType } from "../Clients/Clients";
 import { useClient } from "../../hooks/useClient";
+import { useEffect } from "react";
+import { IUserResponse, findUserById, updateUser } from "../../service/user";
+import { format } from "date-fns";
 
 interface Props {
   changeForm: (form: FormType) => void;
@@ -16,16 +19,51 @@ interface Props {
 }
 
 const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
-  const { setCreateFormData } = useClient();
+  const { setCreateFormData, currentUserId } = useClient();
 
-  const { control, handleSubmit } = useForm<CreateClientForm>({
+  const { control, handleSubmit, setValue } = useForm<CreateClientForm>({
     resolver: yupResolver(CreateClientSchema)
   });
 
   const onSubmit = (data: CreateClientForm) => {
+    if (currentUserId) {
+      const formattedUser = {
+        ...data,
+        birthDate: new Date(data.birthDate as string).toISOString(),
+        id: currentUserId,
+      }
+
+      updateUser(formattedUser);
+      return closeModal();
+    }
+
     setCreateFormData(data);
     changeForm('address');
   }
+
+  const setUserFields = async (userData: IUserResponse) => {
+    setValue('name', userData.name);
+    setValue('gender', userData.gender);
+    setValue('birthDate', format(userData.birthDate, 'yyyy-MM-dd'));
+    setValue('cpf', userData.cpf);
+    setValue('ddd', userData.ddd);
+    setValue('phone', userData.phone);
+    setValue('phoneType', userData.phoneType);
+    setValue('email', userData.email);
+  }
+
+  const getUserInfo = async (userId: string) => {
+    const userInfo = await findUserById(userId);
+    if (userInfo) {
+      return setUserFields(userInfo);
+    }
+  }
+  
+  useEffect(() => {
+    if (currentUserId) {
+      getUserInfo(currentUserId);
+    }
+  }, []);
   
   return (
     <Background onClick={closeModal}>
@@ -118,7 +156,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             containerStyle={styles.elementStyle}
             type="password"
           />
-          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>Continuar</Button>
+          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>{currentUserId ? 'Atualizar' : 'Cadastrar'}</Button>
         </Row>
       </Container>
     </Background>

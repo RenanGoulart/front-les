@@ -90,7 +90,13 @@ const Clients = ({ navigateTo }: Props) => {
                 <button onClick={() => navigateToList(client.id, 'addresses')}>Ver endereços</button>  
               </TableColumn>
               <TableColumn>
-                <button>Editar</button>  
+                  <button onClick={() => {
+                    setCurrentUserId(client.id);
+                    setForm('client');
+                  }}
+                >
+                  Editar
+                </button>  
               </TableColumn>
               <TableColumn>
                 <button onClick={() => handleDeleteClient(client.id)}>Excluir</button>  

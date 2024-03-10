@@ -157,3 +157,20 @@ export const listCreditCards = async (userId: string) => {
     console.log(error);
   }
 }
+
+export const findUserById = async (userId: string) => {
+  try {
+    const { data } = await api.get<IUserResponse>(`/user/${userId}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const updateUser = async (body: Partial<IUserResponse>) => {
+  try {
+    await api.put(`/user/${body.id}`, body);
+  } catch (error) {
+    console.log(error);
+  }
+}

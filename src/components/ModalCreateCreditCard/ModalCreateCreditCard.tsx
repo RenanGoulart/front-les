@@ -11,10 +11,9 @@ import { useEffect, useState } from "react";
 
 interface Props {
   closeModal: () => void;
-  refetch?: () => void;
 }
 
-const ModalCreateCreditCard = ({ closeModal, refetch }: Props) => {
+const ModalCreateCreditCard = ({ closeModal }: Props) => {
   const { createClient, currentCreditCardId } = useClient();
   const [cardInfo, setCardInfo] = useState<ICreditCardResponse | null>(null);
 
@@ -25,7 +24,6 @@ const ModalCreateCreditCard = ({ closeModal, refetch }: Props) => {
   const onSubmit = (data: CreateCreditCardForm) => {
     if (currentCreditCardId) {
       updateCreditCard({ ...cardInfo, ...data });
-      refetch?.();
       return closeModal();
     }
     createClient(data);

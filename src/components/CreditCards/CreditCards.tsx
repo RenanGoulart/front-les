@@ -84,7 +84,7 @@ const CreditCard = ({ navigateTo }: Props) => {
         </tbody>
       </TableContainer>      
 
-      {form === 'creditCard' && <ModalCreateCreditCard closeModal={closeModal} refetch={getCreditCards} />}
+      {form === 'creditCard' && <ModalCreateCreditCard closeModal={closeModal} />}
     </Container>
   )
 }
