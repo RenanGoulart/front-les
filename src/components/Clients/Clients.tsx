@@ -71,7 +71,7 @@ const Clients = ({ navigateTo }: Props) => {
               <TableColumn>{`(${client.ddd}) ${client.phone}`}</TableColumn>
               <TableColumn>{client.status}</TableColumn>
               <TableColumn>
-                <button>Ver cartões</button>  
+                <button onClick={() => navigateTo('creditCards')}>Ver cartões</button>  
               </TableColumn>
               <TableColumn>
                 <button onClick={() => navigateTo('addresses')}>Ver endereços</button>  

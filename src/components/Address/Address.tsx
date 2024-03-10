@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
-import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from './styles';
+import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from '../CreditCards/styles';
 import Button from '../Button/Button';
+import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
 import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
 import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
 import { IAddressResponse, listAddresses } from '../../service/user';

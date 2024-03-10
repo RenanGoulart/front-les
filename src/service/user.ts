@@ -34,6 +34,15 @@ export interface IAddressResponse {
   userId: string;
 }
 
+export interface ICreditCardResponse {
+  id: string;
+  number: string;
+  cardHolder: string;
+  cvv: string;
+  cardBrand: string;
+  isMain: boolean;
+}
+
 
 export const createUser = async (body: Partial<IFormUser>) => {
   try {
@@ -56,6 +65,15 @@ export const listUsers = async () => {
 export const listAddresses = async (userId: string) => {
   try {
     const { data } = await api.get<IAddressResponse[]>(`/address/${userId}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const listCreditCards = async (userId: string) => {
+  try {
+    const { data } = await api.get<ICreditCardResponse[]>(`/cards/${userId}`);
     return data;
   } catch (error) {
     console.log(error);
