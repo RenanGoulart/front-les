@@ -4,7 +4,7 @@ import Button from '../Button/Button';
 import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
 import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
 import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
-import { IAddressResponse, listAddresses } from '../../service/user';
+import { IAddress, deleteAddress, listAddresses } from '../../service/user';
 import { useClient } from '../../hooks/useClient';
 import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
 
@@ -18,7 +18,7 @@ const Address = ({ navigateTo }: Props) => {
   const { currentUserId } = useClient();
 
   const [form, setForm] = useState<FormType>(null);
-  const [addresses, setAddresses] = useState([] as IAddressResponse[]);
+  const [addresses, setAddresses] = useState([] as IAddress[]);
 
   const handleChangeForm = (form: FormType) => {
     setForm(form);
@@ -28,15 +28,21 @@ const Address = ({ navigateTo }: Props) => {
     setForm(null);
   }
 
-  const getUsers = async () => {
-    const allUsers = await listAddresses(currentUserId as string);
-    if (allUsers) {
-      setAddresses(allUsers);
+  const getAddresses = async () => {
+    const allAddresses = await listAddresses(currentUserId as string);
+    if (allAddresses) {
+      console.log(allAddresses);
+      setAddresses(allAddresses);
     }
   }
 
+  const handleDeleteAddress = async (addressId: string) => {
+    await deleteAddress(addressId);
+    getAddresses();
+  }
+
   useEffect(() => {
-    getUsers();
+    getAddresses();
   }, []);
 
   return (
@@ -72,9 +78,9 @@ const Address = ({ navigateTo }: Props) => {
               <TableColumn>{address.number}</TableColumn>
               <TableColumn>{address.district}</TableColumn>
               <TableColumn>{address.zipCode}</TableColumn>
-              <TableColumn>{address.cityId}</TableColumn>
-              <TableColumn>ESTADO</TableColumn>
-              <TableColumn>PAÍS</TableColumn>
+              <TableColumn>{address.city.name}</TableColumn>
+              <TableColumn>{address.state.name}</TableColumn>
+              <TableColumn>{address.country.name}</TableColumn>
               <TableColumn>{address.addressType}</TableColumn>
               <TableColumn>{address.streetType}</TableColumn>
               <TableColumn>{address.residenceType}</TableColumn>
@@ -83,7 +89,7 @@ const Address = ({ navigateTo }: Props) => {
                 <button>Editar</button>  
               </TableColumn>
               <TableColumn>
-                <button>Excluir</button>  
+                <button onClick={() => handleDeleteAddress(address.id)}>Excluir</button>  
               </TableColumn>
             </TableRow>
           ))}
