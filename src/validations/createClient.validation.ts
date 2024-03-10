@@ -22,24 +22,22 @@ export const CreateClientSchema = Yup.object({
 });
 
 export const CreateAddressSchema = Yup.object({
+  zipCode: Yup.string().required('CEP Obrigatório'),
   street: Yup.string().required('Rua Obrigatória'),
   number: Yup.string().required('Número Obrigatório'),
-  district: Yup.string().required('Bairro Obrigatório'),
-  zipCode: Yup.string().required('CEP Obrigatório'),
-  country: Yup.string().required('País Obrigatório'),
   state: Yup.string().required('Estado Obrigatório'),
+  district: Yup.string().required('Bairro Obrigatório'),
   city: Yup.string().required('Cidade Obrigatória'),
-  streetType: Yup.string().required('Tipo de Rua Obrigatório'),
+  country: Yup.string().required('País Obrigatório'),
+  observation: Yup.string(),
   addressType: Yup.string().required('Tipo de Endereço Obrigatório'),
+  streetType: Yup.string().required('Tipo de Rua Obrigatório'),
   residenceType: Yup.string().required('Tipo de Residência Obrigatório'),
-  observation: Yup.string().required('Observação Obrigatória'),
-  isMain: Yup.string().required('Preferencial Obrigatório'),  
 });
 
 export const CreateCreditCardSchema = Yup.object({
   number: Yup.string().required('Número do Cartão Obrigatório'),
   cardHolder: Yup.string().required('Nome do Titular Obrigatório'),
   cvv: Yup.string().required('Código de Segurança Obrigatório'),
-  isMain: Yup.string().required('Preferencial Obrigatório'),
   cardBrand: Yup.string().required('Bandeira do Cartão Obrigatória'),
 });

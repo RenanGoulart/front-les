@@ -5,49 +5,38 @@ import Select from "../Select/Select";
 import { CreateAddressSchema, CreateAddressForm } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addressTypesOptions, residenceTypeOptions, streetTypeOptions} from "../../data/createClientOptions";
-import { useEffect } from "react";
+import { FormType } from "../Clients/Clients";
+import { useClient } from "../../hooks/useClient";
 
 interface Props {
+  changeForm: (form: FormType) => void;
   closeModal: () => void;
 }
 
-const ModalCreateAddress = ({ closeModal }: Props) => {
-  const { control, handleSubmit, watch, setValue } = useForm<CreateAddressForm>({
+const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
+  const { createFormData, setCreateFormData } = useClient();
+
+  const { control, handleSubmit,} = useForm<CreateAddressForm>({
     resolver: yupResolver(CreateAddressSchema)
   });
-  const zipCode = watch('zipCode');
 
   const onSubmit = (data: CreateAddressForm) => {
-    console.log(data);
-  }
+    const formattedAddress = {
+      zipCode: data.zipCode,
+      street: data.street,
+      number: data.number,
+      district: data.district,
+      cityId: "48b1135e-2409-4664-806e-eea46270acbb", // mudar para data.city
+      observation: data.observation,
+      addressType: data.addressType,
+      streetType: data.streetType,
+      residenceType: data.residenceType,
+      isMain: true
+    }
 
-  const handleZipCodeBlur = async () => {
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${zipCode.replace(/\D/g, '')}/json/`, {
-        method: "GET",
-        mode: "cors",
-        headers: {
-            'content-type': 'application/json;charset=utf-8',
-        }
-    });
-      const data = await response.json();
-      setValue('street', data.logradouro);
-      setValue('state', data.uf);
-      setValue('district', data.bairro);
-      setValue('city', data.localidade);
-      setValue('country', 'Brasil');
-      console.log(data);
-    } catch (error: unknown) {
-      console.log(error);
-    }
+    setCreateFormData({ ...createFormData, addresses: [formattedAddress]});
+    changeForm('creditCard');
   }
-  
-  useEffect(() => {
-    if(zipCode?.length === 9) {
-      console.log('fetch')
-      handleZipCodeBlur();
-    }
-  }, [zipCode]);
 
   return (
     <Background onClick={closeModal}>
@@ -82,7 +71,7 @@ const ModalCreateAddress = ({ closeModal }: Props) => {
             control={control}
             name="state" 
             label='Estado'
-            options={[{ value: 'SP', label: 'São Paulo' }]}
+            options={[{ value: 'SP', label: 'São Paulo' }, { value: 'RJ', label: 'Rio de janeiro' }]}
             containerStyle={{ width: '30%' }}
           />           
         </Row>  
@@ -98,7 +87,7 @@ const ModalCreateAddress = ({ closeModal }: Props) => {
             control={control}
             name="city" 
             label='Cidade'
-            options={[{ value: 'Mogi', label: 'Mogi das Cruzes' }]}
+            options={[{ value: 'Mogi', label: 'Mogi das Cruzes' }, { value: 'Itaqua', label: 'Itaquaquecetuba' }]}
             containerStyle={styles.inputStyle}
           />
         </Row>                
@@ -107,7 +96,7 @@ const ModalCreateAddress = ({ closeModal }: Props) => {
             control={control}
             name="country" 
             label='País'
-            options={[{ value: 'BR', label: 'Brasil' }]}
+            options={[{ value: 'BR', label: 'Brasil' }, { value: 'IR', label: 'Irlanda' }]}
             containerStyle={styles.inputStyle}
           />    
           <Input 
@@ -142,7 +131,7 @@ const ModalCreateAddress = ({ closeModal }: Props) => {
             options={residenceTypeOptions}  
             containerStyle={styles.inputStyle}
           />
-          <Button onClick={handleSubmit(onSubmit)}>Cadastrar</Button>
+          <Button onClick={handleSubmit(onSubmit)}>Continuar</Button>
         </Row>                
       </Container>
     </Background>

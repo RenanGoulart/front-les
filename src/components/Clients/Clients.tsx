@@ -1,98 +1,99 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
-import { Container, TableCell, TableContainer } from './styles';
+import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from './styles';
 import Button from '../Button/Button';
 import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
 import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
+import { IUserResponse, listUsers } from '../../service/user';
+import { format } from 'date-fns';
+import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
 
-const Clients = () => {
-  const [openModalClient, setOpenModalClient] = useState(false);
-  const [openModalAddress, setOpenModalAddress] = useState(false);
-  const [openModalCreditCard, setOpenModalCreditCard] = useState(false);
+export type FormType = 'client' | 'address' | 'creditCard' | null;
+
+interface Props {
+  navigateTo: (page: ClientPagesType) => void;
+}
+
+const Clients = ({ navigateTo }: Props) => {
+  const [form, setForm] = useState<FormType>(null);
+  const [clients, setClients] = useState([] as IUserResponse[]);
+
+  const handleChangeForm = (form: FormType) => {
+    setForm(form);
+  }
+
+  const closeModal = () => {
+    setForm(null);
+  }
+
+  const getUsers = async () => {
+    const allUsers = await listUsers();
+    if (allUsers) {
+      setClients(allUsers);
+    }
+  }
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <Container>
-      <h1>Clients</h1>
-      <Button onClick={() => setOpenModalClient(true)}>Criar Cliente</Button>
-      <Button onClick={() => setOpenModalAddress(true)}>Criar Endereço</Button>
-      <Button onClick={() => setOpenModalCreditCard(true)}>Criar Cartão de crédito</Button>
+      <Row>
+        <h1>Clientes</h1>
+        <Button onClick={() => setForm('client')}>Criar Cliente</Button>
+      </Row>
 
       <TableContainer>
-        <TableCell>
-          <h4>Nome</h4>
-        </TableCell>
-        <TableCell>
-          <h4>CPF</h4>
-        </TableCell>
-        <TableCell>
-          <h4>E-mail</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Gênero</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Data de Nascimento</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Telefone</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Status</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Cartões</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Endereços</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Editar</h4>
-        </TableCell>
-        <TableCell>
-          <h4>Excluir</h4>
-        </TableCell>
-
-
-        <TableCell>
-          <p>Maria Alice</p>
-        </TableCell>
-        <TableCell>
-          <p>100.200.300.40</p>
-        </TableCell>
-        <TableCell>
-          <p>mamaicegatinha@gmail.com</p>
-        </TableCell>
-        <TableCell>
-          <p>Feminino</p>
-        </TableCell>
-        <TableCell>
-          <p>07/10/2003</p>
-        </TableCell>
-        <TableCell>
-          <p>(11) 95041-2323</p>
-        </TableCell>
-        <TableCell>
-          <p>ATIVO</p>
-        </TableCell>
-        <TableCell>
-          <button>Ver cartões</button>
-        </TableCell>
-        <TableCell>
-          <button>Ver endereços</button>
-        </TableCell>
-        <TableCell>
-          <button>Editar</button>
-        </TableCell>
-        <TableCell>
-          <button>Excluir</button>
-        </TableCell>
+        <thead>
+          <TableRow>
+            <TableHeaderColumn>Nome</TableHeaderColumn>
+            <TableHeaderColumn>CPF</TableHeaderColumn>
+            <TableHeaderColumn>E-mail</TableHeaderColumn>
+            <TableHeaderColumn>Gênero</TableHeaderColumn>
+            <TableHeaderColumn>Data de Nascimento</TableHeaderColumn>
+            <TableHeaderColumn>Telefone</TableHeaderColumn>
+            <TableHeaderColumn>Status</TableHeaderColumn>
+            <TableHeaderColumn>Cartões</TableHeaderColumn>
+            <TableHeaderColumn>Endereços</TableHeaderColumn>
+            <TableHeaderColumn>Editar</TableHeaderColumn>
+            <TableHeaderColumn>Excluir</TableHeaderColumn>
+          </TableRow>
+        </thead>
+        <tbody>
+          {clients.map((client) => (
+            <TableRow key={client.id}>
+              <TableColumn>{client.name}</TableColumn>
+              <TableColumn>{client.cpf}</TableColumn>
+              <TableColumn>{client.email}</TableColumn>
+              <TableColumn>{client.gender}</TableColumn>
+              <TableColumn>{format(client.birthDate, 'dd/MM/yyyy')}</TableColumn>
+              <TableColumn>{`(${client.ddd}) ${client.phone}`}</TableColumn>
+              <TableColumn>{client.status}</TableColumn>
+              <TableColumn>
+                <button>Ver cartões</button>  
+              </TableColumn>
+              <TableColumn>
+                <button onClick={() => navigateTo('addresses')}>Ver endereços</button>  
+              </TableColumn>
+              <TableColumn>
+                <button>Editar</button>  
+              </TableColumn>
+              <TableColumn>
+                <button>Excluir</button>  
+              </TableColumn>
+            </TableRow>
+          ))}
+        </tbody>
       </TableContainer>
+      
 
-      {openModalClient && <ModalCreateClient closeModal={() => setOpenModalClient(false)} />}
-      {openModalAddress && <ModalCreateAddress closeModal={() => setOpenModalAddress(false)} />}
-      {openModalCreditCard && <ModalCreateCreditCard closeModal={() => setOpenModalCreditCard(false)} />}
+      {form === 'client' && <ModalCreateClient changeForm={handleChangeForm} closeModal={closeModal} />}
+      {form === 'address' && <ModalCreateAddress changeForm={handleChangeForm} closeModal={closeModal} />}
+      {form === 'creditCard' && <ModalCreateCreditCard  changeForm={handleChangeForm} closeModal={closeModal} />}
     </Container>
   )
 }
 
 export default Clients;
+

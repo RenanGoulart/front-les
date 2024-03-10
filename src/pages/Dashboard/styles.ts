@@ -49,4 +49,6 @@ export const MenuItem = styled.li`
   padding: 16px 0;
 
   border-bottom: 2px solid ${({ theme }) => theme.colors.white_ff};
+
+  cursor: pointer;
 `;

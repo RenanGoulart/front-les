@@ -1,18 +1,23 @@
 import { Container, Menu, MenuItem, ProfileCircle, SideBar } from "./styles";
 import { useState } from "react";
 import Clients from "../../components/Clients/Clients";
+import Address from "../../components/Address/Address";
 
-type Pages = 'clients' | 'dashboard';
+export type ClientPagesType = 'clients' | 'addresses' | 'creditCards';
 
 const Dashboard = () => {
-  const [page, setPage] = useState<Pages>('clients');
+  const [page, setPage] = useState<ClientPagesType>('clients');
+
+  const navigateTo = (page: ClientPagesType) => {
+    setPage(page);
+  }
 
   const renderPage = () => {
     switch (page) {
-      case 'dashboard':
-        return <h1>Dashboard</h1>;
       case 'clients':
-        return <Clients />;
+        return <Clients navigateTo={navigateTo} />;
+      case 'addresses':
+        return <Address navigateTo={navigateTo} />;
     }
   }
 
@@ -21,8 +26,7 @@ const Dashboard = () => {
       <SideBar>
         <ProfileCircle />
         <Menu>
-          <MenuItem onClick={() => setPage('dashboard')}>Dashboard</MenuItem>
-          <MenuItem onClick={() => setPage('clients')}>Clients</MenuItem>
+          <MenuItem onClick={() => setPage('clients')}>Clientes</MenuItem>
         </Menu>
       </SideBar>
       {renderPage()}

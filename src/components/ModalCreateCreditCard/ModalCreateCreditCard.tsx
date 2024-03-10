@@ -5,18 +5,24 @@ import Select from "../Select/Select";
 import { CreateCreditCardForm, CreateCreditCardSchema } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cardBrandOptions } from "../../data/createClientOptions";
+import { FormType } from "../Clients/Clients";
+import { useClient } from "../../hooks/useClient";
 
 interface Props {
+  changeForm: (form: FormType) => void;
   closeModal: () => void;
 }
 
-const ModalCreateCreditCard = ({ closeModal }: Props) => {
+const ModalCreateCreditCard = ({ changeForm, closeModal }: Props) => {
+  const { createClient } = useClient();
+
   const { control, handleSubmit } = useForm<CreateCreditCardForm>({
     resolver: yupResolver(CreateCreditCardSchema)
   });
 
   const onSubmit = (data: CreateCreditCardForm) => {
-    console.log(data);
+    createClient(data);
+    changeForm(null);
   }
   
   return (

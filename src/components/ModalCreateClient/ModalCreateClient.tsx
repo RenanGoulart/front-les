@@ -7,18 +7,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import RadioOptions from "../RadioOptions/RadioOptions";
 import { genderOptions, phoneTypeOptions } from "../../data/createClientOptions";
 import Button from "../Button/Button";
+import { FormType } from "../Clients/Clients";
+import { useClient } from "../../hooks/useClient";
 
 interface Props {
+  changeForm: (form: FormType) => void;
   closeModal: () => void;
 }
 
-const ModalCreateClient = ({ closeModal }: Props) => {
+const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
+  const { setCreateFormData } = useClient();
+
   const { control, handleSubmit } = useForm<CreateClientForm>({
     resolver: yupResolver(CreateClientSchema)
   });
 
   const onSubmit = (data: CreateClientForm) => {
-    console.log(data);
+    setCreateFormData(data);
+    changeForm('address');
   }
   
   return (
@@ -112,7 +118,7 @@ const ModalCreateClient = ({ closeModal }: Props) => {
             containerStyle={styles.elementStyle}
             type="password"
           />
-          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>Cadastrar</Button>
+          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>Continuar</Button>
         </Row>
       </Container>
     </Background>
