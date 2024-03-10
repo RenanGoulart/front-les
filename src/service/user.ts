@@ -134,7 +134,7 @@ export const listUsers = async () => {
 
 export const listAddresses = async (userId: string) => {
   try {
-    const { data } = await api.get<IAddressResponse[]>(`/address/${userId}`);
+    const { data } = await api.get<IAddressResponse[]>(`/address/user/${userId}`);
     const addresses = data.map((address) => (
       {
         ...address,

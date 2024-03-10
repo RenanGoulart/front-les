@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from '../CreditCards/styles';
 import Button from '../Button/Button';
-import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
 import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
-import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
 import { IAddress, deleteAddress, listAddresses } from '../../service/user';
 import { useClient } from '../../hooks/useClient';
 import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
@@ -15,7 +13,7 @@ interface Props {
 }
 
 const Address = ({ navigateTo }: Props) => {
-  const { currentUserId } = useClient();
+  const { currentUserId, setCurrentAddressId } = useClient();
 
   const [form, setForm] = useState<FormType>(null);
   const [addresses, setAddresses] = useState([] as IAddress[]);
@@ -86,7 +84,13 @@ const Address = ({ navigateTo }: Props) => {
               <TableColumn>{address.residenceType}</TableColumn>
               <TableColumn>{address.isMain ? 'SIM' : 'NÃO'}</TableColumn>
               <TableColumn>
-                <button>Editar</button>  
+                <button onClick={() => {
+                    setCurrentAddressId(address.id);
+                    setForm('address');
+                  }}
+                >
+                  Editar
+                </button>  
               </TableColumn>
               <TableColumn>
                 <button onClick={() => handleDeleteAddress(address.id)}>Excluir</button>  
@@ -96,10 +100,7 @@ const Address = ({ navigateTo }: Props) => {
         </tbody>
       </TableContainer>
       
-
-      {form === 'client' && <ModalCreateClient changeForm={handleChangeForm} closeModal={closeModal} />}
       {form === 'address' && <ModalCreateAddress changeForm={handleChangeForm} closeModal={closeModal} />}
-      {form === 'creditCard' && <ModalCreateCreditCard  changeForm={handleChangeForm} closeModal={closeModal} />}
     </Container>
   )
 }

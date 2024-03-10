@@ -103,7 +103,7 @@ const Clients = ({ navigateTo }: Props) => {
 
       {form === 'client' && <ModalCreateClient changeForm={handleChangeForm} closeModal={closeModal} />}
       {form === 'address' && <ModalCreateAddress changeForm={handleChangeForm} closeModal={closeModal} />}
-      {form === 'creditCard' && <ModalCreateCreditCard  changeForm={handleChangeForm} closeModal={closeModal} />}
+      {form === 'creditCard' && <ModalCreateCreditCard closeModal={closeModal} />}
     </Container>
   )
 }

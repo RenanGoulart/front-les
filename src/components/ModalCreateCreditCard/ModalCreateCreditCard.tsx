@@ -11,12 +11,12 @@ import { useEffect, useState } from "react";
 
 interface Props {
   closeModal: () => void;
-  refetch: () => void;
+  refetch?: () => void;
 }
 
 const ModalCreateCreditCard = ({ closeModal, refetch }: Props) => {
   const { createClient, currentCreditCardId } = useClient();
-  const [cardInfo , setCardInfo] = useState<ICreditCardResponse | null>(null);
+  const [cardInfo, setCardInfo] = useState<ICreditCardResponse | null>(null);
 
   const { control, handleSubmit, setValue } = useForm<CreateCreditCardForm>({
     resolver: yupResolver(CreateCreditCardSchema),
@@ -25,19 +25,19 @@ const ModalCreateCreditCard = ({ closeModal, refetch }: Props) => {
   const onSubmit = (data: CreateCreditCardForm) => {
     if (currentCreditCardId) {
       updateCreditCard({ ...cardInfo, ...data });
-      refetch();
+      refetch?.();
       return closeModal();
     }
     createClient(data);
     closeModal();
   }
 
-  const setCreditCardFields = async (cardInfo: ICreditCardResponse) => {
-    setCardInfo(cardInfo);
-    setValue('cardBrand', cardInfo.cardBrand);
-    setValue('number', cardInfo.number);
-    setValue('cvv', cardInfo.cvv);
-    setValue('cardHolder', cardInfo.cardHolder);
+  const setCreditCardFields = async (cardInfoData: ICreditCardResponse) => {
+    setCardInfo(cardInfoData);
+    setValue('cardBrand', cardInfoData.cardBrand);
+    setValue('number', cardInfoData.number);
+    setValue('cvv', cardInfoData.cvv);
+    setValue('cardHolder', cardInfoData.cardHolder);
   }
 
   const getCreditCardInfo = async (creditCardId: string) => {

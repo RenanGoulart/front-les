@@ -8,7 +8,7 @@ import { addressTypesOptions, residenceTypeOptions, streetTypeOptions} from "../
 import { FormType } from "../Clients/Clients";
 import { useClient } from "../../hooks/useClient";
 import { useEffect, useState } from "react";
-import { listCitiesByStateId, listCountries, listStatesByCountryId } from "../../service/address";
+import { IAddressResponse, findAddressById, listCitiesByStateId, listCountries, listStatesByCountryId, updateAddress } from "../../service/address";
 
 interface DropdownOption {
   value: string;
@@ -21,12 +21,14 @@ interface Props {
 }
 
 const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
+  const { currentAddressId } = useClient();
+
   const { createFormData, setCreateFormData } = useClient();
   const [countries, setCountries] = useState<DropdownOption[]>([]);
   const [states, setStates] = useState<DropdownOption[]>([]);
   const [cities, setCities] = useState<DropdownOption[]>([]);
 
-  const { control, handleSubmit, watch } = useForm<CreateAddressForm>({
+  const { control, handleSubmit, watch, setValue } = useForm<CreateAddressForm>({
     resolver: yupResolver(CreateAddressSchema)
   });
 
@@ -34,12 +36,21 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
   const state = watch('state');
 
   const onSubmit = (data: CreateAddressForm) => {
+    if (currentAddressId) {
+      const formattedUpdateAddress = {
+        ...data,
+        id: currentAddressId,
+      }
+      updateAddress(formattedUpdateAddress);
+      return closeModal();
+    }
+
     const formattedAddress = {
       zipCode: data.zipCode,
       street: data.street,
       number: data.number,
       district: data.district,
-      cityId: "48b1135e-2409-4664-806e-eea46270acbb", // mudar para data.city
+      cityId: data.city, // mudar para data.city
       observation: data.observation,
       addressType: data.addressType,
       streetType: data.streetType,
@@ -75,8 +86,6 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
     }
   }
 
-  console.log(countries, states, cities);
-
   useEffect(() => {
     getCountries();
   }, []);
@@ -92,6 +101,33 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
       getCities(state);
     }
   }, [state]);
+
+  const setAddressFields = async (cardInfoData: IAddressResponse) => {
+    setValue('zipCode', cardInfoData.zipCode);
+    setValue('country', cardInfoData.country.id);
+    setValue('state', cardInfoData.state.id);
+    setValue('city', cardInfoData.cityId);
+    setValue('street', cardInfoData.street);
+    setValue('number', cardInfoData.number);
+    setValue('district', cardInfoData.district);
+    setValue('observation', cardInfoData.observation);
+    setValue('addressType', cardInfoData.addressType);
+    setValue('streetType', cardInfoData.streetType);
+    setValue('residenceType', cardInfoData.residenceType);
+  }
+
+  const getAddressInfo = async (addressId: string) => {
+    const addressInfo = await findAddressById(addressId);
+    if (addressInfo) {
+      return setAddressFields(addressInfo);
+    }
+  }
+  
+  useEffect(() => {
+    if (currentAddressId) {
+      getAddressInfo(currentAddressId);
+    }
+  }, []);
 
   return (
     <Background onClick={closeModal}>
@@ -186,7 +222,7 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             options={residenceTypeOptions}  
             containerStyle={styles.inputStyle}
           />
-          <Button onClick={handleSubmit(onSubmit)}>Continuar</Button>
+          <Button onClick={handleSubmit(onSubmit)}>{currentAddressId ? 'Atualizar' : 'Cadastrar'}</Button>
         </Row>                
       </Container>
     </Background>
