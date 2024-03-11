@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from './styles';
+import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row, StyledCheckIcon, StyledDeleteIcon, StyledEditIcon} from './styles';
 import Button from '../Button/Button';
 import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
 import { ICreditCardResponse, deleteCreditCard, listCreditCards } from '../../service/user';
@@ -55,8 +55,8 @@ const CreditCard = ({ navigateTo }: Props) => {
             <TableHeaderColumn>Número do Cartão</TableHeaderColumn>
             <TableHeaderColumn>CVV</TableHeaderColumn>
             <TableHeaderColumn>Preferencial</TableHeaderColumn>
-            <TableHeaderColumn>Editar</TableHeaderColumn>
-            <TableHeaderColumn>Excluir</TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </thead>
         <tbody>
@@ -66,18 +66,16 @@ const CreditCard = ({ navigateTo }: Props) => {
               <TableColumn>{card.cardBrand}</TableColumn>
               <TableColumn>{card.number}</TableColumn>
               <TableColumn>{card.cvv}</TableColumn>
-              <TableColumn>{card.isMain ? 'SIM' : 'NÃO'}</TableColumn>
+              <TableColumn>{card.isMain ? <StyledCheckIcon /> : card.isMain ? 'SIM' : ''}</TableColumn>
               <TableColumn>
-                <button onClick={() => {
+                <StyledEditIcon onClick={() => {
                     setCurrentCreditCardId(card.id);
                     setForm('creditCard');
                   }}
-                >
-                  Editar
-                </button>  
+                /> 
               </TableColumn>
-              <TableColumn onClick={() => handleDeleteCreditCard(card.id)}>
-                <button>Excluir</button>  
+              <TableColumn >
+                <StyledDeleteIcon onClick={() => handleDeleteCreditCard(card.id)}/>
               </TableColumn>
             </TableRow>
           ))}

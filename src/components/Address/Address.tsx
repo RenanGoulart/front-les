@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from '../CreditCards/styles';
+import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row, StyledEditIcon, StyledDeleteIcon, StyledCheckIcon} from './styles';
 import Button from '../Button/Button';
 import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
 import { IAddress, deleteAddress, listAddresses } from '../../service/user';
@@ -53,10 +53,10 @@ const Address = ({ navigateTo }: Props) => {
       <TableContainer>
         <thead>
           <TableRow>
-            <TableHeaderColumn>Rua</TableHeaderColumn>
-            <TableHeaderColumn>Número</TableHeaderColumn>
-            <TableHeaderColumn>Bairro</TableHeaderColumn>
             <TableHeaderColumn>CEP</TableHeaderColumn>
+            <TableHeaderColumn>Rua</TableHeaderColumn>
+            <TableHeaderColumn>Nº</TableHeaderColumn>
+            <TableHeaderColumn>Bairro</TableHeaderColumn>            
             <TableHeaderColumn>Cidade</TableHeaderColumn>
             <TableHeaderColumn>Estado</TableHeaderColumn>
             <TableHeaderColumn>País</TableHeaderColumn>
@@ -64,35 +64,33 @@ const Address = ({ navigateTo }: Props) => {
             <TableHeaderColumn>Tipo de Logradouro</TableHeaderColumn>
             <TableHeaderColumn>Tipo de Residência</TableHeaderColumn>
             <TableHeaderColumn>Preferencial</TableHeaderColumn>
-            <TableHeaderColumn>Editar</TableHeaderColumn>
-            <TableHeaderColumn>Excluir</TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </thead>
         <tbody>
           {addresses.map((address) => (
             <TableRow key={address.id}>
+              <TableColumn>{address.zipCode.substring(0, 3) + '...'}</TableColumn>
               <TableColumn>{address.street}</TableColumn>
               <TableColumn>{address.number}</TableColumn>
-              <TableColumn>{address.district}</TableColumn>
-              <TableColumn>{address.zipCode}</TableColumn>
+              <TableColumn>{address.district}</TableColumn>              
               <TableColumn>{address.city.name}</TableColumn>
               <TableColumn>{address.state.name}</TableColumn>
               <TableColumn>{address.country.name}</TableColumn>
               <TableColumn>{address.addressType}</TableColumn>
               <TableColumn>{address.streetType}</TableColumn>
               <TableColumn>{address.residenceType}</TableColumn>
-              <TableColumn>{address.isMain ? 'SIM' : 'NÃO'}</TableColumn>
+              <TableColumn>{address.isMain ? <StyledCheckIcon /> : address.isMain ? 'SIM' : ''}</TableColumn>
               <TableColumn>
-                <button onClick={() => {
+                <StyledEditIcon onClick={() => {
                     setCurrentAddressId(address.id);
                     setForm('address');
                   }}
-                >
-                  Editar
-                </button>  
+                /> 
               </TableColumn>
               <TableColumn>
-                <button onClick={() => handleDeleteAddress(address.id)}>Excluir</button>  
+                <StyledDeleteIcon onClick={() => handleDeleteAddress(address.id)}/>
               </TableColumn>
             </TableRow>
           ))}

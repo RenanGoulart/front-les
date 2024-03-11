@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import Input from "../Input/Input";
-import { Background, Button, Container, Row } from "./styles";
+import { Background, Container, Row } from "./styles";
 import Select from "../Select/Select";
+import Button from "../Button/Button";
 import { CreateAddressSchema, CreateAddressForm } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addressTypesOptions, residenceTypeOptions, streetTypeOptions} from "../../data/createClientOptions";
@@ -140,7 +141,7 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             label='CEP' 
             placeholder='99999-999'
             mask="99999-999"
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
             />
         </Row>
         <Row>
@@ -149,14 +150,14 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             name="country" 
             label='País'
             options={countries || []}
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />              
           <Select 
             control={control}
             name="state" 
             label='Estado'
             options={states || []}
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />           
         </Row>  
         <Row>
@@ -165,7 +166,7 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             name="city" 
             label='Cidade'
             options={cities || []}
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <Input 
             control={control} 
@@ -188,14 +189,14 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             name='district' 
             label='Bairro' 
             placeholder='Bairro Bom Sucesso' 
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <Input 
             control={control} 
             name='observation' 
             label='Observação' 
             placeholder='100' 
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
         </Row>
         <Row>        
@@ -204,14 +205,14 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             name="addressType" 
             label='Tipo de Endereço'
             options={addressTypesOptions}  
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <Select 
             control={control}
             name="streetType" 
             label='Tipo de Logradouro'
             options={streetTypeOptions}  
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
          </Row>         
         <Row>          
@@ -220,7 +221,7 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             name="residenceType" 
             label='Tipo de Residência'
             options={residenceTypeOptions}  
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <Button onClick={handleSubmit(onSubmit)}>{currentAddressId ? 'Atualizar' : 'Cadastrar'}</Button>
         </Row>                
@@ -230,7 +231,7 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
 };
 
 const styles = {
-  inputStyle: {
+  elementStyle: {
     width: '48%',
   }
 }

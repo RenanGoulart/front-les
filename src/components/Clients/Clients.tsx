@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ModalCreateClient from '../ModalCreateClient/ModalCreateClient';
-import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row } from './styles';
+import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row, StyledCreditCardIcon, StyledAddressIcon, StyledEditIcon, StyledDeleteIcon} from './styles';
 import Button from '../Button/Button';
 import ModalCreateAddress from '../ModalCreateAddress/ModalCreateAddress';
 import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
@@ -69,8 +69,8 @@ const Clients = ({ navigateTo }: Props) => {
             <TableHeaderColumn>Status</TableHeaderColumn>
             <TableHeaderColumn>Cartões</TableHeaderColumn>
             <TableHeaderColumn>Endereços</TableHeaderColumn>
-            <TableHeaderColumn>Editar</TableHeaderColumn>
-            <TableHeaderColumn>Excluir</TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </thead>
         <tbody>
@@ -79,27 +79,28 @@ const Clients = ({ navigateTo }: Props) => {
               <TableColumn>{client.name}</TableColumn>
               <TableColumn>{client.cpf}</TableColumn>
               <TableColumn>{client.email}</TableColumn>
-              <TableColumn>{client.gender}</TableColumn>
+              <TableColumn>{client.gender === 'FEMININO' ? 'FEM' : client.gender === 'MASCULINO' ? 'MAS' : 'N/I'}
+              </TableColumn>
               <TableColumn>{format(client.birthDate, 'dd/MM/yyyy')}</TableColumn>
               <TableColumn>{`(${client.ddd}) ${client.phone}`}</TableColumn>
-              <TableColumn>{client.status}</TableColumn>
-              <TableColumn>
-                <button onClick={() => navigateToList(client.id, 'creditCards')}>Ver cartões</button>  
+              <TableColumn style={{ color: client.status === 'ATIVO' ? 'green' : 'red', fontWeight: 'bold' }}>
+                {client.status}
               </TableColumn>
               <TableColumn>
-                <button onClick={() => navigateToList(client.id, 'addresses')}>Ver endereços</button>  
+                <StyledCreditCardIcon onClick={() => navigateToList(client.id, 'creditCards')}></StyledCreditCardIcon>
               </TableColumn>
               <TableColumn>
-                  <button onClick={() => {
+                <StyledAddressIcon onClick={() => navigateToList(client.id, 'addresses')}></StyledAddressIcon>
+              </TableColumn>
+              <TableColumn>
+                  <StyledEditIcon onClick={() => {
                     setCurrentUserId(client.id);
                     setForm('client');
                   }}
-                >
-                  Editar
-                </button>  
+                  />
               </TableColumn>
               <TableColumn>
-                <button onClick={() => handleDeleteClient(client.id)}>Excluir</button>  
+                  <StyledDeleteIcon onClick={() => handleDeleteClient(client.id)}/>
               </TableColumn>
             </TableRow>
           ))}

@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { FaTrash, FaEdit, FaRegCreditCard } from "react-icons/fa";
+import { FaMapLocationDot } from "react-icons/fa6";
 
 export const Container = styled.section`
   width: 85%;
@@ -23,19 +25,44 @@ export const Row = styled.div`
 
 export const TableContainer = styled.table`
   width: 100%;
-
-  border: 1px solid black;
   border-collapse: collapse;
 `;
 
 export const TableRow = styled.tr``;
 
 export const TableHeaderColumn = styled.th`
-  text-align: center;
-  border: 1px solid black;
+  padding: 2px;
+  text-align: start;
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
 `;
 
 export const TableColumn = styled.td`
-  text-align: center;
-  border: 1px solid black;
+  padding: 5px;
+  text-align: start;
+  border-bottom: 1px solid black;
+`;
+
+export const StyledCreditCardIcon = styled(FaRegCreditCard)`
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.purple_1f};
+  cursor: pointer;
+`;
+
+export const StyledAddressIcon = styled(FaMapLocationDot)`  
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.purple_1f};
+  cursor: pointer;
+`;
+
+export const StyledEditIcon = styled(FaEdit)`
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.purple_1f};
+  cursor: pointer;
+`;
+
+export const StyledDeleteIcon = styled(FaTrash)`
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.purple_1f};
+  cursor: pointer;
 `;

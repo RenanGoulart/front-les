@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import Input from "../Input/Input";
-import { Background, Button, Container, Row } from "./styles";
+import { Background, Container, Row } from "./styles";
 import Select from "../Select/Select";
+import Button from "../Button/Button";
 import { CreateCreditCardForm, CreateCreditCardSchema } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cardBrandOptions } from "../../data/createClientOptions";
@@ -71,7 +72,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             label='Número do cartão' 
             placeholder='9999 9999 9999 9999' 
             mask="9999 9999 9999 9999"
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           />
           <Input 
             control={control} 
@@ -88,9 +89,9 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             name='cardHolder' 
             label='Nome do Titular' 
             placeholder='Renan Goulart' 
-            containerStyle={styles.inputStyle}
+            containerStyle={styles.elementStyle}
           /> 
-          <Button onClick={handleSubmit(onSubmit)}>{currentCreditCardId ? 'Atualizar' : 'Cadastrar'}</Button>          
+          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>{currentCreditCardId ? 'Atualizar' : 'Cadastrar'}</Button>          
         </Row>
       </Container>
     </Background>
@@ -98,7 +99,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
 };
 
 const styles = {
-  inputStyle: {
+  elementStyle: {
     width: '48%',
   }
 }
