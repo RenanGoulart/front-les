@@ -7,7 +7,7 @@ import { CreateAddressSchema, CreateAddressForm } from "../../validations/create
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addressTypesOptions, residenceTypeOptions, streetTypeOptions} from "../../data/createClientOptions";
 import { FormType } from "../Clients/Clients";
-import { useClient } from "../../hooks/useClient";
+import { IFormAddress, useClient } from "../../hooks/useClient";
 import { useEffect, useState } from "react";
 import { IAddressResponse, findAddressById, listCitiesByStateId, listCountries, listStatesByCountryId, updateAddress } from "../../service/address";
 
@@ -17,11 +17,12 @@ interface DropdownOption {
 }
 
 interface Props {
+  formName?: FormType;
   changeForm: (form: FormType) => void;
   closeModal: () => void;
 }
 
-const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
+const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
   const { currentAddressId } = useClient();
 
   const { createFormData, setCreateFormData } = useClient();
@@ -30,7 +31,7 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
   const [cities, setCities] = useState<DropdownOption[]>([]);
 
   const { control, handleSubmit, watch, setValue } = useForm<CreateAddressForm>({
-    resolver: yupResolver(CreateAddressSchema)
+    resolver: yupResolver(CreateAddressSchema),
   });
 
   const country = watch('country');
@@ -51,15 +52,21 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
       street: data.street,
       number: data.number,
       district: data.district,
-      cityId: data.city, // mudar para data.city
-      observation: data.observation,
+      cityId: data.city,
+      observation: data.observation || '',
       addressType: data.addressType,
       streetType: data.streetType,
       residenceType: data.residenceType,
       isMain: true
     }
 
-    setCreateFormData({ ...createFormData, addresses: [formattedAddress]});
+    formName === 'address' ? 
+      setCreateFormData({ ...createFormData, addresses: [formattedAddress]}) : 
+      setCreateFormData({ ...createFormData, addresses: [createFormData?.addresses?.[0] as IFormAddress, formattedAddress]});
+    
+    if (formName === 'address') {
+      return changeForm('address2');
+    }
     changeForm('creditCard');
   }
 
@@ -130,10 +137,26 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!currentAddressId) {
+      setValue('addressType', formName === 'address' ? 'COBRANCA' : 'ENTREGA');
+    }
+  }, []);
+
+  const renderTitle = () => {
+    if (currentAddressId) {
+      return 'Atualizar Endereço';
+    }
+    if (!formName) {
+      return 'Informações de Endereço';
+    }
+    return formName === 'address' ? 'Informações de Endereço de Cobrança' : 'Informações de Endereço de Entrega';
+  }
+
   return (
     <Background onClick={closeModal}>
       <Container onClick={e => e.stopPropagation()}>
-        <h1>Informações de Endereço</h1>
+        <h1>{renderTitle()}</h1>
         <Row>
           <Input 
             control={control} 
@@ -204,7 +227,7 @@ const ModalCreateAddress = ({ changeForm, closeModal }: Props) => {
             control={control}
             name="addressType" 
             label='Tipo de Endereço'
-            options={addressTypesOptions}  
+            options={addressTypesOptions}
             containerStyle={styles.elementStyle}
           />
           <Select 

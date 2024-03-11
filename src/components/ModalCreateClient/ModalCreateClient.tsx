@@ -156,7 +156,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             containerStyle={styles.elementStyle}
             type="password"
           />
-          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>{currentUserId ? 'Atualizar' : 'Cadastrar'}</Button>
+          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>{currentUserId ? 'Atualizar' : 'Continuar'}</Button>
         </Row>
       </Container>
     </Background>

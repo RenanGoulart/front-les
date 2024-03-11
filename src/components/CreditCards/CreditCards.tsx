@@ -7,7 +7,7 @@ import { useClient } from '../../hooks/useClient';
 import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
 
 
-export type FormType = 'client' | 'address' | 'creditCard' | null;
+export type FormType = 'client' | 'address' | 'address2' | 'creditCard' | null;
 
 interface Props {
   navigateTo: (page: ClientPagesType) => void;
@@ -44,7 +44,13 @@ const CreditCard = ({ navigateTo }: Props) => {
       <h4 onClick={() => navigateTo('clients')}>Voltar</h4>
       <Row>
         <h1>Cartões de Crédito</h1>
-        <Button onClick={() => setForm('creditCard')}>Criar Cartão</Button>
+        <Button onClick={() => {
+            setCurrentCreditCardId('');
+            setForm('creditCard');
+          }}
+        >
+          Criar Cartão
+        </Button>
       </Row>
 
       <TableContainer>

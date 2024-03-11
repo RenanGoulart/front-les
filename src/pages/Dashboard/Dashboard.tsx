@@ -1,4 +1,4 @@
-import { Container, Menu, MenuItem, ProfileCircle, SideBar } from "./styles";
+import { Container } from "./styles";
 import { useState } from "react";
 import Clients from "../../components/Clients/Clients";
 import Address from "../../components/Address/Address";
@@ -26,12 +26,12 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <SideBar>
+      {/* <SideBar>
         <ProfileCircle />
         <Menu>
           <MenuItem onClick={() => setPage('clients')}>Clientes</MenuItem>
         </Menu>
-      </SideBar>
+      </SideBar> */}
       {renderPage()}
     </Container>
   )

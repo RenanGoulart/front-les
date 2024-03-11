@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FaTrash, FaEdit, FaCheckCircle} from "react-icons/fa";
+import { FaTrash, FaEdit, FaCheckCircle } from "react-icons/fa";
 
 export const Container = styled.section`
   width: 85%;

@@ -6,7 +6,7 @@ import { IAddress, deleteAddress, listAddresses } from '../../service/user';
 import { useClient } from '../../hooks/useClient';
 import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
 
-export type FormType = 'client' | 'address' | 'creditCard' | null;
+export type FormType = 'client' | 'address' | 'address2' | 'creditCard' | null;
 
 interface Props {
   navigateTo: (page: ClientPagesType) => void;
@@ -47,7 +47,13 @@ const Address = ({ navigateTo }: Props) => {
       <h4 onClick={() => navigateTo('clients')}>Voltar</h4>
       <Row>
         <h1>Endereços</h1>
-        <Button onClick={() => setForm('address')}>Criar Endereço</Button>
+        <Button onClick={() => {
+            setCurrentAddressId('');
+            setForm('address');
+          }}
+        >
+          Criar Endereço
+        </Button>
       </Row>
 
       <TableContainer>

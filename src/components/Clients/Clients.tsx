@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
 import { useClient } from '../../hooks/useClient';
 
-export type FormType = 'client' | 'address' | 'creditCard' | null;
+export type FormType = 'client' | 'address' | 'address2' | 'creditCard' | null;
 
 interface Props {
   navigateTo: (page: ClientPagesType) => void;
@@ -54,7 +54,13 @@ const Clients = ({ navigateTo }: Props) => {
     <Container>
       <Row>
         <h1>Clientes</h1>
-        <Button onClick={() => setForm('client')}>Criar Cliente</Button>
+        <Button onClick={() => {
+            setCurrentUserId('');
+            setForm('client');
+          }}
+        >
+          Criar Cliente
+        </Button>
       </Row>
 
       <TableContainer>
@@ -109,7 +115,8 @@ const Clients = ({ navigateTo }: Props) => {
       
 
       {form === 'client' && <ModalCreateClient changeForm={handleChangeForm} closeModal={closeModal} />}
-      {form === 'address' && <ModalCreateAddress changeForm={handleChangeForm} closeModal={closeModal} />}
+      {form === 'address' && <ModalCreateAddress formName='address' changeForm={handleChangeForm} closeModal={closeModal} />}
+      {form === 'address2' && <ModalCreateAddress formName='address2' changeForm={handleChangeForm} closeModal={closeModal} />}
       {form === 'creditCard' && <ModalCreateCreditCard closeModal={closeModal} />}
     </Container>
   )

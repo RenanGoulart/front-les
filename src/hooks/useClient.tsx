@@ -1,7 +1,7 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { createUser } from "../service/user";
 
-interface IFormAddress {
+export interface IFormAddress {
   street: string;
   number: string;
   district: string;

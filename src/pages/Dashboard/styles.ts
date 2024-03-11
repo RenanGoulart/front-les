@@ -6,6 +6,7 @@ export const Container = styled.main`
 
   display: flex;
   flex-direction: row;  
+  justify-content: center;
 `;
 
 export const SideBar = styled.aside`
