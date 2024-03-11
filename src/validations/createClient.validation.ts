@@ -19,6 +19,7 @@ export const CreateClientSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'A senha de confirmação não confere')
     .required('Confirmação de senha obrigatória'),
+  status: Yup.string()
 });
 
 export const CreateAddressSchema = Yup.object({

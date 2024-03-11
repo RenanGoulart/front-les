@@ -52,3 +52,7 @@ export const PhoneWrapper = styled.div`
 export const GenderWrapper = styled.div`
   width: 48%;
 `;
+
+export const StatusWrapper = styled.div`  
+  width: 55%;
+`;

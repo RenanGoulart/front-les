@@ -3,7 +3,7 @@ import { FaTrash, FaEdit, FaRegCreditCard } from "react-icons/fa";
 import { FaMapLocationDot } from "react-icons/fa6";
 
 export const Container = styled.section`
-  width: 85%;
+  width: 90%;
 
   display: flex;
   flex-direction: column;
@@ -30,26 +30,39 @@ export const TableContainer = styled.table`
 
 export const TableRow = styled.tr``;
 
-export const TableHeaderColumn = styled.th`
-  padding: 2px;
+export const TableHeaderColumn = styled.th`  
   text-align: start;
   padding-bottom: 10px;
   border-bottom: 1px solid black;
 `;
 
-export const TableColumn = styled.td`
-  padding: 5px;
+export const TableColumn = styled.td`  
   text-align: start;
   border-bottom: 1px solid black;
+  padding-right: 0;  
 `;
 
 export const StyledCreditCardIcon = styled(FaRegCreditCard)`
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin: 24px 0;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.purple_1f};
   cursor: pointer;
 `;
 
 export const StyledAddressIcon = styled(FaMapLocationDot)`  
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin: 24px 0;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.purple_1f};
   cursor: pointer;

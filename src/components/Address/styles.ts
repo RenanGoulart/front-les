@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FaTrash, FaEdit, FaCheckCircle } from "react-icons/fa";
 
 export const Container = styled.section`
-  width: 85%;
+  width: 90%;
 
   display: flex;
   flex-direction: column;
@@ -30,16 +30,17 @@ export const TableContainer = styled.table`
 export const TableRow = styled.tr``;
 
 export const TableHeaderColumn = styled.th`
-  padding:  5px;
+  padding: 10px;
   text-align: start;
   padding-bottom: 10px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid black;   
 `;
 
 export const TableColumn = styled.td`
-  padding-inline: 5px;
+  padding: 10px;
   text-align: start;
   border-bottom: 1px solid black;
+  padding-right: 0;  
 `;
 
 export const StyledEditIcon = styled(FaEdit)`
@@ -55,6 +56,13 @@ export const StyledDeleteIcon = styled(FaTrash)`
 `;
 
 export const StyledCheckIcon = styled(FaCheckCircle)`
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin: 24px 0;
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.purple_1f}; 
+  color: ${({ theme }) => theme.colors.purple_1f};  
 `;

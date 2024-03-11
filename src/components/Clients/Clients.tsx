@@ -67,11 +67,11 @@ const Clients = ({ navigateTo }: Props) => {
         <thead>
           <TableRow>
             <TableHeaderColumn>Nome</TableHeaderColumn>
+            <TableHeaderColumn>Data de Nascimento</TableHeaderColumn>  
             <TableHeaderColumn>CPF</TableHeaderColumn>
-            <TableHeaderColumn>E-mail</TableHeaderColumn>
-            <TableHeaderColumn>Gênero</TableHeaderColumn>
-            <TableHeaderColumn>Data de Nascimento</TableHeaderColumn>
-            <TableHeaderColumn>Telefone</TableHeaderColumn>
+            <TableHeaderColumn>E-mail</TableHeaderColumn>            
+            <TableHeaderColumn>Telefone</TableHeaderColumn>                
+            <TableHeaderColumn>Gênero</TableHeaderColumn>      
             <TableHeaderColumn>Status</TableHeaderColumn>
             <TableHeaderColumn>Cartões</TableHeaderColumn>
             <TableHeaderColumn>Endereços</TableHeaderColumn>
@@ -83,12 +83,12 @@ const Clients = ({ navigateTo }: Props) => {
           {clients.map((client) => (
             <TableRow key={client.id}>
               <TableColumn>{client.name}</TableColumn>
+              <TableColumn>{format(client.birthDate, 'dd/MM/yyyy')}</TableColumn>    
               <TableColumn>{client.cpf}</TableColumn>
-              <TableColumn>{client.email}</TableColumn>
+              <TableColumn>{client.email}</TableColumn>              
+              <TableColumn>{`(${client.ddd}) ${client.phone}`}</TableColumn>                 
               <TableColumn>{client.gender === 'FEMININO' ? 'FEM' : client.gender === 'MASCULINO' ? 'MAS' : 'N/I'}
-              </TableColumn>
-              <TableColumn>{format(client.birthDate, 'dd/MM/yyyy')}</TableColumn>
-              <TableColumn>{`(${client.ddd}) ${client.phone}`}</TableColumn>
+              </TableColumn>       
               <TableColumn style={{ color: client.status === 'ATIVO' ? 'green' : 'red', fontWeight: 'bold' }}>
                 {client.status}
               </TableColumn>

@@ -9,6 +9,11 @@ export const phoneTypeOptions = [
   { value: 'CELULAR', label: 'Celular' }
 ]
 
+export const statusOptions = [
+  { value: 'ATIVO', label: 'Ativo' },
+  { value: 'INATIVO', label: 'Inativo' }
+]
+
 export const streetTypeOptions = [
   { value: 'RUA', label: 'Rua' },
   { value: 'AVENIDA', label: 'Avenida' },
@@ -43,3 +48,5 @@ export const cardBrandOptions = [
   { value: 'HIPERCARD', label: 'Hipercard' },
   { value: 'OUTRO', label: 'Outro' },
 ]
+
+

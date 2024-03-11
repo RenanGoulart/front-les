@@ -60,8 +60,7 @@ const ClientProvider = ({ children }: PropsWithChildren) => {
   const createClient = async (cardData: IFormCard) => {
     const formattedBody = {
       ...createFormData,
-      birthDate: new Date(createFormData?.birthDate as string).toISOString(),
-      status: 'ATIVO',
+      birthDate: new Date(createFormData?.birthDate as string).toISOString(),      
       cards: [{ ...cardData, isMain: true }]
     }
     createUser(formattedBody);

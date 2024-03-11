@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import Input from "../Input/Input";
-import { Background, Container, GenderWrapper, Label, PhoneWrapper, Row } from "./styles";
+import { Background, Container, GenderWrapper, Label, PhoneWrapper, Row, StatusWrapper} from "./styles";
 import Select from "../Select/Select";
 import { CreateClientForm, CreateClientSchema } from "../../validations/createClient.validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import RadioOptions from "../RadioOptions/RadioOptions";
-import { genderOptions, phoneTypeOptions } from "../../data/createClientOptions";
+import { genderOptions, phoneTypeOptions, statusOptions } from "../../data/createClientOptions";
 import Button from "../Button/Button";
 import { FormType } from "../Clients/Clients";
 import { useClient } from "../../hooks/useClient";
@@ -50,6 +50,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
     setValue('phone', userData.phone);
     setValue('phoneType', userData.phoneType);
     setValue('email', userData.email);
+    setValue('status', userData.status);
   }
 
   const getUserInfo = async (userId: string) => {
@@ -68,7 +69,17 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
   return (
     <Background onClick={closeModal}>
       <Container onClick={e => e.stopPropagation()}>
+        <Row>
         <h1>Informações do Cliente</h1>
+          <StatusWrapper>
+            <Label>Status</Label>
+            <RadioOptions            
+              control={control}
+              name='status'
+              options={statusOptions}
+            />
+          </StatusWrapper>
+        </Row>
         <Row>
           <Input 
             control={control} 

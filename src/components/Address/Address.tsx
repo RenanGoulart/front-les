@@ -77,7 +77,7 @@ const Address = ({ navigateTo }: Props) => {
         <tbody>
           {addresses.map((address) => (
             <TableRow key={address.id}>
-              <TableColumn>{address.zipCode.substring(0, 3) + '...'}</TableColumn>
+              <TableColumn>{address.zipCode.substring(0, 5) + '...'}</TableColumn>
               <TableColumn>{address.street}</TableColumn>
               <TableColumn>{address.number}</TableColumn>
               <TableColumn>{address.district}</TableColumn>              
