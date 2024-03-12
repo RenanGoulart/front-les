@@ -23,7 +23,7 @@ interface Props {
 }
 
 const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
-  const { currentAddressId } = useClient();
+  const { currentAddressId, currentUserId, createUserAddress } = useClient();
 
   const { createFormData, setCreateFormData } = useClient();
   const [countries, setCountries] = useState<DropdownOption[]>([]);
@@ -44,6 +44,11 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
         id: currentAddressId,
       }
       updateAddress(formattedUpdateAddress);
+      return closeModal();
+    }
+
+    if (currentUserId) {
+      createUserAddress({ ...data, cityId: data.city, userId: currentUserId, isMain: false });
       return closeModal();
     }
 
@@ -218,7 +223,7 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
             control={control} 
             name='observation' 
             label='Observação' 
-            placeholder='100' 
+            placeholder='Observações' 
             containerStyle={styles.elementStyle}
           />
         </Row>

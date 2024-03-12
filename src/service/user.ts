@@ -60,6 +60,21 @@ interface IAddressResponse {
   userId: string;
 }
 
+interface IAddressRequest {
+  street: string;
+  number: string;
+  district: string;
+  zipCode: string;
+  observation: string;
+  cityId: string;
+  city: ICity;
+  addressType: string;
+  streetType: string;
+  residenceType: string;
+  isMain?: boolean;
+  userId?: string;
+}
+
 export interface IAddress {
   id: string;
   street: string;
@@ -89,11 +104,38 @@ export interface ICreditCardResponse {
   isMain: boolean;
 }
 
+export interface ICreditCardRequest {
+  number: string;
+  cardHolder: string;
+  cvv: string;
+  cardBrand: string;
+  isMain: boolean;
+  userId: string;
+}
+
 
 export const createUser = async (body: Partial<IFormUser>) => {
   try {
     const { data } = await api.post<IUserResponse>('/user', body);
-    return data
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const createCard = async (body: Partial<ICreditCardRequest>) => {
+  try {
+    const { data } = await api.post<ICreditCardResponse>('/creditCard', body);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const createAddress = async (body: Partial<IAddressRequest>) => {
+  try {
+    const { data } = await api.post<IAddressResponse>('/address', body);
+    return data;
   } catch (error) {
     console.log(error);
   }

@@ -15,7 +15,7 @@ interface Props {
 }
 
 const ModalCreateCreditCard = ({ closeModal }: Props) => {
-  const { createClient, currentCreditCardId } = useClient();
+  const { createClient, currentCreditCardId, createCreditCard, currentUserId } = useClient();
   const [cardInfo, setCardInfo] = useState<ICreditCardResponse | null>(null);
 
   const { control, handleSubmit, setValue } = useForm<CreateCreditCardForm>({
@@ -25,6 +25,11 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
   const onSubmit = (data: CreateCreditCardForm) => {
     if (currentCreditCardId) {
       updateCreditCard({ ...cardInfo, ...data });
+      return closeModal();
+    }
+
+    if (currentUserId) {
+      createCreditCard({ ...data, userId: currentUserId, isMain: false });
       return closeModal();
     }
     createClient(data);

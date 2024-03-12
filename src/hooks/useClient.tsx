@@ -1,5 +1,5 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { createUser } from "../service/user";
+import { createAddress, createCard, createUser } from "../service/user";
 
 export interface IFormAddress {
   street: string;
@@ -12,6 +12,7 @@ export interface IFormAddress {
   residenceType: string;
   cityId: string;
   isMain?: boolean;
+  userId?: string;
 }
 
 interface IFormCard {
@@ -20,6 +21,7 @@ interface IFormCard {
   cvv: string;
   isMain?: boolean;
   cardBrand: string;
+  userId?: string;
 }
 
 export interface IFormUser {
@@ -43,8 +45,10 @@ interface IClientProvider {
   createClient: (cardData: IFormCard) => void;
   currentUserId: string | null;
   setCurrentUserId: (id: string | null) => void;
+  createUserAddress: (addressData: IFormAddress) => void;
   currentAddressId: string | null;
   setCurrentAddressId: (id: string | null) => void;
+  createCreditCard: (cardData: IFormCard) => void;
   currentCreditCardId: string | null;
   setCurrentCreditCardId: (id: string | null) => void;
 }
@@ -66,6 +70,14 @@ const ClientProvider = ({ children }: PropsWithChildren) => {
     createUser(formattedBody);
   }
 
+  const createCreditCard = async (cardData: IFormCard) => {
+    createCard(cardData);
+  }
+
+  const createUserAddress = async (addressData: IFormAddress) => {
+    createAddress(addressData);
+  }
+
   return (
     <ClientContext.Provider 
       value={{
@@ -74,8 +86,10 @@ const ClientProvider = ({ children }: PropsWithChildren) => {
         createClient,
         currentUserId,
         setCurrentUserId,
+        createUserAddress,
         currentAddressId,
         setCurrentAddressId,
+        createCreditCard,
         currentCreditCardId,
         setCurrentCreditCardId,
       }}

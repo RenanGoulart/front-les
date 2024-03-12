@@ -87,7 +87,7 @@ const Clients = ({ navigateTo }: Props) => {
               <TableColumn>{client.cpf}</TableColumn>
               <TableColumn>{client.email}</TableColumn>              
               <TableColumn>{`(${client.ddd}) ${client.phone}`}</TableColumn>                 
-              <TableColumn>{client.gender === 'FEMININO' ? 'FEM' : client.gender === 'MASCULINO' ? 'MAS' : 'N/I'}
+              <TableColumn>{client.gender?.substring(0, 3) || 'N/I'}
               </TableColumn>       
               <TableColumn style={{ color: client.status === 'ATIVO' ? 'green' : 'red', fontWeight: 'bold' }}>
                 {client.status}
