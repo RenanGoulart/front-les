@@ -20,7 +20,7 @@ export const Row = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  margin: 24px 0;
+  margin: 60px 0;
 `;
 
 export const TableContainer = styled.table`

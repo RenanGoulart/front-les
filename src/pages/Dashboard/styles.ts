@@ -7,6 +7,8 @@ export const Container = styled.main`
   display: flex;
   flex-direction: row;  
   justify-content: center;
+  position:relative;
+  padding-top: 5rem;
 `;
 
 export const SideBar = styled.aside`

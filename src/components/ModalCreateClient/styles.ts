@@ -11,6 +11,7 @@ export const Background = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1001;
 
   background-color: ${({ theme }) => theme.colors.black_00}50;
 `;
