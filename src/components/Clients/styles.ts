@@ -33,12 +33,12 @@ export const TableRow = styled.tr``;
 export const TableHeaderColumn = styled.th`
   text-align: start;
   padding-bottom: 10px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.black_00};
 `;
 
 export const TableColumn = styled.td`
   text-align: start;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.black_00};
   padding-right: 0;
 `;
 

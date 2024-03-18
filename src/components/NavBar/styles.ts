@@ -34,8 +34,6 @@ export const NavigationItem = styled.div<NavigationItemProps>`
   gap: 0.625rem;
   padding-right: 8px;
 
-  background: ${({ isActive }) => (isActive ? "#7653F6" : "transparent")};
-
   border-radius: 2rem 0 0 2rem;
 
   &:hover {

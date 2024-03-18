@@ -8,7 +8,7 @@ import {
   IconsWrapper,
 } from "./styles";
 import logo from "../../assets/img/logo.svg";
-import Header from "../Header/Header";
+import Header from "../SearchBar/SearchBar";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -28,8 +28,8 @@ const Navbar = () => {
           <SellIcon />
         </NavigationItem>
         <NavigationItem
-          isActive={location.pathname.includes("/user")}
-          onClick={() => navigate("/user")}
+          isActive={location.pathname.includes("/profile")}
+          onClick={() => navigate("/profile")}
         >
           <UserIcon />
         </NavigationItem>
