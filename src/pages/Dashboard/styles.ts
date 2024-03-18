@@ -5,9 +5,9 @@ export const Container = styled.main`
   height: 100vh;
 
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
   justify-content: center;
-  position:relative;
+  position: relative;
   padding-top: 5rem;
 `;
 

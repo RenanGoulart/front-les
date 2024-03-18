@@ -14,12 +14,14 @@ export interface ICreditCardResponse {
 
 export const findCreditCardById = async (creditCardId: string) => {
   try {
-    const { data } = await api.get<ICreditCardResponse>(`/creditCard/${creditCardId}`);
+    const { data } = await api.get<ICreditCardResponse>(
+      `/creditCard/${creditCardId}`,
+    );
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const updateCreditCard = async (body: Partial<ICreditCardResponse>) => {
   try {
@@ -27,4 +29,4 @@ export const updateCreditCard = async (body: Partial<ICreditCardResponse>) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

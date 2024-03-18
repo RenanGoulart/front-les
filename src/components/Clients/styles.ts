@@ -30,16 +30,16 @@ export const TableContainer = styled.table`
 
 export const TableRow = styled.tr``;
 
-export const TableHeaderColumn = styled.th`  
+export const TableHeaderColumn = styled.th`
   text-align: start;
   padding-bottom: 10px;
   border-bottom: 1px solid black;
 `;
 
-export const TableColumn = styled.td`  
+export const TableColumn = styled.td`
   text-align: start;
   border-bottom: 1px solid black;
-  padding-right: 0;  
+  padding-right: 0;
 `;
 
 export const StyledCreditCardIcon = styled(FaRegCreditCard)`
@@ -55,7 +55,7 @@ export const StyledCreditCardIcon = styled(FaRegCreditCard)`
   cursor: pointer;
 `;
 
-export const StyledAddressIcon = styled(FaMapLocationDot)`  
+export const StyledAddressIcon = styled(FaMapLocationDot)`
   width: 100%;
 
   display: flex;

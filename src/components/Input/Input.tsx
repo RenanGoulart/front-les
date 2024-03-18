@@ -1,5 +1,16 @@
-import { Controller, FieldValues, UseControllerProps, useController,  } from "react-hook-form";
-import { Container,  ErrorMessage,  Label, MaskedTextInput, TextInput  } from "./styles";
+import {
+  Controller,
+  FieldValues,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
+import {
+  Container,
+  ErrorMessage,
+  Label,
+  MaskedTextInput,
+  TextInput,
+} from "./styles";
 
 type Props<TFieldValues extends FieldValues> = {
   label: string;
@@ -10,49 +21,48 @@ type Props<TFieldValues extends FieldValues> = {
   style?: React.CSSProperties;
 } & UseControllerProps<TFieldValues>;
 
-const Input = <TFieldValues extends FieldValues>({ 
+const Input = <TFieldValues extends FieldValues>({
   name,
   control,
-  label, 
+  label,
   placeholder,
   type,
   mask,
   containerStyle,
   style,
 }: Props<TFieldValues>) => {
-  
   const {
     fieldState: { error },
-  } = useController({ 
+  } = useController({
     name,
-    control
+    control,
   });
 
   return (
     <Container style={containerStyle}>
       <Label>{label}</Label>
       {mask ? (
-        <Controller 
-          control={control} 
+        <Controller
+          control={control}
           name={name}
           render={({ field }) => (
             <MaskedTextInput
-              type={type || 'text'} 
-              placeholder={placeholder} 
-              mask={mask} 
+              type={type || "text"}
+              placeholder={placeholder}
+              mask={mask}
               style={style}
               {...field}
             />
           )}
         />
       ) : (
-        <Controller 
-          control={control} 
+        <Controller
+          control={control}
           name={name}
           render={({ field }) => (
             <TextInput
-              type={type || 'text'} 
-              placeholder={placeholder}  
+              type={type || "text"}
+              placeholder={placeholder}
               style={style}
               {...field}
             />
@@ -61,7 +71,7 @@ const Input = <TFieldValues extends FieldValues>({
       )}
       <ErrorMessage>{error?.message}</ErrorMessage>
     </Container>
-  )
-}
+  );
+};
 
 export default Input;

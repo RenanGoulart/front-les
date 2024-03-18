@@ -87,30 +87,34 @@ export interface IAddressRequest {
 
 export const listCountries = async () => {
   try {
-    const { data } = await api.get<ICountryResponse[]>('/address/countries');
+    const { data } = await api.get<ICountryResponse[]>("/address/countries");
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const listStatesByCountryId = async (countryId: string) => {
   try {
-    const { data } = await api.get<IStatesResponse[]>(`/address/states/${countryId}`);
+    const { data } = await api.get<IStatesResponse[]>(
+      `/address/states/${countryId}`,
+    );
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const listCitiesByStateId = async (stateId: string) => {
   try {
-    const { data } = await api.get<ICitiesResponse[]>(`/address/cities/${stateId}`);
+    const { data } = await api.get<ICitiesResponse[]>(
+      `/address/cities/${stateId}`,
+    );
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const findAddressById = async (addressId: string) => {
   try {
@@ -118,14 +122,14 @@ export const findAddressById = async (addressId: string) => {
     const address = {
       ...data,
       state: data.city.state,
-      country: data.city.state.country
-    }
-  
+      country: data.city.state.country,
+    };
+
     return address;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const updateAddress = async (body: Partial<IAddressRequest>) => {
   try {
@@ -133,4 +137,4 @@ export const updateAddress = async (body: Partial<IAddressRequest>) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

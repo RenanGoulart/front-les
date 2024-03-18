@@ -1,13 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Container, TableRow, TableContainer, TableColumn, TableHeaderColumn, Row, StyledCheckIcon, StyledDeleteIcon, StyledEditIcon} from './styles';
-import Button from '../Button/Button';
-import ModalCreateCreditCard from '../ModalCreateCreditCard/ModalCreateCreditCard';
-import { ICreditCardResponse, deleteCreditCard, listCreditCards } from '../../service/user';
-import { useClient } from '../../hooks/useClient';
-import { ClientPagesType } from '../../pages/Dashboard/Dashboard';
+import { useEffect, useState } from "react";
+import {
+  Container,
+  TableRow,
+  TableContainer,
+  TableColumn,
+  TableHeaderColumn,
+  Row,
+  StyledCheckIcon,
+  StyledDeleteIcon,
+  StyledEditIcon,
+} from "./styles";
+import Button from "../Button/Button";
+import ModalCreateCreditCard from "../ModalCreateCreditCard/ModalCreateCreditCard";
+import {
+  ICreditCardResponse,
+  deleteCreditCard,
+  listCreditCards,
+} from "../../service/user";
+import { useClient } from "../../hooks/useClient";
+import { ClientPagesType } from "../../pages/Dashboard/Dashboard";
 
-
-export type FormType = 'client' | 'address' | 'address2' | 'creditCard' | null;
+export type FormType = "client" | "address" | "address2" | "creditCard" | null;
 
 interface Props {
   navigateTo: (page: ClientPagesType) => void;
@@ -21,19 +34,19 @@ const CreditCard = ({ navigateTo }: Props) => {
 
   const closeModal = () => {
     setForm(null);
-  }
+  };
 
   const getCreditCards = async () => {
     const allCreditCards = await listCreditCards(currentUserId as string);
     if (allCreditCards) {
       setCards(allCreditCards);
     }
-  }
+  };
 
   const handleDeleteCreditCard = async (creditCardId: string) => {
     await deleteCreditCard(creditCardId);
     getCreditCards();
-  }
+  };
 
   useEffect(() => {
     getCreditCards();
@@ -41,12 +54,15 @@ const CreditCard = ({ navigateTo }: Props) => {
 
   return (
     <Container>
-      <h4 onClick={() => navigateTo('clients')}>Voltar</h4>
+      <button type="button" onClick={() => navigateTo("clients")}>
+        Voltar
+      </button>
       <Row>
         <h1>Cartões de Crédito</h1>
-        <Button onClick={() => {
-            setCurrentCreditCardId('');
-            setForm('creditCard');
+        <Button
+          onClick={() => {
+            setCurrentCreditCardId("");
+            setForm("creditCard");
           }}
         >
           Criar Cartão
@@ -61,8 +77,8 @@ const CreditCard = ({ navigateTo }: Props) => {
             <TableHeaderColumn>Número do Cartão</TableHeaderColumn>
             <TableHeaderColumn>CVV</TableHeaderColumn>
             <TableHeaderColumn>Preferencial</TableHeaderColumn>
-            <TableHeaderColumn></TableHeaderColumn>
-            <TableHeaderColumn></TableHeaderColumn>
+            <TableHeaderColumn />
+            <TableHeaderColumn />
           </TableRow>
         </thead>
         <tbody>
@@ -72,26 +88,32 @@ const CreditCard = ({ navigateTo }: Props) => {
               <TableColumn>{card.cardBrand}</TableColumn>
               <TableColumn>{card.number}</TableColumn>
               <TableColumn>{card.cvv}</TableColumn>
-              <TableColumn>{card.isMain ? <StyledCheckIcon /> : card.isMain ? 'SIM' : ''}</TableColumn>
               <TableColumn>
-                <StyledEditIcon onClick={() => {
-                    setCurrentCreditCardId(card.id);
-                    setForm('creditCard');
-                  }}
-                /> 
+                {card.isMain ? <StyledCheckIcon /> : null}
               </TableColumn>
-              <TableColumn >
-                <StyledDeleteIcon onClick={() => handleDeleteCreditCard(card.id)}/>
+              <TableColumn>
+                <StyledEditIcon
+                  onClick={() => {
+                    setCurrentCreditCardId(card.id);
+                    setForm("creditCard");
+                  }}
+                />
+              </TableColumn>
+              <TableColumn>
+                <StyledDeleteIcon
+                  onClick={() => handleDeleteCreditCard(card.id)}
+                />
               </TableColumn>
             </TableRow>
           ))}
         </tbody>
-      </TableContainer>      
+      </TableContainer>
 
-      {form === 'creditCard' && <ModalCreateCreditCard closeModal={closeModal} />}
+      {form === "creditCard" && (
+        <ModalCreateCreditCard closeModal={closeModal} />
+      )}
     </Container>
-  )
-}
+  );
+};
 
 export default CreditCard;
-

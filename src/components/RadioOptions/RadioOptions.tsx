@@ -1,5 +1,17 @@
-import { FieldValues, Path, PathValue, UseControllerProps, useController } from 'react-hook-form';
-import { Container, RadioCheck, RadioCircle, RadioLabel, RadioRow } from './styles';
+import {
+  FieldValues,
+  Path,
+  PathValue,
+  UseControllerProps,
+  useController,
+} from "react-hook-form";
+import {
+  Container,
+  RadioCheck,
+  RadioCircle,
+  RadioLabel,
+  RadioRow,
+} from "./styles";
 
 interface IOption {
   label: string;
@@ -18,7 +30,10 @@ const RadioOptions = <TFieldValues extends FieldValues>({
   const { field } = useController({
     control,
     name,
-    defaultValue: options[0].value as PathValue<TFieldValues, Path<TFieldValues>>,
+    defaultValue: options[0].value as PathValue<
+      TFieldValues,
+      Path<TFieldValues>
+    >,
   });
 
   const handleCheckOption = (item: IOption) => {
@@ -27,7 +42,7 @@ const RadioOptions = <TFieldValues extends FieldValues>({
 
   return (
     <Container>
-      {options.map(item => (
+      {options.map((item) => (
         <RadioRow key={item.value} onClick={() => handleCheckOption(item)}>
           <RadioCircle>
             {item.value === field.value && <RadioCheck />}

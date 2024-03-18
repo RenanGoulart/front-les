@@ -39,7 +39,7 @@ export const Row = styled.div`
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;  
+  justify-content: space-between;
 `;
 
 export const PhoneWrapper = styled.div`
@@ -54,6 +54,6 @@ export const GenderWrapper = styled.div`
   width: 48%;
 `;
 
-export const StatusWrapper = styled.div`  
+export const StatusWrapper = styled.div`
   width: 55%;
 `;

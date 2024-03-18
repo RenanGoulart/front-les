@@ -113,33 +113,32 @@ export interface ICreditCardRequest {
   userId: string;
 }
 
-
 export const createUser = async (body: Partial<IFormUser>) => {
   try {
-    const { data } = await api.post<IUserResponse>('/user', body);
+    const { data } = await api.post<IUserResponse>("/user", body);
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const createCard = async (body: Partial<ICreditCardRequest>) => {
   try {
-    const { data } = await api.post<ICreditCardResponse>('/creditCard', body);
+    const { data } = await api.post<ICreditCardResponse>("/creditCard", body);
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const createAddress = async (body: Partial<IAddressRequest>) => {
   try {
-    const { data } = await api.post<IAddressResponse>('/address', body);
+    const { data } = await api.post<IAddressResponse>("/address", body);
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const deleteUser = async (userId: string) => {
   try {
@@ -147,7 +146,7 @@ export const deleteUser = async (userId: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const deleteAddress = async (addressId: string) => {
   try {
@@ -155,7 +154,7 @@ export const deleteAddress = async (addressId: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const deleteCreditCard = async (creditCardId: string) => {
   try {
@@ -163,42 +162,44 @@ export const deleteCreditCard = async (creditCardId: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const listUsers = async () => {
   try {
-    const { data } = await api.get<IUserResponse[]>('/user');
+    const { data } = await api.get<IUserResponse[]>("/user");
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const listAddresses = async (userId: string) => {
   try {
-    const { data } = await api.get<IAddressResponse[]>(`/address/user/${userId}`);
-    const addresses = data.map((address) => (
-      {
-        ...address,
-        state: address.city.state,
-        country: address.city.state.country
-      }
-    ))
+    const { data } = await api.get<IAddressResponse[]>(
+      `/address/user/${userId}`,
+    );
+    const addresses = data.map((address) => ({
+      ...address,
+      state: address.city.state,
+      country: address.city.state.country,
+    }));
 
     return addresses;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const listCreditCards = async (userId: string) => {
   try {
-    const { data } = await api.get<ICreditCardResponse[]>(`/creditCard/user/${userId}`);
+    const { data } = await api.get<ICreditCardResponse[]>(
+      `/creditCard/user/${userId}`,
+    );
     return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const findUserById = async (userId: string) => {
   try {
@@ -207,7 +208,7 @@ export const findUserById = async (userId: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const updateUser = async (body: Partial<IUserResponse>) => {
   try {
@@ -215,4 +216,4 @@ export const updateUser = async (body: Partial<IUserResponse>) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

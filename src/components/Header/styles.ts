@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 80%;
@@ -8,10 +8,10 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   transform: translate(-50%, -50%);
-  
+
   position: fixed;
-  left: 50%; 
-  margin-top: 30px;  
+  left: 50%;
+  margin-top: 30px;
   z-index: 1001;
 `;
 
@@ -32,16 +32,15 @@ export const SearchInput = styled.input`
   display: flex;
   align-items: center;
 
-  padding: 0 2.75rem 0 2.5rem;  
+  padding: 0 2.75rem 0 2.5rem;
 
   border-radius: 10px;
 
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-weight: 400;
   font-size: 0.875rem;
 
   color: ${({ theme }) => theme.colors.purple_1f};
-  
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.purple_1f};

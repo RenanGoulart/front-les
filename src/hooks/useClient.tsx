@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { createAddress, createCard, createUser } from "../service/user";
 
@@ -56,30 +57,36 @@ interface IClientProvider {
 const ClientContext = createContext({} as IClientProvider);
 
 const ClientProvider = ({ children }: PropsWithChildren) => {
-  const [createFormData, setCreateFormData] = useState({} as Partial<IFormUser>);
+  const [createFormData, setCreateFormData] = useState(
+    {} as Partial<IFormUser>,
+  );
   const [currentUserId, setCurrentUserId] = useState(null as string | null);
-  const [currentAddressId, setCurrentAddressId] = useState(null as string | null);
-  const [currentCreditCardId, setCurrentCreditCardId] = useState(null as string | null);
+  const [currentAddressId, setCurrentAddressId] = useState(
+    null as string | null,
+  );
+  const [currentCreditCardId, setCurrentCreditCardId] = useState(
+    null as string | null,
+  );
 
   const createClient = async (cardData: IFormCard) => {
     const formattedBody = {
       ...createFormData,
-      birthDate: new Date(createFormData?.birthDate as string).toISOString(),      
-      cards: [{ ...cardData, isMain: true }]
-    }
+      birthDate: new Date(createFormData?.birthDate as string).toISOString(),
+      cards: [{ ...cardData, isMain: true }],
+    };
     createUser(formattedBody);
-  }
+  };
 
   const createCreditCard = async (cardData: IFormCard) => {
     createCard(cardData);
-  }
+  };
 
   const createUserAddress = async (addressData: IFormAddress) => {
     createAddress(addressData);
-  }
+  };
 
   return (
-    <ClientContext.Provider 
+    <ClientContext.Provider
       value={{
         createFormData,
         setCreateFormData,
@@ -96,7 +103,7 @@ const ClientProvider = ({ children }: PropsWithChildren) => {
     >
       {children}
     </ClientContext.Provider>
-  )
+  );
 };
 
 export default ClientProvider;

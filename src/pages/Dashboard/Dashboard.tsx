@@ -1,38 +1,40 @@
-import { Container } from "./styles";
 import { useState } from "react";
+import { Container } from "./styles";
 import Clients from "../../components/Clients/Clients";
 import Address from "../../components/Address/Address";
 import CreditCard from "../../components/CreditCards/CreditCards";
 import NavBar from "../../components/NavBar/NavBar";
 import NavigationCategory from "../../components/NavigationCategories/NavigationCategories";
 
-export type ClientPagesType = 'clients' | 'addresses' | 'creditCards';
+export type ClientPagesType = "clients" | "addresses" | "creditCards";
 
 const Dashboard = () => {
-  const [page, setPage] = useState<ClientPagesType>('clients');
+  const [page, setPage] = useState<ClientPagesType>("clients");
 
-  const navigateTo = (page: ClientPagesType) => {
-    setPage(page);
-  }
+  const navigateTo = (pageName: ClientPagesType) => {
+    setPage(pageName);
+  };
 
   const renderPage = () => {
     switch (page) {
-      case 'clients':
+      case "clients":
         return <Clients navigateTo={navigateTo} />;
-      case 'addresses':
+      case "addresses":
         return <Address navigateTo={navigateTo} />;
-      case 'creditCards':
+      case "creditCards":
         return <CreditCard navigateTo={navigateTo} />;
+      default:
+        return <Clients navigateTo={navigateTo} />;
     }
-  }
+  };
 
   return (
     <Container>
       <NavBar />
-        <NavigationCategory/>      
+      <NavigationCategory />
       {renderPage()}
     </Container>
-  )
-}
+  );
+};
 
 export default Dashboard;

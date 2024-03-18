@@ -39,7 +39,7 @@ export const Row = styled.div`
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;  
+  justify-content: space-between;
 `;
 
 export const PhoneWrapper = styled.div`

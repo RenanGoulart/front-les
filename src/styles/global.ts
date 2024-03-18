@@ -1,6 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
-
-// adicionar fonte baixada
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   *, *::after, *::before {

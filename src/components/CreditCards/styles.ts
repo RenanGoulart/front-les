@@ -38,7 +38,7 @@ export const TableHeaderColumn = styled.th`
 export const TableColumn = styled.td`
   text-align: start;
   border-bottom: 1px solid black;
-  padding-right: 0;  
+  padding-right: 0;
 `;
 
 export const StyledEditIcon = styled(FaEdit)`

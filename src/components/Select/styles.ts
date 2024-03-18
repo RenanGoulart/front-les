@@ -25,7 +25,6 @@ export const SelectOption = styled.select`
   outline: none;
 `;
 
-
 export const ErrorMessage = styled.span`
   font-size: 12px;
   font-weight: normal;

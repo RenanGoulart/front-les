@@ -33,14 +33,14 @@ export const TableHeaderColumn = styled.th`
   padding: 10px;
   text-align: start;
   padding-bottom: 10px;
-  border-bottom: 1px solid black;   
+  border-bottom: 1px solid black;
 `;
 
 export const TableColumn = styled.td`
   padding: 10px;
   text-align: start;
   border-bottom: 1px solid black;
-  padding-right: 0;  
+  padding-right: 0;
 `;
 
 export const StyledEditIcon = styled(FaEdit)`
@@ -64,5 +64,5 @@ export const StyledCheckIcon = styled(FaCheckCircle)`
 
   margin: 24px 0;
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.purple_1f};  
+  color: ${({ theme }) => theme.colors.purple_1f};
 `;
