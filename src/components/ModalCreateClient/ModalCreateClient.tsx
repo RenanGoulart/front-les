@@ -26,7 +26,7 @@ import {
 import Button from "../Button/Button";
 import { FormType } from "../Clients/Clients";
 import { useClient } from "../../hooks/useClient";
-import { IUserResponse, findUserById, updateUser } from "../../service/user";
+import { IUserResponse, findUserById, updateUser } from "../../services/user";
 
 interface Props {
   changeForm: (form: FormType) => void;

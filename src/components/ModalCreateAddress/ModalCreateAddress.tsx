@@ -23,7 +23,7 @@ import {
   listCountries,
   listStatesByCountryId,
   updateAddress,
-} from "../../service/address";
+} from "../../services/address";
 
 interface DropdownOption {
   value: string;

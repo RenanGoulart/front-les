@@ -12,7 +12,7 @@ import {
 } from "./styles";
 import Button from "../Button/Button";
 import ModalCreateAddress from "../ModalCreateAddress/ModalCreateAddress";
-import { IAddress, deleteAddress, listAddresses } from "../../service/user";
+import { IAddress, deleteAddress, listAddresses } from "../../services/user";
 import { useClient } from "../../hooks/useClient";
 import { ClientPagesType } from "../../pages/Dashboard/Dashboard";
 

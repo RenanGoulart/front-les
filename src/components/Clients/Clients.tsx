@@ -16,7 +16,7 @@ import {
 import Button from "../Button/Button";
 import ModalCreateAddress from "../ModalCreateAddress/ModalCreateAddress";
 import ModalCreateCreditCard from "../ModalCreateCreditCard/ModalCreateCreditCard";
-import { IUserResponse, deleteUser, listUsers } from "../../service/user";
+import { IUserResponse, deleteUser, listUsers } from "../../services/user";
 import { ClientPagesType } from "../../pages/Dashboard/Dashboard";
 import { useClient } from "../../hooks/useClient";
 

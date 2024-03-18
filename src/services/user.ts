@@ -95,36 +95,9 @@ export interface IAddress {
   userId: string;
 }
 
-export interface ICreditCardResponse {
-  id: string;
-  number: string;
-  cardHolder: string;
-  cvv: string;
-  cardBrand: string;
-  isMain: boolean;
-}
-
-export interface ICreditCardRequest {
-  number: string;
-  cardHolder: string;
-  cvv: string;
-  cardBrand: string;
-  isMain: boolean;
-  userId: string;
-}
-
 export const createUser = async (body: Partial<IFormUser>) => {
   try {
     const { data } = await api.post<IUserResponse>("/user", body);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const createCard = async (body: Partial<ICreditCardRequest>) => {
-  try {
-    const { data } = await api.post<ICreditCardResponse>("/creditCard", body);
     return data;
   } catch (error) {
     console.log(error);
@@ -156,14 +129,6 @@ export const deleteAddress = async (addressId: string) => {
   }
 };
 
-export const deleteCreditCard = async (creditCardId: string) => {
-  try {
-    await api.delete(`/creditCard/${creditCardId}`);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const listUsers = async () => {
   try {
     const { data } = await api.get<IUserResponse[]>("/user");
@@ -185,17 +150,6 @@ export const listAddresses = async (userId: string) => {
     }));
 
     return addresses;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const listCreditCards = async (userId: string) => {
-  try {
-    const { data } = await api.get<ICreditCardResponse[]>(
-      `/creditCard/user/${userId}`,
-    );
-    return data;
   } catch (error) {
     console.log(error);
   }

@@ -15,7 +15,7 @@ import {
   ICreditCardResponse,
   findCreditCardById,
   updateCreditCard,
-} from "../../service/creditCard";
+} from "../../services/creditCard";
 
 interface Props {
   closeModal: () => void;

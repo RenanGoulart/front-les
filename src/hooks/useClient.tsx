@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { createAddress, createCard, createUser } from "../service/user";
+import { createAddress, createUser } from "../services/user";
+import { createCard } from "../services/creditCard";
 
 export interface IFormAddress {
   street: string;

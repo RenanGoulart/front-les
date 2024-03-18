@@ -12,13 +12,11 @@ import {
 } from "./styles";
 import Button from "../Button/Button";
 import ModalCreateCreditCard from "../ModalCreateCreditCard/ModalCreateCreditCard";
-import {
-  ICreditCardResponse,
-  deleteCreditCard,
-  listCreditCards,
-} from "../../service/user";
+
 import { useClient } from "../../hooks/useClient";
 import { ClientPagesType } from "../../pages/Dashboard/Dashboard";
+import { useQuery } from "@tanstack/react-query";
+import { ICreditCardListResponse, deleteCreditCard, listCreditCards } from "../../services/creditCard";
 
 export type FormType = "client" | "address" | "address2" | "creditCard" | null;
 
@@ -30,27 +28,20 @@ const CreditCard = ({ navigateTo }: Props) => {
   const { currentUserId, setCurrentCreditCardId } = useClient();
 
   const [form, setForm] = useState<FormType>(null);
-  const [cards, setCards] = useState([] as ICreditCardResponse[]);
 
   const closeModal = () => {
     setForm(null);
   };
 
-  const getCreditCards = async () => {
-    const allCreditCards = await listCreditCards(currentUserId as string);
-    if (allCreditCards) {
-      setCards(allCreditCards);
-    }
-  };
+  const { data: cards, refetch } = useQuery<ICreditCardListResponse[]>({
+    queryKey: ['cards', currentUserId],
+    queryFn: () => listCreditCards(currentUserId as string) as Promise<ICreditCardListResponse[]>
+  })
 
   const handleDeleteCreditCard = async (creditCardId: string) => {
     await deleteCreditCard(creditCardId);
-    getCreditCards();
+    refetch();
   };
-
-  useEffect(() => {
-    getCreditCards();
-  }, []);
 
   return (
     <Container>
@@ -82,7 +73,7 @@ const CreditCard = ({ navigateTo }: Props) => {
           </TableRow>
         </thead>
         <tbody>
-          {cards.map((card) => (
+          {cards?.map((card) => (
             <TableRow key={card.id}>
               <TableColumn>{card.cardHolder}</TableColumn>
               <TableColumn>{card.cardBrand}</TableColumn>
@@ -110,7 +101,12 @@ const CreditCard = ({ navigateTo }: Props) => {
       </TableContainer>
 
       {form === "creditCard" && (
-        <ModalCreateCreditCard closeModal={closeModal} />
+        <ModalCreateCreditCard closeModal={() => {
+          closeModal();
+          setTimeout(() => {
+            refetch();
+          }, 500)
+        }} />
       )}
     </Container>
   );
