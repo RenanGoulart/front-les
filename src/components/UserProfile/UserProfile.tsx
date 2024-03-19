@@ -15,7 +15,7 @@ import {
 import { useClient } from "../../hooks/useClient";
 import { ProfilePagesType } from "../../pages/Profile/Profile";
 import { useQuery } from "@tanstack/react-query";
-import profileimg from "../../assets/img/profileimg.png"
+import profileimg from "../../assets/img/profile-img.png"
 
 export type FormType = "userProfile" | "orders" | "addresses" | "creditCards" | null;
 
