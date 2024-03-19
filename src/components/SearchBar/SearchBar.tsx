@@ -1,28 +1,19 @@
 import { SetStateAction } from "react";
-import { Container, SearchDivider, SearchIcon, SearchInput } from "./styles";
+import { Container, SearchContainer, SearchIcon, SearchInput } from "./styles";
 import searchIcon from "../../assets/icons/search.svg";
 
-interface HeaderProps {
+interface SearchBarProps {
   isSearchable?: boolean;
-  isNavigating?: boolean;
-  setSearch?: React.Dispatch<SetStateAction<string>>;
   search?: string;
+  setSearch?: React.Dispatch<SetStateAction<string>>;
 }
 
-const Header = ({
-  isSearchable,
-  isNavigating,
-  search,
-  setSearch,
-}: HeaderProps) => {
+const SearchBar = ({ isSearchable, search, setSearch }: SearchBarProps) => {
   return (
-    <Container style={{ paddingLeft: isNavigating ? "5rem" : "" }}>
+    <Container>
       {isSearchable && (
-        <SearchDivider>
+        <SearchContainer>
           <SearchInput
-            type="text"
-            id="search"
-            name="search"
             placeholder="Buscar"
             value={search}
             onChange={(e) => {
@@ -31,12 +22,11 @@ const Header = ({
               }
             }}
           />
-
           <SearchIcon src={searchIcon} alt="Ícone de pesquisa" />
-        </SearchDivider>
+        </SearchContainer>
       )}
     </Container>
   );
 };
 
-export default Header;
+export default SearchBar;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ButtonContainer = styled.button`
-  width: 200px;
+  min-width: 200px;
   height: 50px;
 
   align-self: center;

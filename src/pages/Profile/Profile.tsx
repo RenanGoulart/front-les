@@ -1,33 +1,51 @@
-import { useState } from "react";
-import { Container } from "./styles";
+import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  ButtonsWrapper,
+  Container,
+  Content,
+  Image,
+  ImageContent,
+  StyledAddressIcon,
+  StyledCreditCardIcon,
+  StyledLogoutIcon,
+  StyledShoppingBagIcon,
+  TextOverlay,
+} from "./styles";
+import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
-import NavigationCategory from "../../components/NavigationCategories/NavigationCategories";
-import UserProfile from "../../components/UserProfile/UserProfile";
-import Orders from "../../components/Orders/Orders";
-
-export type ProfilePagesType =  "userProfile" | "orders" |"addresses" | "creditCards";
+import profileimg from "../../assets/img/profileimg.png";
 
 const Profile = () => {
-  const [page, setPage] = useState<ProfilePagesType>("userProfile");
-
-  const navigateTo = (pageName: ProfilePagesType) => {
-    setPage(pageName);
-  };
-
-  const renderPage = () => {
-    switch (page) {
-      case "userProfile":
-        return <UserProfile navigateTo={navigateTo} />;
-      case "orders":
-      return <Orders navigateTo={navigateTo} />;
-    }
-  };
-
+  const navigate = useNavigate();
   return (
     <Container>
+      <Header />
       <NavBar />
-      <NavigationCategory />
-      {renderPage()}
+      <Content>
+        <ImageContent>
+          <Image src={profileimg} alt="Vinil" />
+          <TextOverlay>Meu Perfil</TextOverlay>
+        </ImageContent>
+        <ButtonsWrapper>
+          <Button isOutline onClick={() => navigate("/orders")}>
+            <StyledShoppingBagIcon />
+            Meus Pedidos
+          </Button>
+          <Button isOutline onClick={() => {}}>
+            <StyledAddressIcon />
+            Meus Endereços
+          </Button>
+          <Button isOutline onClick={() => {}}>
+            <StyledCreditCardIcon />
+            Meus Cartões
+          </Button>
+          <Button onClick={() => {}}>
+            <StyledLogoutIcon />
+            Sair
+          </Button>
+        </ButtonsWrapper>
+      </Content>
     </Container>
   );
 };

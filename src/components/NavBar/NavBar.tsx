@@ -1,41 +1,62 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Container,
-  Logo,
-  NavigationItem,
-  UserIcon,
-  SellIcon,
-  IconsWrapper,
+  NavigationCategory,
+  NavigationCategoryText,
 } from "./styles";
-import logo from "../../assets/img/logo.svg";
-import Header from "../SearchBar/SearchBar";
 
-const Navbar = () => {
+const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   return (
     <Container>
-      <a href="/user">
-        <Logo src={logo} alt="Logo" />
-      </a>
-      <Header isSearchable />
-      <IconsWrapper>
-        <NavigationItem
-          isActive={location.pathname.includes("/checkout")}
-          onClick={() => navigate("/checkout")}
+      <NavigationCategory onClick={() => navigate("/rock")}>
+        <NavigationCategoryText isActive={location.pathname.includes("/rock")}>
+          Rock
+        </NavigationCategoryText>
+      </NavigationCategory>
+      <NavigationCategory onClick={() => navigate("/pop")}>
+        <NavigationCategoryText isActive={location.pathname.includes("/pop")}>
+          Pop
+        </NavigationCategoryText>
+      </NavigationCategory>
+      <NavigationCategory onClick={() => navigate("/hiphop")}>
+        <NavigationCategoryText
+          isActive={location.pathname.includes("/hiphop")}
         >
-          <SellIcon />
-        </NavigationItem>
-        <NavigationItem
-          isActive={location.pathname.includes("/profile")}
-          onClick={() => navigate("/profile")}
+          Hip-Hop
+        </NavigationCategoryText>
+      </NavigationCategory>
+      <NavigationCategory onClick={() => navigate("/mpb")}>
+        <NavigationCategoryText isActive={location.pathname.includes("/mpb")}>
+          MPB
+        </NavigationCategoryText>
+      </NavigationCategory>
+      <NavigationCategory onClick={() => navigate("/blues")}>
+        <NavigationCategoryText isActive={location.pathname.includes("/blues")}>
+          Blues
+        </NavigationCategoryText>
+      </NavigationCategory>
+      <NavigationCategory onClick={() => navigate("/soul")}>
+        <NavigationCategoryText isActive={location.pathname.includes("/soul")}>
+          Soul
+        </NavigationCategoryText>
+      </NavigationCategory>
+      <NavigationCategory onClick={() => navigate("/funk")}>
+        <NavigationCategoryText isActive={location.pathname.includes("/funk")}>
+          Funk
+        </NavigationCategoryText>
+      </NavigationCategory>
+      <NavigationCategory onClick={() => navigate("/reggae")}>
+        <NavigationCategoryText
+          isActive={location.pathname.includes("/reggae")}
         >
-          <UserIcon />
-        </NavigationItem>
-      </IconsWrapper>
+          Reggae
+        </NavigationCategoryText>
+      </NavigationCategory>
     </Container>
   );
 };
 
-export default Navbar;
+export default NavBar;
