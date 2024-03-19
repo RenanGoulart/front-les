@@ -14,7 +14,7 @@ import {
 } from "./styles";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
-import profileimg from "../../assets/img/profileimg.png";
+import profileimg from "../../assets/img/profile-img.png";
 
 const Profile = () => {
   const navigate = useNavigate();
