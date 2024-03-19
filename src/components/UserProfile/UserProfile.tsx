@@ -33,7 +33,7 @@ const UserProfile = ({ navigateTo }: Props) => {
         <TextOverlay>Meu Perfil</TextOverlay>
       </ImageContainer>
       <ButtonContainer>
-        <Button onClick={() => {}}>
+        <Button onClick={() => navigateTo("orders")}>
           <StyledShoppingBagIcon />
           Meus Pedidos
         </Button>

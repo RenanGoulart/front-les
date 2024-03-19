@@ -3,6 +3,7 @@ import { Container } from "./styles";
 import NavBar from "../../components/NavBar/NavBar";
 import NavigationCategory from "../../components/NavigationCategories/NavigationCategories";
 import UserProfile from "../../components/UserProfile/UserProfile";
+import Orders from "../../components/Orders/Orders";
 
 export type ProfilePagesType =  "userProfile" | "orders" |"addresses" | "creditCards";
 
@@ -17,6 +18,8 @@ const Profile = () => {
     switch (page) {
       case "userProfile":
         return <UserProfile navigateTo={navigateTo} />;
+      case "orders":
+      return <Orders navigateTo={navigateTo} />;
     }
   };
 

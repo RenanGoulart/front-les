@@ -36,6 +36,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button {
+    width: 60px;
+    height: 40px;
+
+    border: none;
+    border-radius: 5px;
+    background-color: ${({ theme }) => theme.colors.white_ff};
+
+    font-size: 16px;
+    font-weight: bold;
+    color: ${({ theme }) => theme.colors.purple_1f};
+
     cursor: pointer;
   }
 `;
