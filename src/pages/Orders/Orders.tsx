@@ -3,7 +3,7 @@ import {
   TableContainer,
   TableRow,
   Content,
-  TableCeil,
+  TableCell,
   Title,
 } from "./styles";
 import Button from "../../components/Button/Button";
@@ -19,18 +19,18 @@ const Orders = () => {
         <Title>Meus Pedidos</Title>
         <TableContainer>
           <TableRow isHeader>
-            <TableCeil>Número do Pedido</TableCeil>
-            <TableCeil>Data</TableCeil>
-            <TableCeil>Status</TableCeil>
-            <TableCeil />
+            <TableCell>Número do Pedido</TableCell>
+            <TableCell>Data</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell />
           </TableRow>
           <TableRow>
-            <TableCeil>#444</TableCeil>
-            <TableCeil>02/02/2024</TableCeil>
-            <TableCeil>Pago</TableCeil>
-            <TableCeil style={{ justifyContent: "flex-end" }}>
+            <TableCell>#444</TableCell>
+            <TableCell>02/02/2024</TableCell>
+            <TableCell>Pago</TableCell>
+            <TableCell style={{ justifyContent: "flex-end" }}>
               <Button onClick={() => {}}>Ver Pedido</Button>
-            </TableCeil>
+            </TableCell>
           </TableRow>
         </TableContainer>
       </Content>

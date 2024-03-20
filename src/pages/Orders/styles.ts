@@ -33,10 +33,10 @@ export const TableRow = styled.div<TableRowProps>`
 
   border-bottom: 1px solid black;
 
-  ${({ isHeader }) => isHeader && "font-weight: bold;"}
+  font-weight: ${({ isHeader }) => (isHeader ? "bold" : "normal")};
 `;
 
-export const TableCeil = styled.div`
+export const TableCell = styled.div`
   display: flex;
 
   font-size: 1rem;

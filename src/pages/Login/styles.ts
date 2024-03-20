@@ -5,39 +5,38 @@ export const Container = styled.main`
   height: 100vh;
 
   display: flex;
-  flex-direction: row;
-  position: relative;
-`
+`;
+
 export const LoginContainer = styled.form`
   width: 50%;
-  height: 100%;
 
   display: flex;
   flex-direction: column;
 
   padding: 2rem 5rem;
 
-  background: ${({ theme }) => theme.colors.purple_1f};
-
   overflow-y: auto;
-  position: relative;
+
+  background-color: ${({ theme }) => theme.colors.purple_1f};
 `;
 
 export const ImageContainer = styled.div`
-  position: relative;
   width: 50%;
   overflow: hidden;
-`
+
+  position: relative;
+`;
 export const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-`
+`;
 
-export const TextOverlay = styled.div`
+export const TextOverlay = styled.h3`
+  width: 70%;
+
   position: absolute;
   bottom: 10%;
-  left: 30%;
   right: 5%;
 
   text-align: right;
@@ -57,17 +56,16 @@ export const LoginTitle = styled.span`
 `;
 
 export const Logo = styled.img`
-  width: auto;
   height: 150px;
 `;
 
 export const Label = styled.label`
-  margin-top: 10px;
-  margin-bottom:10px;
+  margin: 10px 0;
+
   font-size: 18px;
 
   color: ${({ theme }) => theme.colors.white_ff};
-`
+`;
 
 export const Input = styled.input`
   width: 100%;
@@ -75,16 +73,16 @@ export const Input = styled.input`
 
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
 
+  margin-bottom: 10px;
   padding: 0 3rem 0 2rem;
 
-  background: ${({ theme }) => theme.colors.purple_1f};
+  font-weight: 400;
+  font-size: 0.875rem;
 
   border-radius: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.white_ff};
-  font-weight: 400;
-  font-size: 0.875rem;
+  background-color: ${({ theme }) => theme.colors.purple_1f};
 
   color: ${({ theme }) => theme.colors.white_ff};
 
@@ -95,26 +93,25 @@ export const Input = styled.input`
   &:focus {
     outline: 2px solid ${({ theme }) => theme.colors.purple_af};
   }
-`
+`;
 
 export const Button = styled.button`
   width: 100%;
-  height: 49px;
+  height: 54px;
 
-  display:flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  border: 1px solid ${({ theme }) => theme.colors.purple_1f};
-  background-color: ${({ theme }) => theme.colors.white_ff};
-  border-radius: 10px;
+  margin-top: 20px;
 
   font-weight: 600;
   font-size: 18px;
   color: ${({ theme }) => theme.colors.purple_1f};
 
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 20px;
+  border-radius: 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.purple_1f};
+  background-color: ${({ theme }) => theme.colors.white_ff};
 
   cursor: pointer;
 `;
