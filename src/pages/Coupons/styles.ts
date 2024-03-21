@@ -15,8 +15,6 @@ export const Content = styled.section`
 
 export const TableHeader = styled.div`
   display: flex;
-  flex-direction: row;
-
   justify-content: space-between;
   margin: 24px 0 12px;
 `;

@@ -9,15 +9,28 @@ import {
 } from "./styles";
 import Button from "../../components/Button/Button";
 import SideBar from "../../components/SideBar/SideBar";
+import { useState } from "react";
+import ModalCreateCoupon from "../../components/ModalCreateCoupon/ModalCreateCoupon";
 
 const Coupons = () => {
+
+  const [ form, setForm ] = useState(false);
+
+  const openModal = () => {
+    setForm(true);
+  };
+
+  const closeModal = () => {
+    setForm(false);
+  };
+
   return (
     <Container>
       <SideBar />
       <Content>
         <TableHeader>
           <Title>Meus Cupons</Title>
-          <Button onClick={() => {}}>Adicionar Cupom</Button>
+          <Button onClick={openModal}>Adicionar Cupom</Button>
         </TableHeader>
         <TableContainer>
           <TableRow isHeader>
@@ -33,6 +46,7 @@ const Coupons = () => {
           </TableRow>
         </TableContainer>
       </Content>
+      {form && <ModalCreateCoupon closeModal={closeModal} />}
     </Container>
   );
 };
