@@ -3,6 +3,7 @@ import { Container } from "./styles";
 import Clients from "../../components/Clients/Clients";
 import Address from "../../components/Address/Address";
 import CreditCard from "../../components/CreditCards/CreditCards";
+import SideBar from "../../components/SideBar/SideBar";
 
 export type ClientPagesType = "clients" | "addresses" | "creditCards";
 
@@ -26,7 +27,12 @@ const Dashboard = () => {
     }
   };
 
-  return <Container>{renderPage()}</Container>;
-};
+    return (
+      <Container>
+        <SideBar />
+        {renderPage()}
+      </Container>
+    );
+  };
 
 export default Dashboard;
