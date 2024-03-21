@@ -6,6 +6,7 @@ import {
   UserIcon,
   SellIcon,
   IconsWrapper,
+  AdminIcon,
 } from "./styles";
 import logo from "../../assets/img/logo.svg";
 import SearchBar from "../SearchBar/SearchBar";
@@ -25,6 +26,9 @@ const Header = () => {
         </NavigationItem>
         <NavigationItem onClick={() => navigate("/profile")}>
           <UserIcon />
+        </NavigationItem>
+        <NavigationItem onClick={() => navigate("/dashboard")}>
+          <AdminIcon />
         </NavigationItem>
       </IconsWrapper>
     </Container>

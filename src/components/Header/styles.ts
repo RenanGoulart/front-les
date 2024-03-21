@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FaUser } from "react-icons/fa";
 import { IoCartSharp } from "react-icons/io5";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 export const Container = styled.header`
   width: 100%;
@@ -40,5 +41,9 @@ export const UserIcon = styled(FaUser)`
 `;
 
 export const SellIcon = styled(IoCartSharp)`
+  font-size: 2rem;
+`;
+
+export const AdminIcon = styled(MdAdminPanelSettings)`
   font-size: 2rem;
 `;

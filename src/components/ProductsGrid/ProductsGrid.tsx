@@ -10,7 +10,7 @@ export const ProductsGrid = () => {
     <Container>
       <SelectFilter>
         <option value="" disabled selected>
-          Filtar por...
+          Filtrar por...
         </option>
         <option value="1">Relevantes</option>
         <option value="2">Mais vendidos</option>
