@@ -11,7 +11,7 @@ export const Container = styled.div`
   padding-bottom: 1rem;
   margin-top: 2rem;
 
-  /* background-color: red; */
+  cursor: pointer;
 `;
 
 export const Image = styled.img`

@@ -8,6 +8,7 @@ export const theme = {
     purple_80: "#807594",
     purple_af: "#afa1c7",
     green_56: "#56AA63",
+    gray_cc: "#cccccc",
     red_fc: "#fc6868",
   },
 } as const;

@@ -5,12 +5,14 @@ import Home from "../pages/Home/Home";
 import Orders from "../pages/Orders/Orders";
 import Login from "../pages/Login/Login";
 import Coupons from "../pages/Coupons/Coupons";
+import ProductDetails from "../pages/ProductDetails/ProductDetails";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product" element={<ProductDetails />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/coupons" element={<Coupons />} />
         <Route path="/profile" element={<Profile />} />

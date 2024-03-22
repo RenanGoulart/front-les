@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   AlbumName,
   ArtistName,
@@ -9,8 +10,10 @@ import {
 import photoProduct from "../../assets/img/photo-product.png";
 
 export const ProductCard = () => {
+  const navigate = useNavigate();
+
   return (
-    <Container>
+    <Container onClick={() => navigate("/product")}>
       <Image src={photoProduct} alt="Capa Album" />
       <AlbumName>Flower Boy</AlbumName>
       <ArtistName>Tyler The Creator</ArtistName>

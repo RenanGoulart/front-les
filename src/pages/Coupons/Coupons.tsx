@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Container,
   TableContainer,
@@ -9,12 +10,10 @@ import {
 } from "./styles";
 import Button from "../../components/Button/Button";
 import SideBar from "../../components/SideBar/SideBar";
-import { useState } from "react";
 import ModalCreateCoupon from "../../components/ModalCreateCoupon/ModalCreateCoupon";
 
 const Coupons = () => {
-
-  const [ form, setForm ] = useState(false);
+  const [form, setForm] = useState(false);
 
   const openModal = () => {
     setForm(true);

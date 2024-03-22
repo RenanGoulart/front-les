@@ -27,12 +27,12 @@ const Dashboard = () => {
     }
   };
 
-    return (
-      <Container>
-        <SideBar />
-        {renderPage()}
-      </Container>
-    );
-  };
+  return (
+    <Container>
+      <SideBar />
+      {renderPage()}
+    </Container>
+  );
+};
 
 export default Dashboard;
