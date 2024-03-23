@@ -17,6 +17,9 @@ const SideBar = () => {
         <MenuItem onClick={() => navigate("/user")}>
           Cadastrar Clientes
         </MenuItem>
+        <MenuItem onClick={() => navigate("/products")}>
+          Cadastrar Produtos
+        </MenuItem>
         <MenuItem onClick={() => navigate("/coupons")}>
           Cadastrar Cupons
         </MenuItem>

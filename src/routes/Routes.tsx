@@ -6,6 +6,7 @@ import Orders from "../pages/Orders/Orders";
 import Login from "../pages/Login/Login";
 import Coupons from "../pages/Coupons/Coupons";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import Product from "../pages/Product/Product";
 
 const AppRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const AppRoutes = () => {
         <Route path="/product" element={<ProductDetails />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/coupons" element={<Coupons />} />
+        <Route path="/products" element={<Product />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/login" element={<Login />} />
