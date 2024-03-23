@@ -2,11 +2,12 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Profile from "../pages/Profile/Profile";
 import Home from "../pages/Home/Home";
-import Orders from "../pages/Orders/Orders";
+import Orders from "../pages/UserOrders/UserOrders";
 import Login from "../pages/Login/Login";
 import Coupons from "../pages/Coupons/Coupons";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Product from "../pages/Product/Product";
+import AllOrders from "../pages/AllOrders/AllOrders";
 
 const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/allOrders" element={<AllOrders />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

@@ -26,7 +26,7 @@ const SideBar = () => {
         <MenuItem onClick={() => navigate("/stock")}>
           Estoque
         </MenuItem>
-        <MenuItem onClick={() => navigate("/stock")}>
+        <MenuItem onClick={() => navigate("/allOrders")}>
           Pedidos
         </MenuItem>
       </Menu>

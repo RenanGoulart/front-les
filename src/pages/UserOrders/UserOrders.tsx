@@ -10,7 +10,7 @@ import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 
-const Orders = () => {
+const UserOrders = () => {
   return (
     <Container>
       <Header />
@@ -38,4 +38,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default UserOrders;
