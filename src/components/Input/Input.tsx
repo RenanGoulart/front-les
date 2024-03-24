@@ -13,7 +13,7 @@ import {
 } from "./styles";
 
 type Props<TFieldValues extends FieldValues> = {
-  label: string;
+  label?: string;
   placeholder?: string;
   type?: string;
   mask?: string;
@@ -42,7 +42,7 @@ const Input = <TFieldValues extends FieldValues>({
 
   return (
     <Container style={containerStyle}>
-      <Label style={labelStyle}>{label}</Label>
+      {label && <Label style={labelStyle}>{label}</Label>}
       {mask ? (
         <Controller
           control={control}

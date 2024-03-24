@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import ModalCreateClient from "../../components/ModalCreateClient/ModalCreateClient";
 import {
   Container,
@@ -21,11 +22,15 @@ import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalC
 import { IUserResponse, deleteUser, listUsers } from "../../services/user";
 import { useClient } from "../../hooks/useClient";
 import SideBar from "../../components/SideBar/SideBar";
+import Input from "../../components/Input/Input";
 
 export type FormType = "client" | "address" | "address2" | "creditCard" | null;
 
 const Client = () => {
   const navigate = useNavigate();
+
+  const { control } = useForm();
+
   const { setCurrentUserId } = useClient();
 
   const [form, setForm] = useState<FormType>(null);
@@ -75,6 +80,11 @@ const Client = () => {
             Adicionar Cliente
           </Button>
         </TableHeader>
+        <Input
+          control={control}
+          name="search"
+          placeholder="Pesquise por nome, CPF ou e-mail"
+        />
         <TableContainer>
           <TableRow isHeader>
             <TableCell>Nome</TableCell>

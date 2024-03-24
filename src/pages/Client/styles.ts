@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FaTrash, FaEdit, FaRegCreditCard } from "react-icons/fa";
 import { FaMapLocationDot } from "react-icons/fa6";
 
-export const Container = styled.section`
+export const Container = styled.main`
   width: 100vw;
   height: 100vh;
 
