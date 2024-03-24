@@ -36,7 +36,6 @@ const Stock = () => {
     setReduceForm(false);
   };
 
-
   return (
     <Container>
       <SideBar />
@@ -59,7 +58,9 @@ const Stock = () => {
             <TableCell>100</TableCell>
             <TableCell>R$ 200,00</TableCell>
             <TableCell>
-              <DecreaseButton onClick={openReduceModal}>Dar baixa</DecreaseButton>
+              <DecreaseButton onClick={openReduceModal}>
+                Dar baixa
+              </DecreaseButton>
             </TableCell>
             <TableCell>
               <IssueButton onClick={openIncreaseModal}>Dar entrada</IssueButton>
@@ -71,7 +72,9 @@ const Stock = () => {
             <TableCell>100</TableCell>
             <TableCell>R$ 180,00</TableCell>
             <TableCell>
-              <DecreaseButton onClick={openReduceModal}>Dar baixa</DecreaseButton>
+              <DecreaseButton onClick={openReduceModal}>
+                Dar baixa
+              </DecreaseButton>
             </TableCell>
             <TableCell>
               <IssueButton onClick={openIncreaseModal}>Dar entrada</IssueButton>

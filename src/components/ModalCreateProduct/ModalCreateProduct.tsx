@@ -1,24 +1,22 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import Input from "../Input/Input";
-import {
-  Background,
-  Container,
-  ReturnIcon,
-  Row,
-} from "./styles";
+import { Background, Container, ReturnIcon, Row } from "./styles";
 import Button from "../Button/Button";
-import { CreateProductForm, CreateProductSchema } from "../../validations/createProduct.validation";
+import {
+  CreateProductForm,
+  CreateProductSchema,
+} from "../../validations/createProduct.validation";
 import Select from "../Select/Select";
 import { pricingGroupOptions } from "../../data/createProductOptions";
-import { useState } from "react";
 
 interface Props {
   closeModal: () => void;
 }
 
 const ModalCreateProduct = ({ closeModal }: Props) => {
-  const [ step, setStep ] = useState(1);
+  const [step, setStep] = useState(1);
   const { control, handleSubmit } = useForm<CreateProductForm>({
     resolver: yupResolver(CreateProductSchema),
   });
@@ -40,7 +38,14 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 name="album"
                 label="Álbum"
                 placeholder="Nome do álbum"
-                containerStyle={{ width: '100%' }}
+                containerStyle={{ width: "68%" }}
+              />
+              <Input
+                control={control}
+                name="year"
+                label="Ano"
+                placeholder="Ano do álbum"
+                containerStyle={{ width: "28%" }}
               />
             </Row>
             <Row>
@@ -65,33 +70,33 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 name="height"
                 label="Altura (cm)"
                 placeholder="Altura"
-                type='number'
-                containerStyle={{ width: '30%' }}
+                type="number"
+                containerStyle={{ width: "30%" }}
               />
-             <Input
+              <Input
                 control={control}
                 name="width"
                 label="Largura (cm)"
                 placeholder="Largura"
-                type='number'
-                containerStyle={{ width: '30%' }}
+                type="number"
+                containerStyle={{ width: "30%" }}
               />
               <Input
                 control={control}
                 name="weight"
                 label="Peso (g)"
                 placeholder="Peso"
-                type='number'
-                containerStyle={{ width: '30%' }}
+                type="number"
+                containerStyle={{ width: "30%" }}
               />
-              </Row>
-              <Row>
+            </Row>
+            <Row>
               <Input
                 control={control}
                 name="barCode"
                 label="Código de Barras"
                 placeholder="Ex: 9999999999999"
-                type='number'
+                type="number"
                 mask="9999999999999"
                 containerStyle={styles.elementStyle}
               />
@@ -101,13 +106,13 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
         )}
         {step === 2 && (
           <>
-          <Row>
+            <Row>
               <Select
                 control={control}
                 name="pricingGroup"
                 label="Grupo de precificação"
                 options={pricingGroupOptions}
-                containerStyle={{ width: '100%' }}
+                containerStyle={{ width: "100%" }}
               />
             </Row>
             <Row>
@@ -117,7 +122,7 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 label="Preço"
                 placeholder="Ex: 200"
                 type="number"
-                containerStyle={{ width: '100%' }}
+                containerStyle={{ width: "100%" }}
               />
             </Row>
             <Button onClick={() => setStep(3)}>Próximo</Button>
@@ -133,7 +138,7 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 label="Quantidade de Faixas"
                 placeholder="Ex: 20"
                 type="number"
-                containerStyle={{ width: '100%' }}
+                containerStyle={{ width: "100%" }}
               />
             </Row>
             <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>

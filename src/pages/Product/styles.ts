@@ -33,7 +33,7 @@ export const TableContainer = styled.div`
 
 export const TableRow = styled.div<{ isHeader?: boolean }>`
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: center;
 
   border-bottom: 1px solid black;

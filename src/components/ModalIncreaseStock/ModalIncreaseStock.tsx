@@ -1,19 +1,18 @@
-import Input from "../Input/Input";
-import {
-  Background,
-  Container,
-  Row,
-} from "./styles";
-import Button from "../Button/Button";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IncreaseStockForm, IncreaseStockSchema } from "../../validations/stock.validation";
+import Input from "../Input/Input";
+import { Background, Container, Row } from "./styles";
+import Button from "../Button/Button";
+import {
+  IncreaseStockForm,
+  IncreaseStockSchema,
+} from "../../validations/stock.validation";
 
 interface Props {
   closeModal: () => void;
 }
 
-const ModalIncreaseStock = ({ closeModal } : Props) => {
+const ModalIncreaseStock = ({ closeModal }: Props) => {
   const { control, handleSubmit } = useForm<IncreaseStockForm>({
     resolver: yupResolver(IncreaseStockSchema),
   });
@@ -45,7 +44,7 @@ const ModalIncreaseStock = ({ closeModal } : Props) => {
             containerStyle={styles.elementStyle}
           />
         </Row>
-          <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
+        <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
       </Container>
     </Background>
   );
