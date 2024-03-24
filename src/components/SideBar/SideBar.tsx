@@ -8,6 +8,7 @@ const SideBar = () => {
   return (
     <Container>
       <Menu>
+        <MenuItem onClick={() => navigate("/dashboard")}>Dashboard</MenuItem>
         <MenuItem onClick={() => navigate("/client")}>
           Cadastrar Clientes
         </MenuItem>

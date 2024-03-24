@@ -9,6 +9,10 @@ import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Product from "../pages/Product/Product";
 import AllOrders from "../pages/AllOrders/AllOrders";
 import Stock from "../pages/Stock/Stock";
+import Checkout from "../pages/Checkout/Checkout";
+import CreditCard from "../pages/CreditCard/CreditCard";
+import Address from "../pages/Address/Address";
+import Client from "../pages/Client/Client";
 
 const AppRoutes = () => {
   return (
@@ -16,10 +20,14 @@ const AppRoutes = () => {
       <Routes>
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/" element={<Home />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/product" element={<ProductDetails />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/client" element={<Client />} />
+        <Route path="/address" element={<Address />} />
+        <Route path="/creditCard" element={<CreditCard />} />
         <Route path="/coupons" element={<Coupons />} />
         <Route path="/products" element={<Product />} />
         <Route path="/orders" element={<Orders />} />
