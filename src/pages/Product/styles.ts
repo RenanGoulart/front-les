@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { TbVinyl } from "react-icons/tb";
+import { FaEdit } from "react-icons/fa";
 
 export const Container = styled.main`
   width: 100vw;
@@ -33,7 +34,7 @@ export const TableContainer = styled.div`
 
 export const TableRow = styled.div<{ isHeader?: boolean }>`
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: center;
 
   border-bottom: 1px solid black;
@@ -49,7 +50,13 @@ export const TableCell = styled.div`
 `;
 
 export const DetailsIcon = styled(TbVinyl)`
-  display: flex;
   font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.purple_1f};
+  cursor: pointer;
+`;
+
+export const StyledEditIcon = styled(FaEdit)`
+  font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.purple_1f};
   cursor: pointer;
 `;

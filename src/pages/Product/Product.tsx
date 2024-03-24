@@ -8,6 +8,7 @@ import {
   TableCell,
   Title,
   DetailsIcon,
+  StyledEditIcon,
 } from "./styles";
 import Button from "../../components/Button/Button";
 import SideBar from "../../components/SideBar/SideBar";
@@ -57,6 +58,9 @@ const Products = () => {
             <TableCell>Ten</TableCell>
             <TableCell>Pearl Jam</TableCell>
             <TableCell>200,00</TableCell>
+            <TableCell style={{ justifyContent: "flex-end" }}>
+              <StyledEditIcon onClick={openModal}/>
+            </TableCell>
             <TableCell style={{ justifyContent: "flex-end" }}>
               <DetailsIcon onClick={openDetails} />
             </TableCell>
