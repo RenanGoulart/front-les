@@ -1,44 +1,51 @@
 import styled from "styled-components";
 import { FaTrash, FaEdit, FaCheckCircle } from "react-icons/fa";
 
-export const Container = styled.section`
-  width: 90%;
+export const Container = styled.main`
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+`;
+
+export const Content = styled.section`
+  width: 85%;
+
+  padding: 2rem 8rem;
+`;
+
+export const TableHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0 12px;
+`;
+
+export const Title = styled.h1`
+  margin-bottom: 1rem;
+`;
+
+export const TableContainer = styled.div`
+  width: 100%;
 
   display: flex;
   flex-direction: column;
+`;
+
+export const TableRow = styled.div<{ isHeader?: boolean }>`
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: center;
-  gap: 5px;
 
-  padding: 24px;
+  border-bottom: 1px solid black;
+
+  font-weight: ${({ isHeader }) => (isHeader ? "bold" : "normal")};
 `;
 
-export const Row = styled.div`
-  width: 100%;
-
+export const TableCell = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 
-  margin: 24px 0;
-`;
-
-export const TableContainer = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-export const TableRow = styled.tr``;
-
-export const TableHeaderColumn = styled.th`
-  text-align: start;
-  padding-bottom: 10px;
-  border-bottom: 1px solid black;
-`;
-
-export const TableColumn = styled.td`
-  text-align: start;
-  border-bottom: 1px solid black;
-  padding-right: 0;
+  font-size: 1rem;
+  padding: 1rem;
 `;
 
 export const StyledEditIcon = styled(FaEdit)`
