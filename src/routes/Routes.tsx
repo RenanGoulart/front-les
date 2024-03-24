@@ -8,21 +8,24 @@ import Coupons from "../pages/Coupons/Coupons";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Product from "../pages/Product/Product";
 import AllOrders from "../pages/AllOrders/AllOrders";
+import Stock from "../pages/Stock/Stock";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<Navigate to="/" />} />
         <Route path="/" element={<Home />} />
         <Route path="/product" element={<ProductDetails />} />
+        <Route path="/profile" element={<Profile />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/coupons" element={<Coupons />} />
         <Route path="/products" element={<Product />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/allOrders" element={<AllOrders />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/stock" element={<Stock />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
