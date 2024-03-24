@@ -1,0 +1,156 @@
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import ModalCreateClient from "../../components/ModalCreateClient/ModalCreateClient";
+import {
+  Container,
+  TableRow,
+  TableContainer,
+  StyledCreditCardIcon,
+  StyledAddressIcon,
+  StyledEditIcon,
+  StyledDeleteIcon,
+  Content,
+  TableHeader,
+  Title,
+  TableCell,
+} from "./styles";
+import Button from "../../components/Button/Button";
+import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
+import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
+import { IUserResponse, deleteUser, listUsers } from "../../services/user";
+import { useClient } from "../../hooks/useClient";
+import SideBar from "../../components/SideBar/SideBar";
+
+export type FormType = "client" | "address" | "address2" | "creditCard" | null;
+
+const Client = () => {
+  const navigate = useNavigate();
+  const { setCurrentUserId } = useClient();
+
+  const [form, setForm] = useState<FormType>(null);
+  const [clients, setClients] = useState([] as IUserResponse[]);
+
+  const handleChangeForm = (formName: FormType) => {
+    setForm(formName);
+  };
+
+  const closeModal = () => {
+    setForm(null);
+  };
+
+  const navigateToList = (userId: string, page: "creditCard" | "address") => {
+    setCurrentUserId(userId);
+    navigate(page);
+  };
+
+  const getUsers = async () => {
+    const allUsers = await listUsers();
+    if (allUsers) {
+      setClients(allUsers);
+    }
+  };
+
+  const handleDeleteClient = async (clientId: string) => {
+    await deleteUser(clientId);
+    getUsers();
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  return (
+    <Container>
+      <SideBar />
+      <Content>
+        <TableHeader>
+          <Title>Clientes</Title>
+          <Button
+            onClick={() => {
+              setCurrentUserId("");
+              setForm("client");
+            }}
+          >
+            Adicionar Cliente
+          </Button>
+        </TableHeader>
+        <TableContainer>
+          <TableRow isHeader>
+            <TableCell>Nome</TableCell>
+            <TableCell>Data de Nascimento</TableCell>
+            <TableCell>CPF</TableCell>
+            <TableCell>E-mail</TableCell>
+            <TableCell>Telefone</TableCell>
+            <TableCell>Gênero</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Cartões</TableCell>
+            <TableCell>Endereços</TableCell>
+            <TableCell />
+            <TableCell />
+          </TableRow>
+          {clients.map((client) => (
+            <TableRow key={client.id}>
+              <TableCell>{client.name}</TableCell>
+              <TableCell>{format(client.birthDate, "dd/MM/yyyy")}</TableCell>
+              <TableCell>{client.cpf}</TableCell>
+              <TableCell>{client.email}</TableCell>
+              <TableCell>{`(${client.ddd}) ${client.phone}`}</TableCell>
+              <TableCell>{client.gender?.substring(0, 3) || "N/I"}</TableCell>
+              <TableCell>{client.status}</TableCell>
+              <TableCell>
+                <StyledCreditCardIcon
+                  onClick={() => navigateToList(client.id, "creditCard")}
+                />
+              </TableCell>
+              <TableCell>
+                <StyledAddressIcon
+                  onClick={() => navigateToList(client.id, "address")}
+                />
+              </TableCell>
+              <TableCell>
+                <StyledEditIcon
+                  onClick={() => {
+                    setCurrentUserId(client.id);
+                    setForm("client");
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <StyledDeleteIcon
+                  onClick={() => handleDeleteClient(client.id)}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableContainer>
+      </Content>
+
+      {form === "client" && (
+        <ModalCreateClient
+          changeForm={handleChangeForm}
+          closeModal={closeModal}
+        />
+      )}
+      {form === "address" && (
+        <ModalCreateAddress
+          formName="address"
+          changeForm={handleChangeForm}
+          closeModal={closeModal}
+        />
+      )}
+      {form === "address2" && (
+        <ModalCreateAddress
+          formName="address2"
+          changeForm={handleChangeForm}
+          closeModal={closeModal}
+        />
+      )}
+      {form === "creditCard" && (
+        <ModalCreateCreditCard closeModal={closeModal} />
+      )}
+    </Container>
+  );
+};
+
+export default Client;
