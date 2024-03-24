@@ -24,7 +24,7 @@ import {
   statusOptions,
 } from "../../data/createClientOptions";
 import Button from "../Button/Button";
-import { FormType } from "../Clients/Clients";
+import { FormType } from "../../pages/Client/Client";
 import { useClient } from "../../hooks/useClient";
 import { IUserResponse, findUserById, updateUser } from "../../services/user";
 

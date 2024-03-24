@@ -14,7 +14,7 @@ import {
   residenceTypeOptions,
   streetTypeOptions,
 } from "../../data/createClientOptions";
-import { FormType } from "../Clients/Clients";
+import { FormType } from "../../pages/Client/Client";
 import { IFormAddress, useClient } from "../../hooks/useClient";
 import {
   IAddressResponse,
@@ -32,7 +32,7 @@ interface DropdownOption {
 
 interface Props {
   formName?: FormType;
-  changeForm: (form: FormType) => void;
+  changeForm?: (form: FormType) => void;
   closeModal: () => void;
 }
 
@@ -102,9 +102,9 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
     }
 
     if (formName === "address") {
-      return changeForm("address2");
+      return changeForm?.("address2");
     }
-    changeForm("creditCard");
+    changeForm?.("creditCard");
   };
 
   const getCountries = async () => {

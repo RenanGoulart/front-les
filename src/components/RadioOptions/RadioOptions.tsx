@@ -20,12 +20,16 @@ interface IOption {
 
 type Props<TFieldValues extends FieldValues> = {
   options: IOption[];
+  containerStyle?: React.CSSProperties;
+  labelStyle?: React.CSSProperties;
 } & UseControllerProps<TFieldValues>;
 
 const RadioOptions = <TFieldValues extends FieldValues>({
   control,
   name,
   options,
+  containerStyle,
+  labelStyle,
 }: Props<TFieldValues>) => {
   const { field } = useController({
     control,
@@ -41,13 +45,13 @@ const RadioOptions = <TFieldValues extends FieldValues>({
   };
 
   return (
-    <Container>
+    <Container style={containerStyle}>
       {options.map((item) => (
         <RadioRow key={item.value} onClick={() => handleCheckOption(item)}>
           <RadioCircle>
             {item.value === field.value && <RadioCheck />}
           </RadioCircle>
-          <RadioLabel>{item.label}</RadioLabel>
+          <RadioLabel style={labelStyle}>{item.label}</RadioLabel>
         </RadioRow>
       ))}
     </Container>

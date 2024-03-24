@@ -31,11 +31,7 @@ export const TableContainer = styled.div`
   flex-direction: column;
 `;
 
-interface TableRowProps {
-  isHeader?: boolean;
-}
-
-export const TableRow = styled.div<TableRowProps>`
+export const TableRow = styled.div<{ isHeader?: boolean }>`
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   align-items: center;
@@ -52,10 +48,8 @@ export const TableCell = styled.div`
   padding: 1rem;
 `;
 
-
 export const DetailsIcon = styled(TbVinyl)`
   display: flex;
   font-size: 1.25rem;
   cursor: pointer;
 `;
-

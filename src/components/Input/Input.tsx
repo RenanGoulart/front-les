@@ -18,6 +18,7 @@ type Props<TFieldValues extends FieldValues> = {
   type?: string;
   mask?: string;
   containerStyle?: React.CSSProperties;
+  labelStyle?: React.CSSProperties;
   style?: React.CSSProperties;
 } & UseControllerProps<TFieldValues>;
 
@@ -29,6 +30,7 @@ const Input = <TFieldValues extends FieldValues>({
   type,
   mask,
   containerStyle,
+  labelStyle,
   style,
 }: Props<TFieldValues>) => {
   const {
@@ -40,7 +42,7 @@ const Input = <TFieldValues extends FieldValues>({
 
   return (
     <Container style={containerStyle}>
-      <Label>{label}</Label>
+      <Label style={labelStyle}>{label}</Label>
       {mask ? (
         <Controller
           control={control}
@@ -69,7 +71,7 @@ const Input = <TFieldValues extends FieldValues>({
           )}
         />
       )}
-      <ErrorMessage>{error?.message}</ErrorMessage>
+      {error && <ErrorMessage>{error.message}</ErrorMessage>}
     </Container>
   );
 };

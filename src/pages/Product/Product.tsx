@@ -34,7 +34,6 @@ const Products = () => {
     setDetails(false);
   };
 
-
   return (
     <Container>
       <SideBar />
@@ -58,8 +57,8 @@ const Products = () => {
             <TableCell>Ten</TableCell>
             <TableCell>Pearl Jam</TableCell>
             <TableCell>200,00</TableCell>
-            <TableCell style={{ justifyContent: "flex-end"}}>
-              <DetailsIcon onClick={openDetails}/>
+            <TableCell style={{ justifyContent: "flex-end" }}>
+              <DetailsIcon onClick={openDetails} />
             </TableCell>
           </TableRow>
         </TableContainer>
