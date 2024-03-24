@@ -13,6 +13,8 @@ import Checkout from "../pages/Checkout/Checkout";
 import CreditCard from "../pages/CreditCard/CreditCard";
 import Address from "../pages/Address/Address";
 import Client from "../pages/Client/Client";
+import UserAddresses from "../pages/UserAddresses/UserAddresses";
+import UserCreditCards from "../pages/UserCreditCards/UserCreditCards";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +25,8 @@ const AppRoutes = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/product" element={<ProductDetails />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/userAddresses" element={<UserAddresses />} />
+        <Route path="/userCreditCards" element={<UserCreditCards />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/client" element={<Client />} />

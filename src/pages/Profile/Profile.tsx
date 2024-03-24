@@ -32,15 +32,15 @@ const Profile = () => {
             <StyledShoppingBagIcon />
             Meus Pedidos
           </Button>
-          <Button isOutline onClick={() => {}}>
+          <Button isOutline onClick={() => navigate("/userAddresses")}>
             <StyledAddressIcon />
             Meus Endereços
           </Button>
-          <Button isOutline onClick={() => {}}>
+          <Button isOutline onClick={() => navigate("/userCreditCards")}>
             <StyledCreditCardIcon />
             Meus Cartões
           </Button>
-          <Button onClick={() => {}}>
+          <Button onClick={() => navigate("/")}>
             <StyledLogoutIcon />
             Sair
           </Button>
