@@ -63,11 +63,8 @@ export const StyledDeleteIcon = styled(FaTrash)`
 export const StyledCheckIcon = styled(FaCheckCircle)`
   width: 100%;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
   margin: 24px 0;
   font-size: 20px;
+
   color: ${({ theme }) => theme.colors.purple_1f};
 `;

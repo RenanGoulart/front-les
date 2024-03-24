@@ -33,7 +33,7 @@ export const TableContainer = styled.div`
 
 export const TableRow = styled.div<{ isHeader?: boolean }>`
   display: grid;
-  grid-template-columns: repeat(13, minmax(0, 1fr));
+  grid-template-columns: repeat(11, minmax(7rem, 1fr));
   align-items: center;
 
   border-bottom: 1px solid black;
@@ -63,11 +63,8 @@ export const StyledDeleteIcon = styled(FaTrash)`
 export const StyledCheckIcon = styled(FaCheckCircle)`
   width: 100%;
 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
   margin: 24px 0;
   font-size: 20px;
+
   color: ${({ theme }) => theme.colors.purple_1f};
 `;

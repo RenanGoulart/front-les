@@ -13,6 +13,7 @@ import {
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
+import Button from "../../components/Button/Button";
 
 const UserCreditCards = () => {
   const [isCardModalVisible, setIsCardModalVisible] = useState(false);
@@ -23,6 +24,10 @@ const UserCreditCards = () => {
       <NavBar />
       <Content>
         <Title>Meus Cartões de Crédito</Title>
+        <Button onClick={() => {setIsCardModalVisible(true)}}
+        >
+          Adicionar Cartão
+        </Button>
         <TableContainer>
           <TableRow isHeader>
             <TableCell>Titular do Cartão</TableCell>

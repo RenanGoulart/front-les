@@ -33,7 +33,7 @@ export const TableContainer = styled.div`
 
 export const TableRow = styled.div<{ isHeader?: boolean }>`
   display: grid;
-  grid-template-columns: repeat(11, minmax(0, 1fr));
+  grid-template-columns: repeat(9, minmax(9rem, 1fr));
   align-items: center;
 
   border-bottom: 1px solid black;
@@ -49,26 +49,14 @@ export const TableCell = styled.div`
 `;
 
 export const StyledCreditCardIcon = styled(FaRegCreditCard)`
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  margin: 24px 0;
+  margin: 0rem 1.8rem;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.purple_1f};
   cursor: pointer;
 `;
 
 export const StyledAddressIcon = styled(FaMapLocationDot)`
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  margin: 24px 0;
+  margin: 0rem 1.8rem;
   font-size: 20px;
   color: ${({ theme }) => theme.colors.purple_1f};
   cursor: pointer;

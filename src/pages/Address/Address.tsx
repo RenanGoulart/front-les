@@ -75,8 +75,8 @@ const Address = () => {
             <TableCell>CEP</TableCell>
             <TableCell>Rua</TableCell>
             <TableCell>Nº</TableCell>
-            <TableCell>Bairro</TableCell>
-            <TableCell>Cidade</TableCell>
+            {/* <TableCell>Bairro</TableCell> */}
+            {/* <TableCell>Cidade</TableCell> */}
             <TableCell>Estado</TableCell>
             <TableCell>País</TableCell>
             <TableCell>Tipo de Endereço</TableCell>
@@ -91,8 +91,8 @@ const Address = () => {
               <TableCell> {`${address.zipCode.substring(0, 5)}...`}</TableCell>
               <TableCell>{address.street}</TableCell>
               <TableCell>{address.number}</TableCell>
-              <TableCell>{address.district}</TableCell>
-              <TableCell>{address.city.name}</TableCell>
+              {/* <TableCell>{address.district}</TableCell> */}
+              {/* <TableCell>{address.city.name}</TableCell> */}
               <TableCell>{address.state.name}</TableCell>
               <TableCell>{address.country.name}</TableCell>
               <TableCell>{address.addressType}</TableCell>
@@ -102,7 +102,7 @@ const Address = () => {
                 {" "}
                 {address.isMain ? <StyledCheckIcon /> : null}
               </TableCell>
-              <TableCell>
+              <TableCell style={{justifyContent: 'flex-end'}}>
                 {" "}
                 <StyledEditIcon
                   onClick={() => {
