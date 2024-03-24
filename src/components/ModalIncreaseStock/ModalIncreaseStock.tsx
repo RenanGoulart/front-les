@@ -14,9 +14,14 @@ interface Props {
 }
 
 const ModalIncreaseStock = ({ closeModal } : Props) => {
-  const { control } = useForm<IncreaseStockForm>({
+  const { control, handleSubmit } = useForm<IncreaseStockForm>({
     resolver: yupResolver(IncreaseStockSchema),
   });
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    closeModal();
+  };
 
   return (
     <Background onClick={closeModal}>
@@ -40,9 +45,7 @@ const ModalIncreaseStock = ({ closeModal } : Props) => {
             containerStyle={styles.elementStyle}
           />
         </Row>
-          <Button style={styles.elementStyle} onClick={closeModal}>
-           Salvar
-          </Button>
+          <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
       </Container>
     </Background>
   );

@@ -56,7 +56,7 @@ export const DecreaseButton = styled.div`
   border-radius: 0.25rem;
 
   background-color: ${({ theme }) => theme.colors.red_fc};
-  color: #fff;
+  color: ${({ theme }) => theme.colors.white_ff};
 
   cursor: pointer;
 `;
@@ -66,7 +66,7 @@ export const IssueButton = styled.div`
   border-radius: 0.25rem;
 
   background-color: ${({ theme }) => theme.colors.green_56};
-  color: #fff;
+  color: ${({ theme }) => theme.colors.white_ff};
 
   cursor: pointer;
 `;

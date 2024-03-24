@@ -14,9 +14,14 @@ interface Props {
 }
 
 const ModalReduceStock = ({ closeModal } : Props) => {
-  const { control } = useForm<ReduceStockForm>({
+  const { control, handleSubmit } = useForm<ReduceStockForm>({
     resolver: yupResolver(ReduceStockSchema),
   });
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    closeModal();
+  };
 
   return (
     <Background onClick={closeModal}>
@@ -41,9 +46,7 @@ const ModalReduceStock = ({ closeModal } : Props) => {
             containerStyle={styles.elementStyle}
           />
         </Row>
-          <Button style={styles.elementStyle} onClick={closeModal}>
-           Salvar
-          </Button>
+          <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
       </Container>
     </Background>
   );

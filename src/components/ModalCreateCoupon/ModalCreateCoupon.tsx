@@ -14,9 +14,14 @@ interface Props {
 }
 
 const ModalCreateCoupon = ({ closeModal } : Props) => {
-  const { control } = useForm<CreateCouponForm>({
+  const { control, handleSubmit } = useForm<CreateCouponForm>({
     resolver: yupResolver(CreateCouponSchema),
   });
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    closeModal();
+  };
 
   return (
     <Background onClick={closeModal}>
@@ -57,9 +62,7 @@ const ModalCreateCoupon = ({ closeModal } : Props) => {
             placeholder="ex: 100,00"
             containerStyle={styles.elementStyle}
           />
-          <Button style={styles.elementStyle} onClick={closeModal}>
-           Salvar
-          </Button>
+          <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
         </Row>
       </Container>
     </Background>

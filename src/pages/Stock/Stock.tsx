@@ -46,7 +46,7 @@ const Stock = () => {
         </TableHeader>
         <TableContainer>
           <TableRow isHeader>
-            <TableCell>ID do Pedido</TableCell>
+            <TableCell>ID do Produto</TableCell>
             <TableCell>Produto</TableCell>
             <TableCell>Quantidade</TableCell>
             <TableCell>Valor</TableCell>
