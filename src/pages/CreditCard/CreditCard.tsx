@@ -65,7 +65,7 @@ const CreditCard = () => {
               setForm("creditCard");
             }}
           >
-            Adicionar Cartão de Crédito
+            Adicionar Cartão
           </Button>
         </TableHeader>
         <TableContainer>
@@ -85,7 +85,7 @@ const CreditCard = () => {
               <TableCell>{card.number}</TableCell>
               <TableCell>{card.cvv}</TableCell>
               <TableCell>{card.isMain ? <StyledCheckIcon /> : null}</TableCell>
-              <TableCell>
+              <TableCell style={{justifyContent: 'flex-end'}}>
                 <StyledEditIcon
                   onClick={() => {
                     setCurrentCreditCardId(card.id);

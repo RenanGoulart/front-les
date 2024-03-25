@@ -13,6 +13,7 @@ import {
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
+import Button from "../../components/Button/Button";
 
 const UserAddresses = () => {
   const [isAddressModalVisible, setIsAddressModalVisible] = useState(false);
@@ -23,6 +24,10 @@ const UserAddresses = () => {
       <NavBar />
       <Content>
         <Title>Meus Endereços</Title>
+        <Button onClick={() => {setIsAddressModalVisible(true)}}
+        >
+          Adicionar Endereço
+        </Button>
         <TableContainer>
           <TableRow isHeader>
             <TableCell>CEP</TableCell>

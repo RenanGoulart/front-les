@@ -9,8 +9,11 @@ import {
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
+import { useState } from "react";
+import UserOrderDetails from "../../components/UserOrderDetails/UserOrderDetails";
 
 const UserOrders = () => {
+  const [ orderDetails, setOrderDetails ] = useState(false);
   return (
     <Container>
       <Header />
@@ -25,15 +28,20 @@ const UserOrders = () => {
             <TableCell />
           </TableRow>
           <TableRow>
-            <TableCell>#444</TableCell>
+            <TableCell>#44</TableCell>
             <TableCell>02/02/2024</TableCell>
-            <TableCell>Pago</TableCell>
+            <TableCell>Entregue</TableCell>
             <TableCell style={{ justifyContent: "flex-end" }}>
-              <Button onClick={() => {}}>Ver Pedido</Button>
+              <Button onClick={() => setOrderDetails(true)}>Ver Pedido</Button>
             </TableCell>
           </TableRow>
         </TableContainer>
       </Content>
+      {orderDetails && (
+        <UserOrderDetails
+          closeModal={() => setOrderDetails(false)}
+        />
+      )}
     </Container>
   );
 };

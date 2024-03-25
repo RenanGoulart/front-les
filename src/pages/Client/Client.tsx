@@ -88,12 +88,12 @@ const Client = () => {
         <TableContainer>
           <TableRow isHeader>
             <TableCell>Nome</TableCell>
-            <TableCell>Data de Nascimento</TableCell>
+            <TableCell>Status</TableCell>
+            {/* <TableCell>Data de Nascimento</TableCell> */}
             <TableCell>CPF</TableCell>
-            <TableCell>E-mail</TableCell>
+            {/* <TableCell>E-mail</TableCell> */}
             <TableCell>Telefone</TableCell>
             <TableCell>Gênero</TableCell>
-            <TableCell>Status</TableCell>
             <TableCell>Cartões</TableCell>
             <TableCell>Endereços</TableCell>
             <TableCell />
@@ -102,12 +102,12 @@ const Client = () => {
           {clients.map((client) => (
             <TableRow key={client.id}>
               <TableCell>{client.name}</TableCell>
-              <TableCell>{format(client.birthDate, "dd/MM/yyyy")}</TableCell>
+              <TableCell>{client.status}</TableCell>
+              {/* <TableCell>{format(client.birthDate, "dd/MM/yyyy")}</TableCell> */}
               <TableCell>{client.cpf}</TableCell>
-              <TableCell>{client.email}</TableCell>
+              {/* <TableCell>{client.email}</TableCell> */}
               <TableCell>{`(${client.ddd}) ${client.phone}`}</TableCell>
               <TableCell>{client.gender?.substring(0, 3) || "N/I"}</TableCell>
-              <TableCell>{client.status}</TableCell>
               <TableCell>
                 <StyledCreditCardIcon
                   onClick={() => navigateToList(client.id, "creditCard")}
@@ -118,7 +118,7 @@ const Client = () => {
                   onClick={() => navigateToList(client.id, "address")}
                 />
               </TableCell>
-              <TableCell>
+              <TableCell style={{justifyContent: 'flex-end'}}>
                 <StyledEditIcon
                   onClick={() => {
                     setCurrentUserId(client.id);
