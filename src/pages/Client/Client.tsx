@@ -46,7 +46,7 @@ const Client = () => {
 
   const navigateToList = (userId: string, page: "creditCard" | "address") => {
     setCurrentUserId(userId);
-    navigate(page);
+    navigate(`/${page}`);
   };
 
   const getUsers = async () => {
