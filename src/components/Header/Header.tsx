@@ -4,12 +4,12 @@ import {
   Logo,
   NavigationItem,
   UserIcon,
-  SellIcon,
   IconsWrapper,
   AdminIcon,
 } from "./styles";
 import logo from "../../assets/img/logo.svg";
 import SearchBar from "../SearchBar/SearchBar";
+import CheckoutButton from "../CheckoutButton/CheckoutButton";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Header = () => {
       <SearchBar isSearchable />
       <IconsWrapper>
         <NavigationItem onClick={() => navigate("/checkout")}>
-          <SellIcon />
+          <CheckoutButton />
         </NavigationItem>
         <NavigationItem onClick={() => navigate("/profile")}>
           <UserIcon />
