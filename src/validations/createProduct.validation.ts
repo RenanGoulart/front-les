@@ -12,7 +12,8 @@ export const CreateProductSchema = Yup.object({
   width: Yup.string().required("Largura do Produto Obrigatória"),
   weight: Yup.string().required("Peso do Produto Obrigatório"),
   pricingGroup: Yup.string().required("Grupo de Precificação Obrigatório"),
-  barCode: Yup.string().required("Código de Barras Obrigatório"),
+  categories: Yup.string().required("Categoria Obrigatória"),
+  photo: Yup.string().required("Foto Obrigatória"),
   price: Yup.string().required("Preço Obrigatório"),
 });
 

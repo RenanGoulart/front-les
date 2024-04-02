@@ -9,8 +9,7 @@ import {
   CreateProductSchema,
 } from "../../validations/createProduct.validation";
 import Select from "../Select/Select";
-import { pricingGroupOptions } from "../../data/createProductOptions";
-
+import { categories, pricingGroupOptions } from "../../data/createProductOptions";
 interface Props {
   closeModal: () => void;
 }
@@ -93,19 +92,28 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
             <Row>
               <Input
                 control={control}
-                name="barCode"
-                label="Código de Barras"
-                placeholder="Ex: 9999999999999"
-                type="number"
-                mask="9999999999999"
-                containerStyle={styles.elementStyle}
+                name="photo"
+                label="Foto"
+                type="file"
+                containerStyle={{ width: "100%" }}
               />
+            </Row>
+            <Row style={{justifyContent: 'flex-end'}}>
               <Button onClick={() => setStep(2)}>Próximo</Button>
             </Row>
           </>
         )}
         {step === 2 && (
           <>
+            <Row>
+              <Select
+                control={control}
+                name="categories"
+                label="Categorias"
+                options={categories}
+                containerStyle={{ width: "100%" }}
+              />
+            </Row>
             <Row>
               <Select
                 control={control}
@@ -125,8 +133,10 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 containerStyle={{ width: "100%" }}
               />
             </Row>
-            <Button onClick={() => setStep(3)}>Próximo</Button>
-            <ReturnIcon onClick={() => setStep(1)}>Anterior</ReturnIcon>
+            <Row>
+              <ReturnIcon onClick={() => setStep(1)}>Anterior</ReturnIcon>
+              <Button onClick={() => setStep(3)}>Próximo</Button>
+            </Row>
           </>
         )}
         {step === 3 && (
@@ -141,8 +151,10 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 containerStyle={{ width: "100%" }}
               />
             </Row>
-            <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
-            <ReturnIcon onClick={() => setStep(2)}>Anterior</ReturnIcon>
+            <Row>
+              <ReturnIcon onClick={() => setStep(2)}>Anterior</ReturnIcon>
+              <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
+            </Row>
           </>
         )}
       </Container>
