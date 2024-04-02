@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Container,
   TableContainer,
@@ -16,38 +17,29 @@ import ModalCreateProduct from "../../components/ModalCreateProduct/ModalCreateP
 import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
+import { IProductListResponse, listProducts } from "../../services/product";
+interface Props {
+  closeModal: () => void;
+}
 
-const Products = () => {
+const Products = ({ closeModal }: Props) => {
   const [form, setForm] = useState(false);
   const [details, setDetails] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
+
+  const { data: products } = useQuery<IProductListResponse[]>({
+    queryKey: ["products"],
+    queryFn: () =>
+      listProducts() as Promise<IProductListResponse[]>,
+  });
 
   const handleCheck = () => {
     if (isActive) {
       setStatus(true);
     }
     setIsActive(!isActive);
-  };
-
-  const closeStatus = () => {
-    setStatus(false);
-  };
-
-  const openModal = () => {
-    setForm(true);
-  };
-
-  const closeModal = () => {
-    setForm(false);
-  };
-
-  const openDetails = () => {
-    setDetails(true);
-  };
-
-  const closeDetails = () => {
-    setDetails(false);
+    closeModal();
   };
 
   return (
@@ -56,11 +48,10 @@ const Products = () => {
       <Content>
         <TableHeader>
           <Title>Produtos</Title>
-          <Button onClick={openModal}>Adicionar Produto</Button>
+          <Button onClick={()=> setForm(true)}>Adicionar Produto</Button>
         </TableHeader>
         <TableContainer>
           <TableRow isHeader>
-            <TableCell>Código do Produto</TableCell>
             <TableCell>Categoria</TableCell>
             <TableCell>Álbum</TableCell>
             <TableCell>Artista</TableCell>
@@ -68,27 +59,28 @@ const Products = () => {
             <TableCell>Ativo/Inativo</TableCell>
             <TableCell />
           </TableRow>
-          <TableRow>
-            <TableCell>#441</TableCell>
-            <TableCell>Rock</TableCell>
-            <TableCell>Ten</TableCell>
-            <TableCell>Pearl Jam</TableCell>
-            <TableCell>200,00</TableCell>
-            <TableCell>
-              <Switch isChecked={isActive} onChange={handleCheck} />
-            </TableCell>
-            <TableCell style={{ justifyContent: "flex-end" }}>
-              <StyledEditIcon onClick={openModal}/>
-            </TableCell>
-            <TableCell style={{ justifyContent: "flex-end" }}>
-              <DetailsIcon onClick={openDetails} />
-            </TableCell>
-          </TableRow>
+          {products?.map(product => (
+            <TableRow key={product.id}>
+              <TableCell>{product.categories}</TableCell>
+              <TableCell>{product.album}</TableCell>
+              <TableCell>{product.artist}</TableCell>
+              <TableCell>{product.price}</TableCell>
+              <TableCell>
+                <Switch isChecked={isActive} onChange={handleCheck} />
+              </TableCell>
+              <TableCell style={{ justifyContent: "flex-end" }}>
+                <StyledEditIcon onClick={()=> setForm(true)}/>
+              </TableCell>
+              <TableCell style={{ justifyContent: "flex-end" }}>
+                <DetailsIcon onClick={()=> setDetails(true)} />
+              </TableCell>
+            </TableRow>
+          ))}
         </TableContainer>
       </Content>
-      {status && <ModalChangeProductStatus closeModal={closeStatus} />}
-      {form && <ModalCreateProduct closeModal={closeModal} />}
-      {details && <ProductDetails closeModal={closeDetails} />}
+      {status && <ModalChangeProductStatus closeModal={()=> setStatus(false)} />}
+      {form && <ModalCreateProduct closeModal={()=> setForm(false)} />}
+      {details && <ProductDetails closeModal={()=> setDetails(false)} />}
     </Container>
   );
 };
