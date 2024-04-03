@@ -5,16 +5,31 @@ import {
   Row,
 } from './styles'
 import Button from '../Button/Button'
-import Select from '../Select/Select';
 import { statusOptions } from '../../data/createOrderOptions';
-import { useForm } from 'react-hook-form';
-
+import { useState } from 'react';
+import Select from 'react-select';
+interface DropdownOption {
+  value: string;
+  label: string;
+}
 interface Props {
   closeModal: () => void;
 }
 
 const OrderDetails= ({ closeModal } : Props) => {
-  const { control } = useForm();
+    const [selectedOption, setSelectedOption] = useState<DropdownOption | null >(null);
+    const [statusLabel, setStatusLabel] = useState<string>('Em Processamento');
+
+    const handleSelect = (selectedItem: DropdownOption) => {
+      setSelectedOption(selectedItem);
+    };
+
+    const handleUpdate = () => {
+      if (selectedOption) {
+        setStatusLabel(selectedOption.label);
+        console.log(selectedOption);
+      }
+    };
 
     return (
        <Background onClick={closeModal}>
@@ -22,7 +37,7 @@ const OrderDetails= ({ closeModal } : Props) => {
           <h1>Detalhes do Pedido</h1>
           <Row>
             <Label isTitle>Status: </Label>
-            <Label isStatus>Em Processamento</Label>
+            <Label isStatus>{statusLabel}</Label>
           </Row>
           <h4>Informações do Pedido</h4>
           <hr/>
@@ -38,16 +53,13 @@ const OrderDetails= ({ closeModal } : Props) => {
             <Label isTitle>Data: </Label>
             <Label>02/02/2024</Label>
           </Row>
-          <Row>
+            <Label isTitle>Atualizar Status do Pedido:</Label>
             <Select
-              control={control}
-              name="status"
-              label="Atualizar Status do Pedido"
               options={statusOptions}
-              containerStyle={{ width: '100%' }}
+              placeholder='Selecione o status'
+              onChange={(selectedItem) => handleSelect(selectedItem as DropdownOption)}
             />
-          </Row>
-          <Button style={{ justifyContent: 'flex-end' }}>
+          <Button style={{ justifyContent: 'flex-end' }} onClick={handleUpdate}>
               Atualizar
           </Button>
         </Container>

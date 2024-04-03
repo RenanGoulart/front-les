@@ -4,7 +4,7 @@ export const pricingGroupOptions = [
   { value: "EDICAO_NORMAL", label: "Edição Normal" },
 ];
 
-export const categories = [
+export const categoriesOptions = [
   { value: "ROCK", label: "Rock" },
   { value: "POP", label: "Pop" },
   { value: "HIP_HOP", label: "Hip-Hop" },

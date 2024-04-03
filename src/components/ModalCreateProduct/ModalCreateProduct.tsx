@@ -9,7 +9,7 @@ import {
   CreateProductSchema,
 } from "../../validations/createProduct.validation";
 import Select from "../Select/Select";
-import { categories, pricingGroupOptions } from "../../data/createProductOptions";
+import { categoriesOptions, pricingGroupOptions } from "../../data/createProductOptions";
 interface Props {
   closeModal: () => void;
 }
@@ -110,7 +110,7 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 control={control}
                 name="categories"
                 label="Categorias"
-                options={categories}
+                options={categoriesOptions}
                 containerStyle={{ width: "100%" }}
               />
             </Row>
