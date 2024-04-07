@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import {
   Container,
   Content,
@@ -37,7 +36,6 @@ import {
 } from "../../validations/checkout.validation";
 import { ICoupon, useCart } from "../../hooks/useCart";
 import { formatCurrency } from "../../utils/format";
-import OrderCompleted from "../OrderCompleted/OrderCompleted";
 
 const ADDRESSES = [
   {
@@ -84,7 +82,6 @@ const Checkout = () => {
 
   const calculateTotal = () =>
     cart.total + user.freight - user.credits - (coupon?.discount || 0);
-  const navigate = useNavigate();
 
   return (
     <Container>
