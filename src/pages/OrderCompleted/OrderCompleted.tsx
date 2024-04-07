@@ -1,0 +1,27 @@
+import { useNavigate } from "react-router-dom";
+import { Container, Content, Logo } from "./styles";
+import Header from "../../components/Header/Header";
+import NavBar from "../../components/NavBar/NavBar";
+import Button from "../../components/Button/Button";
+import { Footer } from "../../components/Footer/Footer";
+import logo from "../../assets/img/logo.svg";
+
+const OrderCompleted = () => {
+  const navigate = useNavigate();
+  return(
+    <Container>
+      <Header />
+      <NavBar />
+      <Content>
+        <Logo src={logo}></Logo>
+        <h1>Pedido Efetuado!</h1>
+        <p>Obrigado por fazer o seu pedido conosco.</p>
+        <h3>ID do pedido: #341</h3>
+        <Button onClick={() => navigate("/orders")} style={{ marginTop: "20px" }}>Ver Meus Pedidos</Button>
+      </Content>
+      <Footer />
+    </Container>
+  );
+};
+
+export default OrderCompleted;

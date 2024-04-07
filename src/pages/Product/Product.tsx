@@ -18,15 +18,17 @@ import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
 import { IProductListResponse, listProducts } from "../../services/product";
-interface Props {
-  closeModal: () => void;
-}
 
-const Products = ({ closeModal }: Props) => {
+
+const Products = () => {
   const [form, setForm] = useState(false);
   const [details, setDetails] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
+
+  const closeModal = () => {
+    setForm(false);
+  };
 
   const { data: products } = useQuery<IProductListResponse[]>({
     queryKey: ["products"],

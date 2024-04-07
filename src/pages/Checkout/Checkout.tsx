@@ -34,6 +34,8 @@ import {
   CheckoutForm,
   CheckoutSchema,
 } from "../../validations/checkout.validation";
+import OrderCompleted from "../OrderCompleted/OrderCompleted";
+import { useNavigate } from "react-router-dom";
 
 const ADDRESSES = [
   {
@@ -66,6 +68,7 @@ const Checkout = () => {
 
   const [isVisibleAddressModal, setIsVisibleAddressModal] = useState(false);
   const [isVisibleCardModal, setIsVisibleCardModal] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -144,7 +147,7 @@ const Checkout = () => {
             <TotalText>Total</TotalText>
             <TotalText isBold>R$ 216,00</TotalText>
           </Row>
-          <Button style={styles.buttonStyle}>Finalizar Pagamento</Button>
+          <Button style={styles.buttonStyle} onClick={() => navigate("/orderCompleted")}>Finalizar Pagamento</Button>
         </CartContainer>
       </Content>
       <Footer />
