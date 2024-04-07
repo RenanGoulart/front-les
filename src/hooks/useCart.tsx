@@ -44,6 +44,8 @@ interface ICartProvider {
 
   coupons: ICoupon[];
   handleApplyCoupon: (code: string) => ICoupon | null;
+
+  handleCloseCart: () => void;
 }
 
 const CartContext = createContext({} as ICartProvider);
@@ -177,8 +179,17 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     if (coupon) {
       return coupon;
     }
+
     window.alert("Cupom inválido");
     return null;
+  };
+
+  const handleCloseCart = () => {
+    setCart({
+      total: 0,
+      cartItems: [],
+    });
+    localStorage.removeItem("@cart");
   };
 
   return (
@@ -195,6 +206,8 @@ const CartProvider = ({ children }: PropsWithChildren) => {
 
         coupons,
         handleApplyCoupon,
+
+        handleCloseCart,
       }}
     >
       {children}

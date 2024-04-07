@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 import {
   Container,
   Content,
@@ -53,11 +54,19 @@ const CARDS = [
     label: "Elo - Final 4444",
     value: "0",
   },
+  {
+    label: "Visa - Final 4237",
+    value: "1",
+  },
+  {
+    label: "Mastercard - Final 7563",
+    value: "2",
+  },
 ];
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, user, handleApplyCoupon } = useCart();
+  const { cart, user, handleApplyCoupon, handleCloseCart } = useCart();
 
   const [coupon, setCoupon] = useState<ICoupon | null>(null);
   const [isVisibleAddressModal, setIsVisibleAddressModal] = useState(false);
@@ -111,12 +120,41 @@ const Checkout = () => {
                 </IconWrapper>
               </OptionsSubtitle>
               <Text style={{ marginBottom: ".5rem" }}>Cartão de crédito</Text>
-              <RadioOptions
-                control={control}
-                name="card"
+              <Select
                 options={CARDS}
-                containerStyle={{ marginBottom: "1rem" }}
-                labelStyle={styles.radioLabelStyle}
+                isMulti
+                placeholder="Selecione um ou mais cartões"
+                noOptionsMessage={() => "Nenhum cartão encontrado"}
+                styles={{
+                  control(base) {
+                    return {
+                      ...base,
+                      minHeight: 50,
+                      paddingTop: "0.5rem",
+                      paddingBottom: "0.5rem",
+                      fontSize: "1rem",
+                      borderRadius: "0.5rem",
+                      borderColor: theme.colors.purple_1f,
+                      boxShadow: "none",
+                      "&:hover": {
+                        borderColor: theme.colors.purple_1f,
+                      },
+                    };
+                  },
+                  option(base, state) {
+                    return {
+                      ...base,
+                      backgroundColor: state.isSelected
+                        ? theme.colors.purple_1f
+                        : "white",
+                      color: state.isSelected ? "white" : "black",
+                      "&:hover": {
+                        backgroundColor: theme.colors.purple_48,
+                        color: "white",
+                      },
+                    };
+                  },
+                }}
               />
               <InputWrapper style={{ marginTop: "auto" }}>
                 <Input
@@ -162,7 +200,10 @@ const Checkout = () => {
               </Row>
               <Button
                 style={styles.buttonStyle}
-                onClick={() => navigate("/orderCompleted")}
+                onClick={() => {
+                  handleCloseCart();
+                  navigate("/orderCompleted");
+                }}
               >
                 Finalizar Pagamento
               </Button>

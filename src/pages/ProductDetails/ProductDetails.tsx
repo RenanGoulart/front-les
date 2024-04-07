@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   ButtonsRow,
@@ -33,6 +33,7 @@ import { useCart } from "../../hooks/useCart";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { handleAddToCart } = useCart();
   const product = productsList.find((item) => item.id === Number(id));
 
@@ -92,7 +93,15 @@ const ProductDetails = () => {
           </TextWrapper>
           <ButtonsRow>
             <ButtonsColumn>
-              <Button isOutlined>Compra Agora</Button>
+              <Button
+                isOutlined
+                onClick={() => {
+                  handleAddToCart(product as IProduct);
+                  navigate("/checkout");
+                }}
+              >
+                Compra Agora
+              </Button>
               <Button onClick={() => handleAddToCart(product as IProduct)}>
                 Adicionar ao Carrinho
               </Button>

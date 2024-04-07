@@ -11,7 +11,7 @@ export const Content = styled.section`
   width: 100%;
   height: 80vh;
 
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;

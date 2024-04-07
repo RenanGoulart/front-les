@@ -1,11 +1,10 @@
-import { SetStateAction } from "react";
 import { Container, SearchContainer, SearchIcon, SearchInput } from "./styles";
 import searchIcon from "../../assets/icons/search.svg";
 
 interface SearchBarProps {
   isSearchable?: boolean;
-  search?: string;
-  setSearch?: React.Dispatch<SetStateAction<string>>;
+  search: string;
+  setSearch: (search: string) => void;
 }
 
 const SearchBar = ({ isSearchable, search, setSearch }: SearchBarProps) => {

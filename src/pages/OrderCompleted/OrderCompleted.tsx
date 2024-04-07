@@ -8,16 +8,21 @@ import logo from "../../assets/img/logo.svg";
 
 const OrderCompleted = () => {
   const navigate = useNavigate();
-  return(
+  return (
     <Container>
       <Header />
       <NavBar />
       <Content>
-        <Logo src={logo}></Logo>
+        <Logo src={logo} />
         <h1>Pedido Efetuado!</h1>
         <p>Obrigado por fazer o seu pedido conosco.</p>
         <h3>ID do pedido: #341</h3>
-        <Button onClick={() => navigate("/orders")} style={{ marginTop: "20px" }}>Ver Meus Pedidos</Button>
+        <Button
+          onClick={() => navigate("/orders")}
+          style={{ marginTop: "20px" }}
+        >
+          Ver Meus Pedidos
+        </Button>
       </Content>
       <Footer />
     </Container>

@@ -25,10 +25,6 @@ const Products = () => {
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
 
-  const closeModal = () => {
-    setForm(false);
-  };
-
   const { data: products } = useQuery<IProductListResponse[]>({
     queryKey: ["products"],
     queryFn: () => listProducts() as Promise<IProductListResponse[]>,

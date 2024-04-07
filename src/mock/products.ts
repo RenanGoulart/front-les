@@ -24,7 +24,7 @@ export interface IProduct {
   tracks: ITrack[];
 }
 
-const productsList = [
+export const productsList = [
   {
     id: 1,
     album: "Flower Boy",
@@ -214,5 +214,3 @@ const productsList = [
     ],
   },
 ];
-
-export { productsList };

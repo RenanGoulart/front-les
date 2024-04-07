@@ -19,7 +19,7 @@ export const ContainerGrid = styled.div`
   justify-items: center;
   row-gap: 4rem;
 
-  margin-top: 2rem;
+  margin: 2rem 0;
 `;
 
 export const SelectFilter = styled.select`

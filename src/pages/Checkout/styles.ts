@@ -23,18 +23,17 @@ export const Title = styled.h1`
 
 export const EmptyContainer = styled.div`
   width: 100%;
+  min-height: 500px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  height: 100%;
 `;
 
 export const OptionsContainer = styled.div`
   width: 48%;
-  max-height: 550px;
+  max-height: 600px;
 
   display: flex;
   flex-direction: column;

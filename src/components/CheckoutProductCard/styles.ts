@@ -14,8 +14,8 @@ export const Container = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 190px;
-  height: 160px;
+  width: 180px;
+  aspect-ratio: 1;
 
   object-fit: cover;
 `;
@@ -83,4 +83,6 @@ export const TrashIcon = styled(TbTrash)`
 
   font-size: 2rem;
   color: ${({ theme }) => theme.colors.black_00};
+
+  cursor: pointer;
 `;
