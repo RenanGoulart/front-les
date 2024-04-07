@@ -5,19 +5,31 @@ import {
   Row,
 } from './styles'
 import Button from '../Button/Button'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   closeModal: () => void;
 }
 
 const UserOrderDetails= ({ closeModal } : Props) => {
+  const [isExchangeRequested, setIsExchangeRequested] = useState(false);
+  const [status, setStatus] = useState('Entregue');
+
+  const navigate = useNavigate();
+
+  const handleRequestExchange = () => {
+    setIsExchangeRequested(true);
+    setStatus('Em troca')
+  }
+
     return (
        <Background onClick={closeModal}>
         <Container onClick={(e) => e.stopPropagation()}>
           <h1>Detalhes do Pedido</h1>
           <Row>
             <Label isTitle>Status: </Label>
-            <Label isStatus>Entregue</Label>
+            <Label isStatus>{status}</Label>
           </Row>
           <h4>Informações do Pedido</h4>
           <hr/>
@@ -33,7 +45,15 @@ const UserOrderDetails= ({ closeModal } : Props) => {
             <Label isTitle>Data: </Label>
             <Label>02/02/2024</Label>
           </Row>
-            <Button onClick={closeModal}>Solicitar Troca</Button>
+            {!isExchangeRequested ? (
+              <Button onClick={handleRequestExchange}>Solicitar Troca</Button>
+            ) : (
+              <>
+                <h4 style={{alignSelf:'center'}}>Troca solicitada!</h4>
+                <p style={{alignSelf:'center'}}>Aguarde a notificação de autorização da troca!</p>
+                <Button onClick={()=>navigate('/home')}>Voltar</Button>
+              </>
+            )}
         </Container>
        </Background>
     )
