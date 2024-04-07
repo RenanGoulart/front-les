@@ -102,7 +102,7 @@ const Address = () => {
                 {" "}
                 {address.isMain ? <StyledCheckIcon /> : null}
               </TableCell>
-              <TableCell style={{justifyContent: 'flex-end'}}>
+              <TableCell style={{ justifyContent: "flex-end" }}>
                 {" "}
                 <StyledEditIcon
                   onClick={() => {

@@ -1,16 +1,15 @@
- import {
-   CartQuantity,
-   SellIcon,
-   Container,
- } from "./styles";
+import { useCart } from "../../hooks/useCart";
+import { CartQuantity, SellIcon, Container } from "./styles";
 
- const CheckoutButton = () => {
-    return (
-      <Container>
-        <SellIcon />
-          <CartQuantity>2</CartQuantity>
-      </Container>
-    );
-  }
+const CheckoutButton = () => {
+  const { quantityOfProducts } = useCart();
 
-  export default CheckoutButton;
+  return (
+    <Container>
+      <SellIcon />
+      <CartQuantity>{quantityOfProducts}</CartQuantity>
+    </Container>
+  );
+};
+
+export default CheckoutButton;

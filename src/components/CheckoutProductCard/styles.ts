@@ -9,7 +9,7 @@ export const Container = styled.div`
 
   padding: 1.25rem;
 
-  border: 2px solid ${({ theme }) => theme.colors.purple_1f};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.purple_1f};
   border-radius: 0.5rem;
 `;
 
@@ -31,6 +31,7 @@ export const Content = styled.div`
 `;
 
 export const Text = styled.span<{ isBold?: boolean }>`
+  max-width: 90%;
   font-size: 1.5rem;
   font-weight: ${({ isBold }) => (isBold ? "bold" : "normal")};
 `;
@@ -78,7 +79,7 @@ export const MinusIcon = styled(TbMinus)`
 
 export const TrashIcon = styled(TbTrash)`
   position: absolute;
-  right: 0;
+  right: -10px;
 
   font-size: 2rem;
   color: ${({ theme }) => theme.colors.black_00};

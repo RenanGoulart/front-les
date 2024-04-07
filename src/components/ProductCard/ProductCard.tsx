@@ -5,20 +5,32 @@ import {
   Button,
   Container,
   Image,
+  Pressable,
   Price,
 } from "./styles";
-import photoProduct from "../../assets/img/photo-product.png";
+import { IProduct } from "../../mock/products";
+import { formatCurrency } from "../../utils/format";
+import { useCart } from "../../hooks/useCart";
 
-export const ProductCard = () => {
+interface Props {
+  data: IProduct;
+}
+
+export const ProductCard = ({ data }: Props) => {
   const navigate = useNavigate();
+  const { handleAddToCart } = useCart();
 
   return (
-    <Container onClick={() => navigate("/product")}>
-      <Image src={photoProduct} alt="Capa Album" />
-      <AlbumName>Flower Boy</AlbumName>
-      <ArtistName>Tyler The Creator</ArtistName>
-      <Price>R$ 259,90</Price>
-      <Button>Adicionar ao carrinho</Button>
+    <Container>
+      <Pressable onClick={() => navigate(`/product/${data.id}`)}>
+        <Image src={data.image} alt="Capa Album" />
+        <AlbumName>{data.album}</AlbumName>
+        <ArtistName>{data.artist}</ArtistName>
+        <Price>{formatCurrency(data.price)}</Price>
+      </Pressable>
+      <Button onClick={() => handleAddToCart(data)}>
+        Adicionar ao carrinho
+      </Button>
     </Container>
   );
 };

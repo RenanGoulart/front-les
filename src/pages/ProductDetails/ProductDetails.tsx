@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { useParams } from "react-router-dom";
 import {
   Button,
   ButtonsRow,
@@ -25,30 +26,76 @@ import {
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import { Footer } from "../../components/Footer/Footer";
-import photoProduct from "../../assets/img/photo-product.png";
 import brain from "../../assets/icons/brain.svg";
+import { IProduct, ITrack, productsList } from "../../mock/products";
+import { formatCurrency } from "../../utils/format";
+import { useCart } from "../../hooks/useCart";
 
 const ProductDetails = () => {
+  const { id } = useParams();
+  const { handleAddToCart } = useCart();
+  const product = productsList.find((item) => item.id === Number(id));
+
+  const renderTracks = (tracks: ITrack[]) => {
+    if (tracks.length < 12) {
+      return (
+        <TrackList>
+          {product?.tracks.map((track) => (
+            <TrackText
+              key={track.id}
+            >{`${track.id}. ${track.name} (${track.duration})`}</TrackText>
+          ))}
+        </TrackList>
+      );
+    }
+
+    const mid = Math.floor(tracks.length / 2);
+    return (
+      <>
+        <TrackList>
+          {product?.tracks
+            .slice(0, mid)
+            .map((track) => (
+              <TrackText
+                key={track.id}
+              >{`${track.id}. ${track.name} (${track.duration})`}</TrackText>
+            ))}
+        </TrackList>
+        <TrackList>
+          {product?.tracks
+            .slice(-mid)
+            .map((track) => (
+              <TrackText
+                key={track.id}
+              >{`${track.id}. ${track.name} (${track.duration})`}</TrackText>
+            ))}
+        </TrackList>
+      </>
+    );
+  };
+
   return (
     <Container>
       <Header />
       <NavBar />
       <Content>
         <ImageWrapper>
-          <ProductImage src={photoProduct} />
+          <ProductImage src={product?.image} />
         </ImageWrapper>
         <DetailsWrapper>
           <TextWrapper>
-            <ProductText isBold>Flower Boy</ProductText>
-            <ProductText>Tyler The Creator</ProductText>
+            <ProductText isBold>{product?.album}</ProductText>
+            <ProductText>{product?.artist}</ProductText>
             <ProductText isBold style={{ marginTop: "1rem" }}>
-              R$ 100,00
+              {formatCurrency(product?.price as number)}
             </ProductText>
           </TextWrapper>
           <ButtonsRow>
             <ButtonsColumn>
               <Button isOutlined>Compra Agora</Button>
-              <Button>Adicionar ao Carrinho</Button>
+              <Button onClick={() => handleAddToCart(product as IProduct)}>
+                Adicionar ao Carrinho
+              </Button>
             </ButtonsColumn>
             <IaButton>
               <IaIcon src={brain} />
@@ -60,51 +107,32 @@ const ProductDetails = () => {
       <ContainerTable>
         <TableRow>
           <TableCell isPurple>Nome do Artista</TableCell>
-          <TableCell>Tyler The Creator</TableCell>
+          <TableCell>{product?.artist}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Gênero</TableCell>
-          <TableCell>Hip-Hop</TableCell>
+          <TableCell>{product?.genre}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Ano</TableCell>
-          <TableCell>2017</TableCell>
+          <TableCell>{product?.year}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Dimensões</TableCell>
-          <TableCell>318 × 318 × 6 mm - 499 g</TableCell>
+          <TableCell>{product?.dimensions}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Gravadora</TableCell>
-          <TableCell>COLUMBIA</TableCell>
+          <TableCell>{product?.recordCompany}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Número de faixas</TableCell>
-          <TableCell>14</TableCell>
+          <TableCell>{product?.numberOfTracks}</TableCell>
         </TableRow>
       </ContainerTable>
       <TrackContainer>
         <TracksTitle>Faixas</TracksTitle>
-        <TrackRow>
-          <TrackList>
-            <TrackText>1. Foreword (3:13)</TrackText>
-            <TrackText>2. Where This Flower Blooms (3:14)</TrackText>
-            <TrackText>3. Sometimes... (0:36)</TrackText>
-            <TrackText>4. See You Again (3:00)</TrackText>
-            <TrackText>5. Who Dat Boy (3:24)</TrackText>
-            <TrackText>6. Pothole (3:56)</TrackText>
-            <TrackText>7. Garden Shed (3:43)</TrackText>
-          </TrackList>
-          <TrackList>
-            <TrackText>1. Boredom (5:20)</TrackText>
-            <TrackText>2. I Ain't Got Time! (3:26)</TrackText>
-            <TrackText>3. 911 / Mr. Lonely (4:15)</TrackText>
-            <TrackText>4. Droppin' Seeds (1:00)</TrackText>
-            <TrackText>5. November (3:45)</TrackText>
-            <TrackText>6. Glitter (3:44)</TrackText>
-            <TrackText>7. Enjoy Right Now, Today (3:55)</TrackText>
-          </TrackList>
-        </TrackRow>
+        <TrackRow>{renderTracks(product?.tracks as ITrack[])}</TrackRow>
       </TrackContainer>
       <Footer />
     </Container>

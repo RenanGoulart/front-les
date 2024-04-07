@@ -7,4 +7,7 @@ declare module "styled-components" {
   export interface DefaultTheme extends ThemeType {}
 }
 
+declare module "*.png";
+declare module "*.jpg";
+
 declare module "*.ttf";

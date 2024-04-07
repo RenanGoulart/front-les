@@ -6,6 +6,7 @@ import AppRoutes from "./routes/Routes";
 import { theme } from "./styles/theme";
 import GlobalStyle from "./styles/global";
 import ClientProvider from "./hooks/useClient";
+import CartProvider from "./hooks/useCart";
 
 const queryClient = new QueryClient();
 
@@ -13,10 +14,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ClientProvider>
-        <ThemeProvider theme={theme}>
-          <AppRoutes />
-          <GlobalStyle />
-        </ThemeProvider>
+        <CartProvider>
+          <ThemeProvider theme={theme}>
+            <AppRoutes />
+            <GlobalStyle />
+          </ThemeProvider>
+        </CartProvider>
       </ClientProvider>
     </QueryClientProvider>
   </React.StrictMode>,

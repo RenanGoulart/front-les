@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Container,
@@ -18,11 +18,8 @@ import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
 import { IProductListResponse, listProducts } from "../../services/product";
-interface Props {
-  closeModal: () => void;
-}
 
-const Products = ({ closeModal }: Props) => {
+const Products = () => {
   const [form, setForm] = useState(false);
   const [details, setDetails] = useState(false);
   const [isActive, setIsActive] = useState(true);
@@ -30,8 +27,7 @@ const Products = ({ closeModal }: Props) => {
 
   const { data: products } = useQuery<IProductListResponse[]>({
     queryKey: ["products"],
-    queryFn: () =>
-      listProducts() as Promise<IProductListResponse[]>,
+    queryFn: () => listProducts() as Promise<IProductListResponse[]>,
   });
 
   const handleCheck = () => {
@@ -39,7 +35,7 @@ const Products = ({ closeModal }: Props) => {
       setStatus(true);
     }
     setIsActive(!isActive);
-    closeModal();
+    setStatus(false);
   };
 
   return (
@@ -48,7 +44,7 @@ const Products = ({ closeModal }: Props) => {
       <Content>
         <TableHeader>
           <Title>Produtos</Title>
-          <Button onClick={()=> setForm(true)}>Adicionar Produto</Button>
+          <Button onClick={() => setForm(true)}>Adicionar Produto</Button>
         </TableHeader>
         <TableContainer>
           <TableRow isHeader>
@@ -59,7 +55,7 @@ const Products = ({ closeModal }: Props) => {
             <TableCell>Ativo/Inativo</TableCell>
             <TableCell />
           </TableRow>
-          {products?.map(product => (
+          {products?.map((product) => (
             <TableRow key={product.id}>
               <TableCell>{product.categories}</TableCell>
               <TableCell>{product.album}</TableCell>
@@ -69,18 +65,20 @@ const Products = ({ closeModal }: Props) => {
                 <Switch isChecked={isActive} onChange={handleCheck} />
               </TableCell>
               <TableCell style={{ justifyContent: "flex-end" }}>
-                <StyledEditIcon onClick={()=> setForm(true)}/>
+                <StyledEditIcon onClick={() => setForm(true)} />
               </TableCell>
               <TableCell style={{ justifyContent: "flex-end" }}>
-                <DetailsIcon onClick={()=> setDetails(true)} />
+                <DetailsIcon onClick={() => setDetails(true)} />
               </TableCell>
             </TableRow>
           ))}
         </TableContainer>
       </Content>
-      {status && <ModalChangeProductStatus closeModal={()=> setStatus(false)} />}
-      {form && <ModalCreateProduct closeModal={()=> setForm(false)} />}
-      {details && <ProductDetails closeModal={()=> setDetails(false)} />}
+      {status && (
+        <ModalChangeProductStatus closeModal={() => setStatus(false)} />
+      )}
+      {form && <ModalCreateProduct closeModal={() => setForm(false)} />}
+      {details && <ProductDetails closeModal={() => setDetails(false)} />}
     </Container>
   );
 };

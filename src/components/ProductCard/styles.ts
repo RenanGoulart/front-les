@@ -5,11 +5,16 @@ export const Container = styled.div`
 
   display: flex;
   flex-direction: column;
+`;
+
+export const Pressable = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   align-items: center;
   gap: 0.25rem;
 
-  padding-bottom: 1rem;
-  margin-top: 2rem;
+  padding-bottom: 2rem;
 
   cursor: pointer;
 `;
@@ -22,11 +27,13 @@ export const Image = styled.img`
 export const AlbumName = styled.h2`
   font-size: 2rem;
   font-weight: 400;
+  text-align: center;
 `;
 
 export const ArtistName = styled.h3`
   font-size: 1.25rem;
   font-weight: 400;
+  text-align: center;
 `;
 
 export const Price = styled.span`
@@ -39,7 +46,7 @@ export const Button = styled.button`
   height: auto;
 
   padding: 0.75rem;
-  margin-top: 1rem;
+  margin-top: auto;
 
   font-size: 1rem;
   font-weight: 600;

@@ -21,8 +21,20 @@ export const Title = styled.h1`
   margin: 6rem 6rem 2rem;
 `;
 
+export const EmptyContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+`;
+
 export const OptionsContainer = styled.div`
   width: 48%;
+  max-height: 550px;
 
   display: flex;
   flex-direction: column;
@@ -82,12 +94,6 @@ export const ApplyButton = styled.button`
   background-color: ${({ theme }) => theme.colors.purple_80 + 50};
 
   cursor: pointer;
-`;
-
-export const SubLabel = styled.span`
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: ${({ theme }) => theme.colors.purple_1f};
 `;
 
 export const CartContainer = styled.div`

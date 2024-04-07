@@ -1,9 +1,6 @@
+import { productsList } from "../../mock/products";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { Container, ContainerGrid, SelectFilter } from "./styles";
-
-const PRODUCTS = Array.from({ length: 10 }, (_, index) => ({
-  id: index,
-}));
 
 export const ProductsGrid = () => {
   return (
@@ -16,8 +13,8 @@ export const ProductsGrid = () => {
         <option value="2">Mais vendidos</option>
       </SelectFilter>
       <ContainerGrid>
-        {PRODUCTS.map((product) => (
-          <ProductCard key={product.id} />
+        {productsList.map((product) => (
+          <ProductCard key={product.id} data={product} />
         ))}
       </ContainerGrid>
     </Container>

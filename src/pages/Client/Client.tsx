@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ModalCreateClient from "../../components/ModalCreateClient/ModalCreateClient";
@@ -89,9 +88,7 @@ const Client = () => {
           <TableRow isHeader>
             <TableCell>Nome</TableCell>
             <TableCell>Status</TableCell>
-            {/* <TableCell>Data de Nascimento</TableCell> */}
             <TableCell>CPF</TableCell>
-            {/* <TableCell>E-mail</TableCell> */}
             <TableCell>Telefone</TableCell>
             <TableCell>Gênero</TableCell>
             <TableCell>Cartões</TableCell>
@@ -103,9 +100,7 @@ const Client = () => {
             <TableRow key={client.id}>
               <TableCell>{client.name}</TableCell>
               <TableCell>{client.status}</TableCell>
-              {/* <TableCell>{format(client.birthDate, "dd/MM/yyyy")}</TableCell> */}
               <TableCell>{client.cpf}</TableCell>
-              {/* <TableCell>{client.email}</TableCell> */}
               <TableCell>{`(${client.ddd}) ${client.phone}`}</TableCell>
               <TableCell>{client.gender?.substring(0, 3) || "N/I"}</TableCell>
               <TableCell>
@@ -118,7 +113,7 @@ const Client = () => {
                   onClick={() => navigateToList(client.id, "address")}
                 />
               </TableCell>
-              <TableCell style={{justifyContent: 'flex-end'}}>
+              <TableCell style={{ justifyContent: "flex-end" }}>
                 <StyledEditIcon
                   onClick={() => {
                     setCurrentUserId(client.id);

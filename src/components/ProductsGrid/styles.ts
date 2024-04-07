@@ -15,8 +15,11 @@ export const ContainerGrid = styled.div`
 
   display: grid;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
+  grid-template-rows: auto;
   justify-items: center;
-  row-gap: 2rem;
+  row-gap: 4rem;
+
+  margin-top: 2rem;
 `;
 
 export const SelectFilter = styled.select`

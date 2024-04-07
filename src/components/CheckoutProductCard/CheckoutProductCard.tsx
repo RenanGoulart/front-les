@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Container,
   Content,
@@ -11,36 +10,33 @@ import {
   Text,
   TrashIcon,
 } from "./styles";
-import photoProduct from "../../assets/img/photo-product.png";
+import { ICartItem, useCart } from "../../hooks/useCart";
+import { formatCurrency } from "../../utils/format";
 
-export const CheckoutProductCard = () => {
-  const [quantity, setQuantity] = useState(1);
+interface Props {
+  data: ICartItem;
+}
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
+export const CheckoutProductCard = ({ data }: Props) => {
+  const { handleAddToCart, handleSubFromCart, handleRemoveFromCart } =
+    useCart();
+  const { product } = data;
 
   return (
     <Container>
-      <Image src={photoProduct} />
+      <Image src={product.image} />
       <Content>
-        <TrashIcon />
-        <Text isBold>Flower Boy</Text>
-        <Text>Tyler The Creator</Text>
+        <TrashIcon onClick={() => handleRemoveFromCart(product)} />
+        <Text isBold>{product.album}</Text>
+        <Text>{product.artist}</Text>
         <Row>
-          <Text>R$ 100,00</Text>
+          <Text>{formatCurrency(product.price * data.quantity)}</Text>
           <QuantityContainer>
-            <IconWrapper onClick={handleDecrement}>
+            <IconWrapper onClick={() => handleSubFromCart(product)}>
               <MinusIcon />
             </IconWrapper>
-            <Text>{quantity}</Text>
-            <IconWrapper onClick={handleIncrement}>
+            <Text>{data.quantity}</Text>
+            <IconWrapper onClick={() => handleAddToCart(product)}>
               <PlusIcon />
             </IconWrapper>
           </QuantityContainer>
