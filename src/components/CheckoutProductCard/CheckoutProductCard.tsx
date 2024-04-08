@@ -33,11 +33,11 @@ export const CheckoutProductCard = ({ data }: Props) => {
           <Text>{formatCurrency(product.price * data.quantity)}</Text>
           <QuantityContainer>
             <IconWrapper onClick={() => handleSubFromCart(product)}>
-              <MinusIcon />
+              <MinusIcon data-cy="btn-minus"/>
             </IconWrapper>
             <Text>{data.quantity}</Text>
             <IconWrapper onClick={() => handleAddToCart(product)}>
-              <PlusIcon />
+              <PlusIcon data-cy="btn-plus"/>
             </IconWrapper>
           </QuantityContainer>
         </Row>

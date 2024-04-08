@@ -183,7 +183,7 @@ const Checkout = () => {
               ))}
               <Row style={{ marginTop: "2rem" }}>
                 <Text>Subtotal</Text>
-                <Text>{formatCurrency(cart.total)}</Text>
+                <Text data-cy="value-subtotal">{formatCurrency(cart.total)}</Text>
               </Row>
               <Row>
                 <Text>Créditos</Text>
