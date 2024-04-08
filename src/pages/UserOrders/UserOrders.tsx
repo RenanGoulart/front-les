@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Container,
   TableContainer,
@@ -9,11 +10,10 @@ import {
 import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
-import { useState } from "react";
 import UserOrderDetails from "../../components/UserOrderDetails/UserOrderDetails";
 
 const UserOrders = () => {
-  const [ orderDetails, setOrderDetails ] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(false);
   return (
     <Container>
       <Header />
@@ -32,15 +32,18 @@ const UserOrders = () => {
             <TableCell>02/02/2024</TableCell>
             <TableCell>Entregue</TableCell>
             <TableCell style={{ justifyContent: "flex-end" }}>
-              <Button onClick={() => setOrderDetails(true)}>Ver Pedido</Button>
+              <Button
+                onClick={() => setOrderDetails(true)}
+                data-cy="btn-see-order"
+              >
+                Ver Pedido
+              </Button>
             </TableCell>
           </TableRow>
         </TableContainer>
       </Content>
       {orderDetails && (
-        <UserOrderDetails
-          closeModal={() => setOrderDetails(false)}
-        />
+        <UserOrderDetails closeModal={() => setOrderDetails(false)} />
       )}
     </Container>
   );

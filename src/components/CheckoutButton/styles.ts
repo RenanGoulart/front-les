@@ -25,4 +25,4 @@ export const CartQuantity = styled.span`
   font-weight: bold;
 
   background-color: ${({ theme }) => theme.colors.green_56};
-`
+`;

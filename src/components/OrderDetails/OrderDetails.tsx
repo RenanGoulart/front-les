@@ -31,9 +31,12 @@ const OrderDetails = ({ closeModal }: Props) => {
 
   return (
     <Background onClick={closeModal}>
-      <Container onClick={(e) => e.stopPropagation()}>
+      <Container
+        onClick={(e) => e.stopPropagation()}
+        data-cy="modal-order-details"
+      >
         <h1>Detalhes do Pedido</h1>
-        <Row>
+        <Row data-cy="row-status">
           <Label isTitle>Status: </Label>
           <Label isStatus>{statusLabel}</Label>
         </Row>
@@ -58,8 +61,13 @@ const OrderDetails = ({ closeModal }: Props) => {
           onChange={(selectedItem) =>
             handleSelect(selectedItem as DropdownOption)
           }
+          classNamePrefix="order-status"
         />
-        <Button style={{ justifyContent: "flex-end" }} onClick={handleUpdate}>
+        <Button
+          style={{ justifyContent: "flex-end" }}
+          onClick={handleUpdate}
+          data-cy="btn-update"
+        >
           Atualizar
         </Button>
       </Container>

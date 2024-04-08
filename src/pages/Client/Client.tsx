@@ -75,6 +75,7 @@ const Client = () => {
               setCurrentUserId("");
               setForm("client");
             }}
+            data-cy="btn-add-client"
           >
             Adicionar Cliente
           </Button>

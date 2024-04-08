@@ -9,7 +9,10 @@ const SideBar = () => {
     <Container>
       <Menu>
         <MenuItem onClick={() => navigate("/dashboard")}>Dashboard</MenuItem>
-        <MenuItem onClick={() => navigate("/client")}>
+        <MenuItem
+          onClick={() => navigate("/client")}
+          data-cy="option-create-client"
+        >
           Cadastrar Clientes
         </MenuItem>
         <MenuItem onClick={() => navigate("/products")}>
@@ -19,7 +22,12 @@ const SideBar = () => {
           Cadastrar Cupons
         </MenuItem>
         <MenuItem onClick={() => navigate("/stock")}>Estoque</MenuItem>
-        <MenuItem onClick={() => navigate("/allOrders")}>Pedidos</MenuItem>
+        <MenuItem
+          onClick={() => navigate("/allOrders")}
+          data-cy="option-orders"
+        >
+          Pedidos
+        </MenuItem>
       </Menu>
       <a href="/vinyl">
         <Logo src={logo} alt="Logo" />

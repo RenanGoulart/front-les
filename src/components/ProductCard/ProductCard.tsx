@@ -28,7 +28,7 @@ export const ProductCard = ({ data }: Props) => {
         <ArtistName>{data.artist}</ArtistName>
         <Price>{formatCurrency(data.price)}</Price>
       </Pressable>
-      <Button onClick={() => handleAddToCart(data)}>
+      <Button onClick={() => handleAddToCart(data)} data-cy="btn-add-to-cart">
         Adicionar ao carrinho
       </Button>
     </Container>

@@ -294,7 +294,7 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
             options={residenceTypeOptions}
             containerStyle={styles.elementStyle}
           />
-          <Button onClick={handleSubmit(onSubmit)}>
+          <Button onClick={handleSubmit(onSubmit)} data-cy="btn-submit">
             {currentAddressId ? "Atualizar" : "Cadastrar"}
           </Button>
         </Row>

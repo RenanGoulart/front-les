@@ -20,6 +20,7 @@ const OrderCompleted = () => {
         <Button
           onClick={() => navigate("/orders")}
           style={{ marginTop: "20px" }}
+          data-cy="btn-my-orders"
         >
           Ver Meus Pedidos
         </Button>

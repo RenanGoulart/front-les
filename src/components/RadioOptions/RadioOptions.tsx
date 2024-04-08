@@ -48,7 +48,7 @@ const RadioOptions = <TFieldValues extends FieldValues>({
     <Container style={containerStyle}>
       {options.map((item) => (
         <RadioRow key={item.value} onClick={() => handleCheckOption(item)}>
-          <RadioCircle>
+          <RadioCircle data-cy="radio-option">
             {item.value === field.value && <RadioCheck />}
           </RadioCircle>
           <RadioLabel style={labelStyle}>{item.label}</RadioLabel>

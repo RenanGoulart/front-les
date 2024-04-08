@@ -42,8 +42,8 @@ const AllOrders = () => {
             <TableCell>02/02/2024 </TableCell>
             <TableCell>Em processamento</TableCell>
             <TableCell>
-              <Button onClick={openModal}>
-              Ver Pedido
+              <Button onClick={openModal} data-cy="btn-see-order">
+                Ver Pedido
               </Button>
             </TableCell>
           </TableRow>
@@ -52,8 +52,8 @@ const AllOrders = () => {
             <TableCell>01/02/2024</TableCell>
             <TableCell>Aprovado</TableCell>
             <TableCell>
-              <Button onClick={openModal}>
-              Ver Pedido
+              <Button onClick={openModal} data-cy="btn-see-order">
+                Ver Pedido
               </Button>
             </TableCell>
           </TableRow>
@@ -62,8 +62,8 @@ const AllOrders = () => {
             <TableCell>27/01/2024</TableCell>
             <TableCell>Em trânsito</TableCell>
             <TableCell>
-              <Button onClick={openModal}>
-              Ver Pedido
+              <Button onClick={openModal} data-cy="btn-see-order">
+                Ver Pedido
               </Button>
             </TableCell>
           </TableRow>
@@ -72,8 +72,8 @@ const AllOrders = () => {
             <TableCell>27/01/2024</TableCell>
             <TableCell>Em troca</TableCell>
             <TableCell>
-              <Button onClick={openModal}>
-              Ver Pedido
+              <Button onClick={openModal} data-cy="btn-see-order">
+                Ver Pedido
               </Button>
             </TableCell>
           </TableRow>

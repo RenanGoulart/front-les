@@ -28,7 +28,11 @@ const Profile = () => {
           <TextOverlay>Meu Perfil</TextOverlay>
         </ImageContent>
         <ButtonsWrapper>
-          <Button isOutline onClick={() => navigate("/orders")}>
+          <Button
+            isOutline
+            onClick={() => navigate("/orders")}
+            data-cy="btn-my-orders"
+          >
             <StyledShoppingBagIcon />
             Meus Pedidos
           </Button>

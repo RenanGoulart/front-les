@@ -5,9 +5,11 @@ const CheckoutButton = () => {
   const { quantityOfProducts } = useCart();
 
   return (
-    <Container>
+    <Container data-cy="btn-cart">
       <SellIcon />
-      <CartQuantity>{quantityOfProducts}</CartQuantity>
+      <CartQuantity data-cy="text-cart-quantity">
+        {quantityOfProducts}
+      </CartQuantity>
     </Container>
   );
 };

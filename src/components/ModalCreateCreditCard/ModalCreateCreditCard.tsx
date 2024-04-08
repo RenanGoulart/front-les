@@ -104,7 +104,11 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             placeholder="Renan Goulart"
             containerStyle={styles.elementStyle}
           />
-          <Button style={styles.elementStyle} onClick={handleSubmit(onSubmit)}>
+          <Button
+            style={styles.elementStyle}
+            onClick={handleSubmit(onSubmit)}
+            data-cy="btn-submit"
+          >
             {currentCreditCardId ? "Atualizar" : "Cadastrar"}
           </Button>
         </Row>

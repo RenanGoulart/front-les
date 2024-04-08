@@ -26,10 +26,13 @@ const Header = () => {
         <NavigationItem onClick={() => navigate("/checkout")}>
           <CheckoutButton />
         </NavigationItem>
-        <NavigationItem onClick={() => navigate("/profile")}>
+        <NavigationItem onClick={() => navigate("/profile")} data-cy="btn-user">
           <UserIcon />
         </NavigationItem>
-        <NavigationItem onClick={() => navigate("/dashboard")}>
+        <NavigationItem
+          onClick={() => navigate("/dashboard")}
+          data-cy="btn-admin"
+        >
           <AdminIcon />
         </NavigationItem>
       </IconsWrapper>

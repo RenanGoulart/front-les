@@ -155,6 +155,7 @@ const Checkout = () => {
                     };
                   },
                 }}
+                classNamePrefix="credit-cards"
               />
               <InputWrapper style={{ marginTop: "auto" }}>
                 <Input
@@ -165,7 +166,12 @@ const Checkout = () => {
                   style={{ borderRadius: "0.5rem" }}
                   labelStyle={styles.labelStyle}
                 />
-                <ApplyButton onClick={handleSetCoupon}>Aplicar</ApplyButton>
+                <ApplyButton
+                  onClick={handleSetCoupon}
+                  data-cy="btn-apply-coupon"
+                >
+                  Aplicar
+                </ApplyButton>
               </InputWrapper>
             </OptionsContainer>
             <CartContainer>
@@ -204,6 +210,7 @@ const Checkout = () => {
                   handleCloseCart();
                   navigate("/orderCompleted");
                 }}
+                data-cy="btn-finish-payment"
               >
                 Finalizar Pagamento
               </Button>
