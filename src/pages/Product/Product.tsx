@@ -10,6 +10,7 @@ import {
   Title,
   DetailsIcon,
   StyledEditIcon,
+  AlbumCover,
 } from "./styles";
 import Button from "../../components/Button/Button";
 import SideBar from "../../components/SideBar/SideBar";
@@ -17,7 +18,7 @@ import ModalCreateProduct from "../../components/ModalCreateProduct/ModalCreateP
 import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
-import { IProductListResponse, listProducts } from "../../services/product";
+import { IProductResponse, listProducts } from "../../services/product";
 
 const Products = () => {
   const [form, setForm] = useState(false);
@@ -25,9 +26,9 @@ const Products = () => {
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
 
-  const { data: products } = useQuery<IProductListResponse[]>({
+  const { data: products } = useQuery<IProductResponse[]>({
     queryKey: ["products"],
-    queryFn: () => listProducts() as Promise<IProductListResponse[]>,
+    queryFn: () => listProducts() as Promise<IProductResponse[]>,
   });
 
   const handleCheck = () => {
@@ -48,6 +49,7 @@ const Products = () => {
         </TableHeader>
         <TableContainer>
           <TableRow isHeader>
+            <TableCell>Capa</TableCell>
             <TableCell>Categoria</TableCell>
             <TableCell>Álbum</TableCell>
             <TableCell>Artista</TableCell>
@@ -57,6 +59,12 @@ const Products = () => {
           </TableRow>
           {products?.map((product) => (
             <TableRow key={product.id}>
+              <TableCell>
+                <AlbumCover
+                  src={product.photo}
+                  alt={`Capa ${product.album} - ${product.artist}`}
+                />
+              </TableCell>
               <TableCell>{product.categories}</TableCell>
               <TableCell>{product.album}</TableCell>
               <TableCell>{product.artist}</TableCell>

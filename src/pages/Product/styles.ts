@@ -49,6 +49,11 @@ export const TableCell = styled.div`
   padding: 1rem;
 `;
 
+export const AlbumCover = styled.img`
+  width: 75%;
+  height: 75%;
+`;
+
 export const DetailsIcon = styled(TbVinyl)`
   font-size: 1.25rem;
   color: ${({ theme }) => theme.colors.purple_1f};

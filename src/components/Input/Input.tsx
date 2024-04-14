@@ -1,5 +1,4 @@
 import {
-  Controller,
   FieldValues,
   UseControllerProps,
   useController,
@@ -34,6 +33,7 @@ const Input = <TFieldValues extends FieldValues>({
   style,
 }: Props<TFieldValues>) => {
   const {
+    field,
     fieldState: { error },
   } = useController({
     name,
@@ -44,31 +44,19 @@ const Input = <TFieldValues extends FieldValues>({
     <Container style={containerStyle}>
       {label && <Label style={labelStyle}>{label}</Label>}
       {mask ? (
-        <Controller
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <MaskedTextInput
-              type={type || "text"}
-              placeholder={placeholder}
-              mask={mask}
-              style={style}
-              {...field}
-            />
-          )}
+        <MaskedTextInput
+          type={type || "text"}
+          placeholder={placeholder}
+          mask={mask}
+          style={style}
+          {...field}
         />
       ) : (
-        <Controller
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <TextInput
-              type={type || "text"}
-              placeholder={placeholder}
-              style={style}
-              {...field}
-            />
-          )}
+        <TextInput
+          type={type || "text"}
+          placeholder={placeholder}
+          style={style}
+          {...field}
         />
       )}
       {error && <ErrorMessage>{error.message}</ErrorMessage>}

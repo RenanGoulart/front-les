@@ -1,13 +1,5 @@
 import api from "./api";
 
-export interface IProductListResponse {
-  id: string;
-  artist: string;
-  album: string;
-  categories: string[];
-  price: string;
-}
-
 export interface IProductResponse {
   id: string;
   artist: string;
@@ -19,14 +11,17 @@ export interface IProductResponse {
   width: string;
   weight: string;
   pricingGroup: string;
-  categories: string;
+  categories: string[];
   barCode: string;
   price: string;
+  photo: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const listProducts = async () => {
   try {
-    const { data } = await api.get<IProductListResponse[]>("/product");
+    const { data } = await api.get<IProductResponse[]>("/product");
     return data;
   } catch (error) {
     console.log(error);
