@@ -1,8 +1,14 @@
-import { productsList } from "../../mock/products";
+import { useQuery } from "@tanstack/react-query";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { Container, ContainerGrid, SelectFilter } from "./styles";
+import Product from "../../services/product/Product";
 
 export const ProductsGrid = () => {
+  const { data: products } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => Product.findAll(),
+  });
+
   return (
     <Container>
       <SelectFilter>
@@ -13,9 +19,10 @@ export const ProductsGrid = () => {
         <option value="2">Mais vendidos</option>
       </SelectFilter>
       <ContainerGrid>
-        {productsList.map((product) => (
-          <ProductCard key={product.id} data={product} />
-        ))}
+        {products &&
+          products.map((product) => (
+            <ProductCard key={product.id} data={product} />
+          ))}
       </ContainerGrid>
     </Container>
   );

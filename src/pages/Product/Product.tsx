@@ -18,7 +18,7 @@ import ModalCreateProduct from "../../components/ModalCreateProduct/ModalCreateP
 import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
-import { IProductResponse, listProducts } from "../../services/product";
+import Product from "../../services/product/Product";
 
 const Products = () => {
   const [form, setForm] = useState(false);
@@ -26,9 +26,9 @@ const Products = () => {
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
 
-  const { data: products } = useQuery<IProductResponse[]>({
+  const { data: products } = useQuery({
     queryKey: ["products"],
-    queryFn: () => listProducts() as Promise<IProductResponse[]>,
+    queryFn: () => Product.findAll(),
   });
 
   const handleCheck = () => {

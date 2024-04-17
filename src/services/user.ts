@@ -1,5 +1,5 @@
 import { IFormUser } from "../hooks/useClient";
-import api from "./api";
+import api from "../lib/axios";
 
 interface ICountry {
   id: string;

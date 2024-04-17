@@ -8,27 +8,25 @@ import {
   Pressable,
   Price,
 } from "./styles";
-import { IProduct } from "../../mock/products";
 import { formatCurrency } from "../../utils/format";
-import { useCart } from "../../hooks/useCart";
+import { IProductResponse } from "../../services/product/dto/ProductDTO";
 
 interface Props {
-  data: IProduct;
+  data: IProductResponse;
 }
 
 export const ProductCard = ({ data }: Props) => {
   const navigate = useNavigate();
-  const { handleAddToCart } = useCart();
 
   return (
     <Container>
       <Pressable onClick={() => navigate(`/product/${data.id}`)}>
-        <Image src={data.image} alt="Capa Album" />
+        <Image src={data.photo} alt="Capa Album" />
         <AlbumName>{data.album}</AlbumName>
         <ArtistName>{data.artist}</ArtistName>
         <Price>{formatCurrency(data.price)}</Price>
       </Pressable>
-      <Button onClick={() => handleAddToCart(data)} data-cy="btn-add-to-cart">
+      <Button onClick={() => null} data-cy="btn-add-to-cart">
         Adicionar ao carrinho
       </Button>
     </Container>
