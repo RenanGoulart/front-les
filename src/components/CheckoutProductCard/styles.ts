@@ -46,14 +46,12 @@ export const Row = styled.div`
 `;
 
 export const QuantityContainer = styled.div`
-  width: 100px;
-
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1.2rem;
 `;
 
-export const IconWrapper = styled.div`
+export const IconWrapper = styled.span`
   width: 25px;
   height: 25px;
 

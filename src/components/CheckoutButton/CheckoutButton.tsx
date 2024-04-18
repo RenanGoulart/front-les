@@ -1,4 +1,4 @@
-import { useCart } from "../../hooks/useCart";
+import { useCart } from "../../contexts/useCart";
 import { CartQuantity, SellIcon, Container } from "./styles";
 
 const CheckoutButton = () => {

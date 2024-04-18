@@ -8,7 +8,7 @@ import AppRoutes from "./routes/Routes";
 import { theme } from "./styles/theme";
 import GlobalStyle from "./styles/global";
 import ClientProvider from "./hooks/useClient";
-import CartProvider from "./hooks/useCart";
+import CartProvider from "./contexts/useCart";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

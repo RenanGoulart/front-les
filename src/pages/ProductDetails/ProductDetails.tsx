@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -20,9 +19,9 @@ import {
   Separator,
   TrackContainer,
   TracksTitle,
-  TrackList,
-  TrackText,
-  TrackRow,
+  // TrackList,
+  // TrackText,
+  // TrackRow,
 } from "./styles";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
@@ -30,10 +29,13 @@ import { Footer } from "../../components/Footer/Footer";
 import brain from "../../assets/icons/brain.svg";
 import { formatCurrency } from "../../utils/format";
 import Product from "../../services/product/Product";
+import { useCart } from "../../contexts/useCart";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const { handleAddToCart } = useCart();
 
   const { data: product } = useQuery({
     queryKey: ["productDetails", id],
@@ -78,20 +80,24 @@ const ProductDetails = () => {
   //   );
   // };
 
+  if (!product) {
+    return null;
+  }
+
   return (
     <Container>
       <Header />
       <NavBar />
       <Content>
         <ImageWrapper>
-          <ProductImage src={product?.photo} />
+          <ProductImage src={product.photo} />
         </ImageWrapper>
         <DetailsWrapper>
           <TextWrapper>
-            <ProductText isBold>{product?.album}</ProductText>
-            <ProductText>{product?.artist}</ProductText>
+            <ProductText isBold>{product.album}</ProductText>
+            <ProductText>{product.artist}</ProductText>
             <ProductText isBold style={{ marginTop: "1rem" }}>
-              {formatCurrency(product?.price as number)}
+              {formatCurrency(product.price as number)}
             </ProductText>
           </TextWrapper>
           <ButtonsRow>
@@ -99,12 +105,15 @@ const ProductDetails = () => {
               <Button
                 isOutlined
                 onClick={() => {
+                  handleAddToCart(product.id);
                   navigate("/checkout");
                 }}
               >
                 Compra Agora
               </Button>
-              <Button onClick={() => null}>Adicionar ao Carrinho</Button>
+              <Button onClick={() => handleAddToCart(product.id)}>
+                Adicionar ao Carrinho
+              </Button>
             </ButtonsColumn>
             <IaButton>
               <IaIcon src={brain} />
@@ -116,29 +125,29 @@ const ProductDetails = () => {
       <ContainerTable>
         <TableRow>
           <TableCell isPurple>Nome do Artista</TableCell>
-          <TableCell>{product?.artist}</TableCell>
+          <TableCell>{product.artist}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Gênero</TableCell>
-          <TableCell>{product?.categories.join(", ")}</TableCell>
+          <TableCell>{product.categories.join(", ")}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Ano</TableCell>
-          <TableCell>{product?.year}</TableCell>
+          <TableCell>{product.year}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Dimensões</TableCell>
           <TableCell>
-            {product?.width}cm x {product?.height}cm x {product?.weight}g
+            {product.width}cm x {product.height}cm x {product.weight}g
           </TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Gravadora</TableCell>
-          <TableCell>{product?.producer}</TableCell>
+          <TableCell>{product.producer}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Número de faixas</TableCell>
-          <TableCell>{product?.numberOfTracks}</TableCell>
+          <TableCell>{product.numberOfTracks}</TableCell>
         </TableRow>
       </ContainerTable>
       <TrackContainer>

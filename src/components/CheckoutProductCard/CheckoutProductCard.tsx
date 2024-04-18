@@ -10,8 +10,9 @@ import {
   Text,
   TrashIcon,
 } from "./styles";
-import { ICartItem, useCart } from "../../hooks/useCart";
+import { useCart } from "../../contexts/useCart";
 import { formatCurrency } from "../../utils/format";
+import { ICartItem } from "../../services/cart/dto/CartDTO";
 
 interface Props {
   data: ICartItem;
@@ -24,20 +25,22 @@ export const CheckoutProductCard = ({ data }: Props) => {
 
   return (
     <Container>
-      <Image src={product.image} />
+      <Image src={product.photo} />
       <Content>
-        <TrashIcon onClick={() => handleRemoveFromCart(product)} />
+        <TrashIcon onClick={() => handleRemoveFromCart(product.id)} />
         <Text isBold>{product.album}</Text>
         <Text>{product.artist}</Text>
         <Row>
           <Text>{formatCurrency(product.price * data.quantity)}</Text>
           <QuantityContainer>
-            <IconWrapper onClick={() => handleSubFromCart(product)}>
-              <MinusIcon data-cy="btn-minus"/>
-            </IconWrapper>
+            {data.quantity > 1 && (
+              <IconWrapper onClick={() => handleSubFromCart(product.id)}>
+                <MinusIcon data-cy="btn-minus" />
+              </IconWrapper>
+            )}
             <Text>{data.quantity}</Text>
-            <IconWrapper onClick={() => handleAddToCart(product)}>
-              <PlusIcon data-cy="btn-plus"/>
+            <IconWrapper onClick={() => handleAddToCart(product.id)}>
+              <PlusIcon data-cy="btn-plus" />
             </IconWrapper>
           </QuantityContainer>
         </Row>

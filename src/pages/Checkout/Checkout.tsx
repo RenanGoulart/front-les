@@ -35,8 +35,9 @@ import {
   CheckoutForm,
   CheckoutSchema,
 } from "../../validations/checkout.validation";
-import { ICoupon, useCart } from "../../hooks/useCart";
+import { useCart } from "../../contexts/useCart";
 import { formatCurrency } from "../../utils/format";
+import { ICouponResponse } from "../../services/coupon/dto/CouponDTO";
 
 const ADDRESSES = [
   {
@@ -64,11 +65,16 @@ const CARDS = [
   },
 ];
 
+const user = {
+  credits: 12,
+  freight: 20,
+};
+
 const Checkout = () => {
   const navigate = useNavigate();
-  const { cart, user, handleApplyCoupon, handleCloseCart } = useCart();
+  const { cart, handleApplyCoupon } = useCart();
 
-  const [coupon, setCoupon] = useState<ICoupon | null>(null);
+  const [coupon, setCoupon] = useState<ICouponResponse | null>(null);
   const [isVisibleAddressModal, setIsVisibleAddressModal] = useState(false);
   const [isVisibleCardModal, setIsVisibleCardModal] = useState(false);
 
@@ -79,9 +85,10 @@ const Checkout = () => {
     },
   });
 
-  const handleSetCoupon = () => {
-    const couponCode = getValues("coupon");
-    const existingCoupon = handleApplyCoupon(couponCode as string);
+  const handleSetCoupon = async () => {
+    const couponName = getValues("coupon");
+    const existingCoupon = await handleApplyCoupon(couponName as string);
+    console.log("cupom existente", existingCoupon);
 
     if (existingCoupon) {
       setCoupon(existingCoupon);
@@ -90,7 +97,7 @@ const Checkout = () => {
   };
 
   const calculateTotal = () =>
-    cart.total + user.freight - user.credits - (coupon?.discount || 0);
+    (cart?.total || 0) + user.freight - user.credits - (coupon?.value || 0);
 
   return (
     <Container>
@@ -98,7 +105,7 @@ const Checkout = () => {
       <NavBar />
       <Title>Carrinho de Compras</Title>
       <Content>
-        {cart?.cartItems?.length > 0 ? (
+        {cart ? (
           <>
             <OptionsContainer>
               <OptionsSubtitle>
@@ -183,7 +190,9 @@ const Checkout = () => {
               ))}
               <Row style={{ marginTop: "2rem" }}>
                 <Text>Subtotal</Text>
-                <Text data-cy="value-subtotal">{formatCurrency(cart.total)}</Text>
+                <Text data-cy="value-subtotal">
+                  {formatCurrency(cart.total)}
+                </Text>
               </Row>
               <Row>
                 <Text>Créditos</Text>
@@ -191,8 +200,8 @@ const Checkout = () => {
               </Row>
               {coupon && (
                 <Row>
-                  <Text>Cupom ({coupon.code})</Text>
-                  <Text isDimmed>-{formatCurrency(coupon.discount)}</Text>
+                  <Text>Cupom ({coupon.name})</Text>
+                  <Text isDimmed>-{formatCurrency(coupon.value)}</Text>
                 </Row>
               )}
               <Row>
@@ -207,7 +216,7 @@ const Checkout = () => {
               <Button
                 style={styles.buttonStyle}
                 onClick={() => {
-                  handleCloseCart();
+                  // handleCloseCart();
                   navigate("/orderCompleted");
                 }}
                 data-cy="btn-finish-payment"
