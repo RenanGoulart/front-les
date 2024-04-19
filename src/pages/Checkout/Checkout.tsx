@@ -25,8 +25,6 @@ import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import { Footer } from "../../components/Footer/Footer";
 import RadioOptions from "../../components/RadioOptions/RadioOptions";
-import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
-import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
 import Input from "../../components/Input/Input";
 import { CheckoutProductCard } from "../../components/CheckoutProductCard/CheckoutProductCard";
 import Button from "../../components/Button/Button";
@@ -38,40 +36,18 @@ import {
 import { useCart } from "../../contexts/useCart";
 import { formatCurrency } from "../../utils/format";
 import { ICouponResponse } from "../../services/coupon/dto/CouponDTO";
+import useUser from "../../hooks/useUser";
+import ModalCreateUserAddress from "../../components/ModalCreateUserAddress/ModalCreateUserAddress";
+import ModalCreateUserCreditCard from "../../components/ModalCreateUserCreditCard/ModalCreateUserCreditCard";
 
-const ADDRESSES = [
-  {
-    label: "Rua Guilherme Lima, 456, Bairro Oliveira Guino",
-    value: "0",
-  },
-  {
-    label: "Rua Mariana Almeida, 11, Jardim Goulart",
-    value: "1",
-  },
-];
-
-const CARDS = [
-  {
-    label: "Elo - Final 4444",
-    value: "0",
-  },
-  {
-    label: "Visa - Final 4237",
-    value: "1",
-  },
-  {
-    label: "Mastercard - Final 7563",
-    value: "2",
-  },
-];
-
-const user = {
+const userMock = {
   credits: 12,
   freight: 20,
 };
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const { user, addresses, cards } = useUser();
   const { cart, handleApplyCoupon } = useCart();
 
   const [coupon, setCoupon] = useState<ICouponResponse | null>(null);
@@ -88,7 +64,6 @@ const Checkout = () => {
   const handleSetCoupon = async () => {
     const couponName = getValues("coupon");
     const existingCoupon = await handleApplyCoupon(couponName as string);
-    console.log("cupom existente", existingCoupon);
 
     if (existingCoupon) {
       setCoupon(existingCoupon);
@@ -97,7 +72,10 @@ const Checkout = () => {
   };
 
   const calculateTotal = () =>
-    (cart?.total || 0) + user.freight - user.credits - (coupon?.value || 0);
+    (cart?.total || 0) +
+    userMock.freight -
+    userMock.credits -
+    (coupon?.value || 0);
 
   return (
     <Container>
@@ -114,12 +92,17 @@ const Checkout = () => {
                   <PlusIcon />
                 </IconWrapper>
               </OptionsSubtitle>
-              <RadioOptions
-                control={control}
-                name="address"
-                options={ADDRESSES}
-                labelStyle={styles.radioLabelStyle}
-              />
+              {addresses && (
+                <RadioOptions
+                  control={control}
+                  name="address"
+                  options={addresses.map((address) => ({
+                    label: `${address.street}, ${address.number}, ${address.district}`,
+                    value: address.id,
+                  }))}
+                  labelStyle={styles.radioLabelStyle}
+                />
+              )}
               <OptionsSubtitle style={{ marginTop: "1.5rem" }}>
                 Forma de pagamento{" "}
                 <IconWrapper onClick={() => setIsVisibleCardModal(true)}>
@@ -127,43 +110,48 @@ const Checkout = () => {
                 </IconWrapper>
               </OptionsSubtitle>
               <Text style={{ marginBottom: ".5rem" }}>Cartão de crédito</Text>
-              <Select
-                options={CARDS}
-                isMulti
-                placeholder="Selecione um ou mais cartões"
-                noOptionsMessage={() => "Nenhum cartão encontrado"}
-                styles={{
-                  control(base) {
-                    return {
-                      ...base,
-                      minHeight: 50,
-                      paddingTop: "0.5rem",
-                      paddingBottom: "0.5rem",
-                      fontSize: "1rem",
-                      borderRadius: "0.5rem",
-                      borderColor: theme.colors.purple_1f,
-                      boxShadow: "none",
-                      "&:hover": {
+              {cards && (
+                <Select
+                  options={cards.map((card) => ({
+                    label: `${card.cardBrand} - Final ${card.number.slice(-4)}`,
+                    value: card.id,
+                  }))}
+                  isMulti
+                  placeholder="Selecione um ou mais cartões"
+                  noOptionsMessage={() => "Nenhum cartão encontrado"}
+                  styles={{
+                    control(base) {
+                      return {
+                        ...base,
+                        minHeight: 50,
+                        paddingTop: "0.5rem",
+                        paddingBottom: "0.5rem",
+                        fontSize: "1rem",
+                        borderRadius: "0.5rem",
                         borderColor: theme.colors.purple_1f,
-                      },
-                    };
-                  },
-                  option(base, state) {
-                    return {
-                      ...base,
-                      backgroundColor: state.isSelected
-                        ? theme.colors.purple_1f
-                        : "white",
-                      color: state.isSelected ? "white" : "black",
-                      "&:hover": {
-                        backgroundColor: theme.colors.purple_48,
-                        color: "white",
-                      },
-                    };
-                  },
-                }}
-                classNamePrefix="credit-cards"
-              />
+                        boxShadow: "none",
+                        "&:hover": {
+                          borderColor: theme.colors.purple_1f,
+                        },
+                      };
+                    },
+                    option(base, state) {
+                      return {
+                        ...base,
+                        backgroundColor: state.isSelected
+                          ? theme.colors.purple_1f
+                          : "white",
+                        color: state.isSelected ? "white" : "black",
+                        "&:hover": {
+                          backgroundColor: theme.colors.purple_48,
+                          color: "white",
+                        },
+                      };
+                    },
+                  }}
+                  classNamePrefix="credit-cards"
+                />
+              )}
               <InputWrapper style={{ marginTop: "auto" }}>
                 <Input
                   control={control}
@@ -196,7 +184,7 @@ const Checkout = () => {
               </Row>
               <Row>
                 <Text>Créditos</Text>
-                <Text isDimmed>-{formatCurrency(user.credits)}</Text>
+                <Text isDimmed>-{formatCurrency(user?.credits || 0)}</Text>
               </Row>
               {coupon && (
                 <Row>
@@ -206,7 +194,7 @@ const Checkout = () => {
               )}
               <Row>
                 <Text>Frete</Text>
-                <Text isDimmed>{formatCurrency(user.freight)}</Text>
+                <Text isDimmed>{formatCurrency(userMock.freight)}</Text>
               </Row>
               <Separator />
               <Row>
@@ -241,12 +229,12 @@ const Checkout = () => {
       </Content>
       <Footer />
       {isVisibleAddressModal && (
-        <ModalCreateAddress
+        <ModalCreateUserAddress
           closeModal={() => setIsVisibleAddressModal(false)}
         />
       )}
       {isVisibleCardModal && (
-        <ModalCreateCreditCard
+        <ModalCreateUserCreditCard
           closeModal={() => setIsVisibleCardModal(false)}
         />
       )}

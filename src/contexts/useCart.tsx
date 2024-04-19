@@ -6,6 +6,7 @@ import { ICartResponse } from "../services/cart/dto/CartDTO";
 import Coupon from "../services/coupon/Coupon";
 import { handleError } from "../lib/toastify";
 import { ICouponResponse } from "../services/coupon/dto/CouponDTO";
+import useUser from "../hooks/useUser";
 
 interface ICartProvider {
   cart?: ICartResponse;
@@ -18,14 +19,14 @@ interface ICartProvider {
 
 const CartContext = createContext({} as ICartProvider);
 
-const userId = "fc89dc15-0d0e-4173-860c-dedafd7eb4f7";
-
 const CartProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient();
+  const { user } = useUser();
 
   const { data: cart } = useQuery({
-    queryKey: ["cart", userId],
-    queryFn: () => Cart.findByUserId(userId),
+    queryKey: ["cart", user?.id],
+    queryFn: () => Cart.findByUserId(user?.id as string),
+    enabled: !!user?.id,
   });
 
   const quantityOfProducts = useMemo(() => {
@@ -38,14 +39,14 @@ const CartProvider = ({ children }: PropsWithChildren) => {
   const { mutate: createCart } = useMutation({
     mutationFn: Cart.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
   });
 
   const { mutate: addItem } = useMutation({
     mutationFn: Cart.addItem,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
   });
 
@@ -53,14 +54,14 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     if (cart) {
       addItem({ cartId: cart.id, productId });
     } else {
-      createCart({ userId, productId });
+      createCart({ userId: user?.id as string, productId });
     }
   };
 
   const { mutate: subtractItem } = useMutation({
     mutationFn: Cart.subtractItem,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
   });
 
@@ -73,7 +74,7 @@ const CartProvider = ({ children }: PropsWithChildren) => {
   const { mutate: removeItem } = useMutation({
     mutationFn: Cart.removeItem,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
   });
 

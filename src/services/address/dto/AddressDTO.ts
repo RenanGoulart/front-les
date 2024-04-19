@@ -59,3 +59,17 @@ export interface IUpdateAddressDTO {
   updatedAt: string;
   userId: string;
 }
+
+export interface ICreateAddressDTO {
+  street: string;
+  number: string;
+  district: string;
+  zipCode: string;
+  observation: string;
+  cityId: string;
+  streetType: string;
+  addressType: string;
+  residenceType: string;
+  isMain: boolean;
+  userId: string;
+}
