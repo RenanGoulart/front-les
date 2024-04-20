@@ -36,7 +36,7 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     return 0;
   }, [cart?.cartItems]);
 
-  const { mutate: createCart } = useMutation({
+  const { mutateAsync: createCart } = useMutation({
     mutationFn: Cart.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
@@ -50,11 +50,11 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     },
   });
 
-  const handleAddToCart = (productId: string) => {
+  const handleAddToCart = async (productId: string) => {
     if (cart) {
       addItem({ cartId: cart.id, productId });
     } else {
-      createCart({ userId: user?.id as string, productId });
+      await createCart({ userId: user?.id as string, productId });
     }
   };
 
@@ -74,6 +74,12 @@ const CartProvider = ({ children }: PropsWithChildren) => {
   const { mutate: removeItem } = useMutation({
     mutationFn: Cart.removeItem,
     onSuccess: () => {
+      const hasOneItem = cart?.cartItems.length === 1;
+      if (hasOneItem) {
+        return queryClient.setQueryData(["cart", user?.id], () => {
+          return null;
+        });
+      }
       queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
   });

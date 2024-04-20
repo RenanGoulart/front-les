@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
 import {
   Container,
   Content,
@@ -20,6 +19,7 @@ import {
   InputWrapper,
   Separator,
   EmptyContainer,
+  CardRow,
 } from "./styles";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
@@ -39,6 +39,7 @@ import { ICouponResponse } from "../../services/coupon/dto/CouponDTO";
 import useUser from "../../hooks/useUser";
 import ModalCreateUserAddress from "../../components/ModalCreateUserAddress/ModalCreateUserAddress";
 import ModalCreateUserCreditCard from "../../components/ModalCreateUserCreditCard/ModalCreateUserCreditCard";
+import MultiSelect from "../../components/MultiSelect/MultiSelect";
 
 const userMock = {
   credits: 12,
@@ -54,12 +55,46 @@ const Checkout = () => {
   const [isVisibleAddressModal, setIsVisibleAddressModal] = useState(false);
   const [isVisibleCardModal, setIsVisibleCardModal] = useState(false);
 
-  const { control, getValues, setValue } = useForm<CheckoutForm>({
-    resolver: yupResolver(CheckoutSchema),
-    defaultValues: {
-      coupon: "",
-    },
+  const { control, getValues, setValue, watch, handleSubmit } =
+    useForm<CheckoutForm>({
+      resolver: yupResolver(CheckoutSchema),
+      defaultValues: {
+        coupon: "",
+      },
+    });
+  const cardsWatch = watch("cards");
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "cardsValue",
   });
+
+  useEffect(() => {
+    if (!cardsWatch) {
+      return;
+    }
+
+    if (cardsWatch.length !== fields.length) {
+      if (cardsWatch.length > fields.length) {
+        for (let i = fields.length; i < cardsWatch.length; i++) {
+          append({
+            id: cardsWatch[i].value,
+            label: cardsWatch[i].label,
+            value: 0,
+          });
+        }
+      } else if (cardsWatch.length < fields.length) {
+        for (let i = fields.length - 1; i >= 0; i--) {
+          const card = cardsWatch.find(
+            (item) => item.label === fields[i].label,
+          );
+          if (!card) {
+            remove(i);
+          }
+        }
+      }
+    }
+  }, [cardsWatch]);
 
   const handleSetCoupon = async () => {
     const couponName = getValues("coupon");
@@ -76,6 +111,21 @@ const Checkout = () => {
     userMock.freight -
     userMock.credits -
     (coupon?.value || 0);
+
+  const onSubmit = (data: CheckoutForm) => {
+    const cardsPayment = data?.cardsValue?.map((card) => ({
+      id: card.id,
+      value: card.value,
+    }));
+
+    const body = {
+      cards: cardsPayment,
+      addressId: data.address,
+      cartId: cart?.id,
+    };
+
+    console.log("body", body);
+  };
 
   return (
     <Container>
@@ -111,47 +161,28 @@ const Checkout = () => {
               </OptionsSubtitle>
               <Text style={{ marginBottom: ".5rem" }}>Cartão de crédito</Text>
               {cards && (
-                <Select
+                <MultiSelect
+                  name="cards"
+                  control={control}
                   options={cards.map((card) => ({
                     label: `${card.cardBrand} - Final ${card.number.slice(-4)}`,
                     value: card.id,
                   }))}
-                  isMulti
                   placeholder="Selecione um ou mais cartões"
                   noOptionsMessage={() => "Nenhum cartão encontrado"}
-                  styles={{
-                    control(base) {
-                      return {
-                        ...base,
-                        minHeight: 50,
-                        paddingTop: "0.5rem",
-                        paddingBottom: "0.5rem",
-                        fontSize: "1rem",
-                        borderRadius: "0.5rem",
-                        borderColor: theme.colors.purple_1f,
-                        boxShadow: "none",
-                        "&:hover": {
-                          borderColor: theme.colors.purple_1f,
-                        },
-                      };
-                    },
-                    option(base, state) {
-                      return {
-                        ...base,
-                        backgroundColor: state.isSelected
-                          ? theme.colors.purple_1f
-                          : "white",
-                        color: state.isSelected ? "white" : "black",
-                        "&:hover": {
-                          backgroundColor: theme.colors.purple_48,
-                          color: "white",
-                        },
-                      };
-                    },
-                  }}
                   classNamePrefix="credit-cards"
                 />
               )}
+              {fields.map((field, index) => (
+                <CardRow>
+                  <Input
+                    control={control}
+                    name={`cardsValue.${index}.value`}
+                    type="number"
+                  />
+                  <Text>{field.label}</Text>
+                </CardRow>
+              ))}
               <InputWrapper style={{ marginTop: "auto" }}>
                 <Input
                   control={control}
@@ -203,10 +234,7 @@ const Checkout = () => {
               </Row>
               <Button
                 style={styles.buttonStyle}
-                onClick={() => {
-                  // handleCloseCart();
-                  navigate("/orderCompleted");
-                }}
+                onClick={handleSubmit(onSubmit)}
                 data-cy="btn-finish-payment"
               >
                 Finalizar Pagamento

@@ -33,7 +33,6 @@ export const EmptyContainer = styled.div`
 
 export const OptionsContainer = styled.div`
   width: 48%;
-  max-height: 600px;
 
   display: flex;
   flex-direction: column;
@@ -105,6 +104,14 @@ export const CartContainer = styled.div`
 export const Row = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+export const CardRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin: 1rem 0;
 `;
 
 export const Text = styled.span<{ isDimmed?: boolean }>`

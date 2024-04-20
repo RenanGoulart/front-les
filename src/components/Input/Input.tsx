@@ -31,6 +31,7 @@ const Input = <TFieldValues extends FieldValues>({
   containerStyle,
   labelStyle,
   style,
+  ...props
 }: Props<TFieldValues>) => {
   const {
     field,
@@ -49,6 +50,7 @@ const Input = <TFieldValues extends FieldValues>({
           placeholder={placeholder}
           mask={mask}
           style={style}
+          {...props}
           {...field}
         />
       ) : (
@@ -56,6 +58,7 @@ const Input = <TFieldValues extends FieldValues>({
           type={type || "text"}
           placeholder={placeholder}
           style={style}
+          {...props}
           {...field}
         />
       )}
