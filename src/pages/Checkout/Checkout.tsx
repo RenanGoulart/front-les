@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useFieldArray, useForm } from "react-hook-form";
+import { Control, useFieldArray, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
@@ -40,16 +40,15 @@ import useUser from "../../hooks/useUser";
 import ModalCreateUserAddress from "../../components/ModalCreateUserAddress/ModalCreateUserAddress";
 import ModalCreateUserCreditCard from "../../components/ModalCreateUserCreditCard/ModalCreateUserCreditCard";
 import MultiSelect from "../../components/MultiSelect/MultiSelect";
+import useOrder from "../../hooks/useOrder";
 
-const userMock = {
-  credits: 12,
-  freight: 20,
-};
+const freight = 15;
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { user, addresses, cards } = useUser();
   const { cart, handleApplyCoupon } = useCart();
+  const { handleFinishOrder } = useOrder();
 
   const [coupon, setCoupon] = useState<ICouponResponse | null>(null);
   const [isVisibleAddressModal, setIsVisibleAddressModal] = useState(false);
@@ -107,24 +106,29 @@ const Checkout = () => {
   };
 
   const calculateTotal = () =>
-    (cart?.total || 0) +
-    userMock.freight -
-    userMock.credits -
-    (coupon?.value || 0);
+    (cart?.total || 0) + freight - (user?.credits || 0) - (coupon?.value || 0);
 
-  const onSubmit = (data: CheckoutForm) => {
+  const onSubmit = async (data: CheckoutForm) => {
     const cardsPayment = data?.cardsValue?.map((card) => ({
-      id: card.id,
-      value: card.value,
+      id: card.id as string,
+      value: card.value as number,
     }));
 
     const body = {
-      cards: cardsPayment,
       addressId: data.address,
-      cartId: cart?.id,
+      cartId: cart?.id as string,
+      couponId: coupon?.id || null,
+      freight,
+      cards: cardsPayment || [],
+      creditsUsed: user?.credits || 0,
     };
 
-    console.log("body", body);
+    console.log(body);
+
+    const order = await handleFinishOrder(body);
+    if (order) {
+      navigate(`/orderCompleted/${order.code}`);
+    }
   };
 
   return (
@@ -163,7 +167,7 @@ const Checkout = () => {
               {cards && (
                 <MultiSelect
                   name="cards"
-                  control={control}
+                  control={control as unknown as Control}
                   options={cards.map((card) => ({
                     label: `${card.cardBrand} - Final ${card.number.slice(-4)}`,
                     value: card.id,
@@ -225,7 +229,7 @@ const Checkout = () => {
               )}
               <Row>
                 <Text>Frete</Text>
-                <Text isDimmed>{formatCurrency(userMock.freight)}</Text>
+                <Text isDimmed>{formatCurrency(freight)}</Text>
               </Row>
               <Separator />
               <Row>

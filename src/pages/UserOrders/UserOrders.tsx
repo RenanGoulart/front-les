@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { format } from "date-fns";
 import {
   Container,
   TableContainer,
@@ -11,9 +12,13 @@ import Button from "../../components/Button/Button";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import UserOrderDetails from "../../components/UserOrderDetails/UserOrderDetails";
+import useOrder from "../../hooks/useOrder";
+import { IOrderResponse } from "../../services/order/dto/OrderDTO";
 
 const UserOrders = () => {
-  const [orderDetails, setOrderDetails] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState<IOrderResponse | null>(null);
+  const { userOrders, renderStatus } = useOrder();
+
   return (
     <Container>
       <Header />
@@ -27,23 +32,29 @@ const UserOrders = () => {
             <TableCell>Status</TableCell>
             <TableCell />
           </TableRow>
-          <TableRow>
-            <TableCell>#44</TableCell>
-            <TableCell>02/02/2024</TableCell>
-            <TableCell>Entregue</TableCell>
-            <TableCell style={{ justifyContent: "flex-end" }}>
-              <Button
-                onClick={() => setOrderDetails(true)}
-                data-cy="btn-see-order"
-              >
-                Ver Pedido
-              </Button>
-            </TableCell>
-          </TableRow>
+          {userOrders &&
+            userOrders.map((order) => (
+              <TableRow key={order.id}>
+                <TableCell>#{order.code}</TableCell>
+                <TableCell>{format(order.createdAt, "dd/MM/yyyy")}</TableCell>
+                <TableCell>{renderStatus(order.status)}</TableCell>
+                <TableCell style={{ justifyContent: "flex-end" }}>
+                  <Button
+                    onClick={() => setCurrentOrder(order)}
+                    data-cy="btn-see-order"
+                  >
+                    Ver Pedido
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableContainer>
       </Content>
-      {orderDetails && (
-        <UserOrderDetails closeModal={() => setOrderDetails(false)} />
+      {currentOrder && (
+        <UserOrderDetails
+          data={currentOrder}
+          closeModal={() => setCurrentOrder(null)}
+        />
       )}
     </Container>
   );

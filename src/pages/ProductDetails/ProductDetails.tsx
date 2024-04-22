@@ -109,7 +109,7 @@ const ProductDetails = () => {
                   navigate("/checkout");
                 }}
               >
-                Compra Agora
+                Comprar Agora
               </Button>
               <Button onClick={() => handleAddToCart(product.id)}>
                 Adicionar ao Carrinho

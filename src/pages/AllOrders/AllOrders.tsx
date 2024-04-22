@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { format } from "date-fns";
 import {
   Container,
   TableContainer,
@@ -11,17 +12,12 @@ import {
 import Button from "../../components/Button/Button";
 import SideBar from "../../components/SideBar/SideBar";
 import OrderDetails from "../../components/OrderDetails/OrderDetails";
+import useOrder from "../../hooks/useOrder";
+import { IOrderResponse } from "../../services/order/dto/OrderDTO";
 
 const AllOrders = () => {
-  const [form, setForm] = useState(false);
-
-  const openModal = () => {
-    setForm(true);
-  };
-
-  const closeModal = () => {
-    setForm(false);
-  };
+  const [currentOrder, setCurrentOrder] = useState<IOrderResponse | null>(null);
+  const { allOrders, renderStatus } = useOrder();
 
   return (
     <Container>
@@ -37,49 +33,30 @@ const AllOrders = () => {
             <TableCell>Status</TableCell>
             <TableCell />
           </TableRow>
-          <TableRow>
-            <TableCell>#44</TableCell>
-            <TableCell>02/02/2024 </TableCell>
-            <TableCell>Em processamento</TableCell>
-            <TableCell>
-              <Button onClick={openModal} data-cy="btn-see-order">
-                Ver Pedido
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>#23</TableCell>
-            <TableCell>01/02/2024</TableCell>
-            <TableCell>Aprovado</TableCell>
-            <TableCell>
-              <Button onClick={openModal} data-cy="btn-see-order">
-                Ver Pedido
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>#11</TableCell>
-            <TableCell>27/01/2024</TableCell>
-            <TableCell>Em trânsito</TableCell>
-            <TableCell>
-              <Button onClick={openModal} data-cy="btn-see-order">
-                Ver Pedido
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>#276</TableCell>
-            <TableCell>27/01/2024</TableCell>
-            <TableCell>Em troca</TableCell>
-            <TableCell>
-              <Button onClick={openModal} data-cy="btn-see-order">
-                Ver Pedido
-              </Button>
-            </TableCell>
-          </TableRow>
+          {allOrders &&
+            allOrders.map((order) => (
+              <TableRow key={order.id}>
+                <TableCell>#{order.code}</TableCell>
+                <TableCell>{format(order.createdAt, "dd/MM/yyyy")}</TableCell>
+                <TableCell>{renderStatus(order.status)}</TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => setCurrentOrder(order)}
+                    data-cy="btn-see-order"
+                  >
+                    Ver Pedido
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableContainer>
       </Content>
-      {form && <OrderDetails closeModal={closeModal} />}
+      {currentOrder && (
+        <OrderDetails
+          data={currentOrder}
+          closeModal={() => setCurrentOrder(null)}
+        />
+      )}
     </Container>
   );
 };

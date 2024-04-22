@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 import { Background, Container, Label, Row } from "./styles";
 import Button from "../Button/Button";
+import { IOrderResponse } from "../../services/order/dto/OrderDTO";
 
 interface Props {
+  data: IOrderResponse;
   closeModal: () => void;
 }
 
-const UserOrderDetails = ({ closeModal }: Props) => {
+const UserOrderDetails = ({ data, closeModal }: Props) => {
   const [isExchangeRequested, setIsExchangeRequested] = useState(false);
   const [status, setStatus] = useState("Entregue");
 
@@ -33,15 +36,15 @@ const UserOrderDetails = ({ closeModal }: Props) => {
         <hr />
         <Row>
           <Label isTitle>Número do Pedido:</Label>
-          <Label>#44</Label>
+          <Label>#{data.code}</Label>
         </Row>
         <Row>
           <Label isTitle>Produto:</Label>
-          <Label>Brand New Eyes | Paramore</Label>
+          {data.orderItems.map((item) => item.product.album).join(", ")}
         </Row>
         <Row>
           <Label isTitle>Data: </Label>
-          <Label>02/02/2024</Label>
+          <Label>{format(data.createdAt, "dd/MM/yyyy")}</Label>
         </Row>
         {!isExchangeRequested ? (
           <Button

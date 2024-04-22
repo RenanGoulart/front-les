@@ -1,8 +1,16 @@
-export const statusOptions = [
+export const initialOptions = [
   { value: "EM_PROCESSAMENTO", label: "Em Processamento" },
-  { value: "EM_TRANSITO", label: "Em Transito" },
+  { value: "APROVADA", label: "Pagamento Realizado" },
+  { value: "REPROVADA", label: "Pagamento Recusado" },
+  { value: "CANCELADA", label: "Pedido Cancelado" },
+];
+
+export const intermediateOptions = [
+  { value: "APROVADA", label: "Pagamento Realizado" },
+  { value: "EM_TRANSITO", label: "Em Transporte" },
+];
+
+export const finalOptions = [
+  { value: "EM_TRANSITO", label: "Em Transporte" },
   { value: "ENTREGUE", label: "Entregue" },
-  { value: "EM_TROCA", label: "Em troca" },
-  { value: "TROCA_AUTORIZADA", label: "Troca Autorizada" },
-  { value: "TROCADO", label: "Trocado" },
 ];
