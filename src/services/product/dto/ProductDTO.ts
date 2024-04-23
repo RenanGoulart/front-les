@@ -13,6 +13,7 @@ export interface IProductResponse {
   barCode: string;
   price: number;
   photo: string;
+  quantityInStock: number;
   createdAt: string;
   updatedAt: string;
 }

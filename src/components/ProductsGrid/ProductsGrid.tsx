@@ -20,7 +20,9 @@ export const ProductsGrid = () => {
       </SelectFilter>
       <ContainerGrid>
         {products &&
-          products.map((product) => (
+          products
+          .filter(product => product.quantityInStock > 0)
+          .map((product) => (
             <ProductCard key={product.id} data={product} />
           ))}
       </ContainerGrid>
