@@ -25,6 +25,19 @@ class Order {
     const { data } = await api.put<IOrderResponse>(`/order/${id}`, { status });
     return data;
   }
+
+  static async updateExchange({ id, status }: IUpdateOrderDTO) {
+    try {
+      const { data } = await api.put<IOrderResponse>(`/order/exchange/${id}`, {
+        status,
+      });
+      console.log("data", data);
+      return data;
+    } catch (error) {
+      console.log("error", error);
+    }
+    return {} as IOrderResponse;
+  }
 }
 
 export default Order;

@@ -123,8 +123,6 @@ const Checkout = () => {
       creditsUsed: user?.credits || 0,
     };
 
-    console.log(body);
-
     const order = await handleFinishOrder(body);
     if (order) {
       navigate(`/orderCompleted/${order.code}`);

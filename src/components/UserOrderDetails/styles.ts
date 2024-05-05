@@ -17,7 +17,7 @@ export const Background = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 40%;
+  width: 60%;
   padding: 30px;
 
   background-color: ${({ theme }) => theme.colors.white_ff};
@@ -38,10 +38,10 @@ export const Label = styled.label<LabelProps>`
   font-weight: normal;
   color: ${({ theme }) => theme.colors.purple_1f};
 
-  margin-right:  ${({ isTitle }) => (isTitle ? "5px" : "0")};
+  margin-right: ${({ isTitle }) => (isTitle ? "5px" : "0")};
   font-weight: ${({ isTitle }) => (isTitle ? "bold" : "normal")};
 
-  color: ${({ isStatus }) => (isStatus? "green": "")};
+  color: ${({ isStatus }) => (isStatus ? "green" : "")};
 `;
 
 export const Row = styled.div`
@@ -49,4 +49,32 @@ export const Row = styled.div`
 
   display: flex;
   flex-direction: row;
+`;
+
+export const TableContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+interface TableRowProps {
+  isHeader?: boolean;
+}
+
+export const TableRow = styled.div<TableRowProps>`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+
+  border-bottom: 1px solid black;
+
+  font-weight: ${({ isHeader }) => (isHeader ? "bold" : "normal")};
+`;
+
+export const TableCell = styled.div`
+  display: flex;
+
+  font-size: 1rem;
+  padding: 1rem;
 `;

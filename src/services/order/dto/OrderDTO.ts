@@ -8,12 +8,15 @@ export enum OrderStatus {
   REPROVADA = "REPROVADA",
   EM_TRANSITO = "EM_TRANSITO",
   ENTREGUE = "ENTREGUE",
+  TROCA_SOLICITADA = "TROCA_SOLICITADA",
+  TROCA_AUTORIZADA = "TROCA_AUTORIZADA",
+  TROCADO = "TROCADO",
 }
 
-interface OrderItem {
+export interface OrderItem {
   id: string;
   quantity: number;
-  status: null | string;
+  status: OrderStatus | null;
   productId: string;
   orderId: string;
   product: IProductResponse;

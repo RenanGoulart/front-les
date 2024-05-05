@@ -1,9 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import { Background, Container, Label, Row } from "./styles";
+import {
+  Background,
+  Container,
+  Label,
+  Row,
+  TableCell,
+  TableContainer,
+  TableRow,
+} from "./styles";
 import Button from "../Button/Button";
 import { IOrderResponse } from "../../services/order/dto/OrderDTO";
+import useOrder from "../../hooks/useOrder";
 
 interface Props {
   data: IOrderResponse;
@@ -11,14 +20,28 @@ interface Props {
 }
 
 const UserOrderDetails = ({ data, closeModal }: Props) => {
+  const { renderStatus, handleUpdateExchange } = useOrder();
+
   const [isExchangeRequested, setIsExchangeRequested] = useState(false);
-  const [status, setStatus] = useState("Entregue");
 
   const navigate = useNavigate();
 
   const handleRequestExchange = () => {
+    handleUpdateExchange(data.id, "TROCA_SOLICITADA");
     setIsExchangeRequested(true);
-    setStatus("Em troca");
+  };
+
+  const renderMessage = (status: string) => {
+    switch (status) {
+      case "TROCA_SOLICITADA":
+        return "Aguarde a autorização de troca da loja!";
+      case "TROCA_AUTORIZADA":
+        return "Envie o produto para troca!";
+      case "TROCADO":
+        return "Produto trocado!";
+      default:
+        return "";
+    }
   };
 
   return (
@@ -30,7 +53,7 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
         <h1>Detalhes do Pedido</h1>
         <Row>
           <Label isTitle>Status: </Label>
-          <Label isStatus>{status}</Label>
+          <Label isStatus>{renderStatus(data.status)}</Label>
         </Row>
         <h4>Informações do Pedido</h4>
         <hr />
@@ -38,15 +61,42 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
           <Label isTitle>Número do Pedido:</Label>
           <Label>#{data.code}</Label>
         </Row>
-        <Row>
-          <Label isTitle>Produto:</Label>
-          {data.orderItems.map((item) => item.product.album).join(", ")}
-        </Row>
+        <Label isTitle>Produto(s):</Label>
+        <TableContainer>
+          <TableRow isHeader>
+            <TableCell>Nome</TableCell>
+            <TableCell>Quantidade</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell />
+          </TableRow>
+          {data.orderItems.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.product.album}</TableCell>
+              <TableCell>{item.quantity}</TableCell>
+              <TableCell>
+                {item.status
+                  ? renderStatus(item.status)
+                  : renderStatus(data.status)}
+              </TableCell>
+              <TableCell>
+                {!item.status?.includes("TROCA") && (
+                  <Button
+                    onClick={() =>
+                      handleUpdateExchange(item.id, "TROCA_SOLICITADA")
+                    }
+                  >
+                    Solicitar Troca
+                  </Button>
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableContainer>
         <Row>
           <Label isTitle>Data: </Label>
           <Label>{format(data.createdAt, "dd/MM/yyyy")}</Label>
         </Row>
-        {!isExchangeRequested ? (
+        {!data.status.includes("TROCA") || isExchangeRequested ? (
           <Button
             onClick={handleRequestExchange}
             data-cy="btn-request-exchange"
@@ -55,10 +105,10 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
           </Button>
         ) : (
           <>
-            <h4 style={{ alignSelf: "center" }}>Troca solicitada!</h4>
-            <p style={{ alignSelf: "center" }}>
-              Aguarde a notificação de autorização da troca!
-            </p>
+            <h4 style={{ alignSelf: "center" }}>
+              {renderStatus(data.status)}!
+            </h4>
+            <p style={{ alignSelf: "center" }}>{renderMessage(data.status)}</p>
             <Button onClick={() => navigate("/home")} data-cy="btn-close-modal">
               Voltar
             </Button>

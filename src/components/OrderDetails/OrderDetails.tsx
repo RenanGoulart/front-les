@@ -1,14 +1,23 @@
 import { useState } from "react";
 import Select from "react-select";
 import { format } from "date-fns";
-import { Background, Container, Label, Row } from "./styles";
+import {
+  Background,
+  Container,
+  Label,
+  Row,
+  TableCell,
+  TableContainer,
+  TableRow,
+} from "./styles";
 import Button from "../Button/Button";
 import {
+  exchangeOptions,
   finalOptions,
   initialOptions,
   intermediateOptions,
 } from "../../data/createOrderOptions";
-import { IOrderResponse } from "../../services/order/dto/OrderDTO";
+import { IOrderResponse, OrderItem } from "../../services/order/dto/OrderDTO";
 import useOrder from "../../hooks/useOrder";
 
 interface DropdownOption {
@@ -21,10 +30,23 @@ interface Props {
 }
 
 const OrderDetails = ({ data, closeModal }: Props) => {
-  const { renderStatus, handleUpdateOrder } = useOrder();
-  const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(
-    null,
-  );
+  const { renderStatus, handleUpdateOrder, handleUpdateExchange } = useOrder();
+
+  const [selectedItems, setSelectedItems] = useState<
+    Record<string, DropdownOption>
+  >({});
+
+  const handleSelect = (itemId: string, selectedItem: DropdownOption) => {
+    setSelectedItems((prevState) => ({ ...prevState, [itemId]: selectedItem }));
+  };
+
+  const isExchangeStatus = (status: string | null) => {
+    return (
+      status === "TROCA_SOLICITADA" ||
+      status === "TROCA_AUTORIZADA" ||
+      status === "TROCADO"
+    );
+  };
 
   const dropdownOptions = () => {
     if (data.status === "EM_PROCESSAMENTO") {
@@ -33,25 +55,32 @@ const OrderDetails = ({ data, closeModal }: Props) => {
     if (data.status === "APROVADA") {
       return intermediateOptions;
     }
-    if (data.status === "EM_TRANSITO") {
+    if (data.status === "EM_TRANSITO" || data.status === "ENTREGUE") {
       return finalOptions;
+    }
+    if (isExchangeStatus(data.status)) {
+      return exchangeOptions;
     }
     return initialOptions;
   };
 
-  const handleSelect = (selectedItem: DropdownOption) => {
-    setSelectedOption(selectedItem);
+  const defaultOption = (item: IOrderResponse | OrderItem) => {
+    return dropdownOptions().find((option) => option.value === item.status);
   };
 
   const handleUpdate = async () => {
-    if (selectedOption) {
-      const status =
-        selectedOption.value === "CANCELADA"
-          ? "REPROVADA"
-          : selectedOption.value;
-      await handleUpdateOrder(data.id, status);
-      closeModal();
-    }
+    const updatePromises = Object.entries(selectedItems).map(
+      async ([itemId, selectedOption]) => {
+        if (selectedOption && isExchangeStatus(selectedOption.value)) {
+          await handleUpdateExchange(itemId, selectedOption.value);
+        } else if (selectedOption) {
+          await handleUpdateOrder(itemId, selectedOption.value);
+        }
+      },
+    );
+
+    await Promise.all(updatePromises);
+    closeModal();
   };
 
   return (
@@ -71,12 +100,39 @@ const OrderDetails = ({ data, closeModal }: Props) => {
           <Label isTitle>Número do Pedido:</Label>
           <Label>#{data.code}</Label>
         </Row>
-        <Row>
-          <Label isTitle>Produto(s):</Label>
-          <Label>
-            {data.orderItems.map((item) => item.product.album).join(", ")}
-          </Label>
-        </Row>
+        <Label isTitle>Produto(s):</Label>
+        <TableContainer>
+          <TableRow isHeader>
+            <TableCell>Nome</TableCell>
+            <TableCell>Quantidade</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell />
+          </TableRow>
+          {data.orderItems.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.product.album}</TableCell>
+              <TableCell>{item.quantity}</TableCell>
+              <TableCell>
+                {item.status
+                  ? renderStatus(item.status)
+                  : renderStatus(data.status)}
+              </TableCell>
+              <TableCell>
+                {isExchangeStatus(item.status) && (
+                  <Select
+                    options={dropdownOptions()}
+                    placeholder="Selecione o status"
+                    defaultValue={defaultOption(item)}
+                    onChange={(selectedItem) =>
+                      handleSelect(item.id, selectedItem as DropdownOption)
+                    }
+                    classNamePrefix="order-item-status"
+                  />
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableContainer>
         <Row>
           <Label isTitle>Data: </Label>
           <Label>{format(data.createdAt, "dd/MM/yyyy")}</Label>
@@ -85,9 +141,9 @@ const OrderDetails = ({ data, closeModal }: Props) => {
         <Select
           options={dropdownOptions()}
           placeholder="Selecione o status"
-          defaultValue={dropdownOptions()?.[0]}
+          defaultValue={defaultOption(data)}
           onChange={(selectedItem) =>
-            handleSelect(selectedItem as DropdownOption)
+            handleSelect(data.id, selectedItem as DropdownOption)
           }
           classNamePrefix="order-status"
         />

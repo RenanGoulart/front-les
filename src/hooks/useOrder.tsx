@@ -38,6 +38,14 @@ const useOrder = () => {
     },
   });
 
+  const { mutateAsync: updateExchange } = useMutation({
+    mutationFn: Order.updateExchange,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allOrders"] });
+      queryClient.invalidateQueries({ queryKey: ["userOrders", user?.id] });
+    },
+  });
+
   const handleFinishOrder = async (body: ICreateOrderDTO) => {
     if (cart) {
       const order = await finishOrder(body);
@@ -49,22 +57,23 @@ const useOrder = () => {
     await updateOrder({ id, status });
   };
 
+  const handleUpdateExchange = async (id: string, status: string) => {
+    await updateExchange({ id, status });
+  };
+
+  const statusMap = {
+    [OrderStatus.EM_PROCESSAMENTO]: "Em processamento",
+    [OrderStatus.EM_TRANSITO]: "Em transporte",
+    [OrderStatus.APROVADA]: "Aprovada",
+    [OrderStatus.REPROVADA]: "Reprovada",
+    [OrderStatus.ENTREGUE]: "Entregue",
+    [OrderStatus.TROCA_SOLICITADA]: "Troca solicitada",
+    [OrderStatus.TROCA_AUTORIZADA]: "Troca autorizada",
+    [OrderStatus.TROCADO]: "Trocado",
+  };
+
   const renderStatus = (status: OrderStatus) => {
-    if (status === OrderStatus.EM_PROCESSAMENTO) {
-      return "Em processamento";
-    }
-    if (status === OrderStatus.EM_TRANSITO) {
-      return "Em transporte";
-    }
-    if (status === OrderStatus.APROVADA) {
-      return "Pagamento Realizado";
-    }
-    if (status === OrderStatus.REPROVADA) {
-      return "Pagamento Recusado / Cancelado";
-    }
-    if (status === OrderStatus.ENTREGUE) {
-      return "Entregue";
-    }
+    return statusMap[status];
   };
 
   return {
@@ -72,6 +81,7 @@ const useOrder = () => {
     userOrders,
     handleFinishOrder,
     handleUpdateOrder,
+    handleUpdateExchange,
     renderStatus,
   };
 };
