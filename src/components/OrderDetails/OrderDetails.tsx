@@ -98,7 +98,7 @@ const OrderDetails = ({ data, closeModal }: Props) => {
         <hr />
         <Row>
           <Label isTitle>Número do Pedido:</Label>
-          <Label>#{data.code}</Label>
+          <Label data-cy="details-order-code">#{data.code}</Label>
         </Row>
         <Label isTitle>Produto(s):</Label>
         <TableContainer>

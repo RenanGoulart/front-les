@@ -36,7 +36,7 @@ const AllOrders = () => {
           {allOrders &&
             allOrders.map((order) => (
               <TableRow key={order.id}>
-                <TableCell>#{order.code}</TableCell>
+                <TableCell data-cy="list-order-code">#{order.code}</TableCell>
                 <TableCell>{format(order.createdAt, "dd/MM/yyyy")}</TableCell>
                 <TableCell data-cy="all-order-status">{renderStatus(order.status)}</TableCell>
                 <TableCell>
