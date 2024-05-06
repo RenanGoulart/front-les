@@ -37,7 +37,9 @@ const UserOrders = () => {
               <TableRow key={order.id}>
                 <TableCell>#{order.code}</TableCell>
                 <TableCell>{format(order.createdAt, "dd/MM/yyyy")}</TableCell>
-                <TableCell>{renderStatus(order.status)}</TableCell>
+                <TableCell data-cy="order-status">
+                  {renderStatus(order.status)}
+                </TableCell>
                 <TableCell style={{ justifyContent: "flex-end" }}>
                   <Button
                     onClick={() => setCurrentOrder(order)}
