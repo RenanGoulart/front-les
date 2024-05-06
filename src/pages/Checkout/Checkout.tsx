@@ -41,6 +41,7 @@ import ModalCreateUserAddress from "../../components/ModalCreateUserAddress/Moda
 import ModalCreateUserCreditCard from "../../components/ModalCreateUserCreditCard/ModalCreateUserCreditCard";
 import MultiSelect from "../../components/MultiSelect/MultiSelect";
 import useOrder from "../../hooks/useOrder";
+import { handleError } from "../../lib/toastify";
 
 const freight = 15;
 
@@ -113,6 +114,11 @@ const Checkout = () => {
       id: card.id as string,
       value: card.value as number,
     }));
+
+    const values = cardsPayment?.reduce((acc, card) => acc + card.value, 0);
+    if (values !== calculateTotal()) {
+      return handleError("Valores dos cartões não correspondem ao total");
+    }
 
     const body = {
       addressId: data.address,
@@ -237,6 +243,7 @@ const Checkout = () => {
               <Button
                 style={styles.buttonStyle}
                 onClick={handleSubmit(onSubmit)}
+                disabled={!getValues("address") || !getValues("cards")}
                 data-cy="btn-finish-payment"
               >
                 Finalizar Pagamento

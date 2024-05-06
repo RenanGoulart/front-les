@@ -5,6 +5,7 @@ interface Props {
   children: React.ReactNode;
   style?: React.CSSProperties;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const Button = ({ children, ...props }: PropsWithChildren<Props>) => {
