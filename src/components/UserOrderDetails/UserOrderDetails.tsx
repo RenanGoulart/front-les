@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import {
@@ -22,14 +21,7 @@ interface Props {
 const UserOrderDetails = ({ data, closeModal }: Props) => {
   const { renderStatus, handleUpdateExchange } = useOrder();
 
-  const [isExchangeRequested, setIsExchangeRequested] = useState(false);
-
   const navigate = useNavigate();
-
-  const handleRequestExchange = () => {
-    handleUpdateExchange(data.id, "TROCA_SOLICITADA");
-    setIsExchangeRequested(true);
-  };
 
   const renderMessage = (status: string) => {
     switch (status) {
@@ -42,6 +34,54 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
       default:
         return "";
     }
+  };
+
+  const isExchangeEnable = (orderStatus: string, itemStatus: string | null) => {
+    if (
+      itemStatus === "TROCADO" ||
+      itemStatus === "TROCA_AUTORIZADA" ||
+      itemStatus === "TROCA_SOLICITADA"
+    ) {
+      return false;
+    }
+
+    return (
+      orderStatus === "ENTREGUE" ||
+      orderStatus === "TROCA_SOLICITADA" ||
+      orderStatus === "TROCA_AUTORIZADA"
+    );
+  };
+
+  const renderExchangeButton = (status: string) => {
+    const allOrderItemsStatus = data.orderItems.every(
+      (item) => item.status === "TROCA_SOLICITADA",
+    );
+    if (allOrderItemsStatus) {
+      return null;
+    }
+
+    if (status === "ENTREGUE") {
+      return (
+        <Button
+          onClick={() => handleUpdateExchange(data.id, "TROCA_SOLICITADA")}
+          data-cy="btn-request-exchange"
+        >
+          Solicitar Troca
+        </Button>
+      );
+    }
+    if (status.includes("TROCA")) {
+      return (
+        <>
+          <h4 style={{ alignSelf: "center" }}>{renderStatus(data.status)}!</h4>
+          <p style={{ alignSelf: "center" }}>{renderMessage(data.status)}</p>
+          <Button onClick={() => navigate("/home")} data-cy="btn-close-modal">
+            Voltar
+          </Button>
+        </>
+      );
+    }
+    return null;
   };
 
   return (
@@ -79,7 +119,7 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
                   : renderStatus(data.status)}
               </TableCell>
               <TableCell>
-                {!item.status?.includes("TROCA") && (
+                {isExchangeEnable(data.status, item.status) && (
                   <Button
                     onClick={() =>
                       handleUpdateExchange(item.id, "TROCA_SOLICITADA")
@@ -96,24 +136,7 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
           <Label isTitle>Data: </Label>
           <Label>{format(data.createdAt, "dd/MM/yyyy")}</Label>
         </Row>
-        {!data.status.includes("TROCA") || isExchangeRequested ? (
-          <Button
-            onClick={handleRequestExchange}
-            data-cy="btn-request-exchange"
-          >
-            Solicitar Troca
-          </Button>
-        ) : (
-          <>
-            <h4 style={{ alignSelf: "center" }}>
-              {renderStatus(data.status)}!
-            </h4>
-            <p style={{ alignSelf: "center" }}>{renderMessage(data.status)}</p>
-            <Button onClick={() => navigate("/home")} data-cy="btn-close-modal">
-              Voltar
-            </Button>
-          </>
-        )}
+        {renderExchangeButton(data.status)}
       </Container>
     </Background>
   );
