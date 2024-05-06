@@ -1,25 +1,30 @@
-import Input from "../Input/Input";
-import {
-  Background,
-  Container,
-  Row,
-} from "./styles";
-import Button from "../Button/Button";
-import { CreateCouponForm, CreateCouponSchema } from "../../validations/createCoupon.validation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Input from "../Input/Input";
+import { Background, Container, Row } from "./styles";
+import Button from "../Button/Button";
+import {
+  CreateCouponForm,
+  CreateCouponSchema,
+} from "../../validations/createCoupon.validation";
+import useCoupon from "../../hooks/useCoupon";
 
 interface Props {
   closeModal: () => void;
 }
 
-const ModalCreateCoupon = ({ closeModal } : Props) => {
+const ModalCreateCoupon = ({ closeModal }: Props) => {
   const { control, handleSubmit } = useForm<CreateCouponForm>({
     resolver: yupResolver(CreateCouponSchema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const { handleCreateCoupon } = useCoupon();
+
+  const onSubmit = (data: CreateCouponForm) => {
+    handleCreateCoupon({
+      ...data,
+      expirationDate: new Date(data.expirationDate),
+    });
     closeModal();
   };
 
@@ -30,7 +35,7 @@ const ModalCreateCoupon = ({ closeModal } : Props) => {
         <Row>
           <Input
             control={control}
-            name="codCoupon"
+            name="name"
             label="Código do Cupom"
             placeholder="Ex: DISCO15"
             containerStyle={{ width: "100%" }}
@@ -39,7 +44,7 @@ const ModalCreateCoupon = ({ closeModal } : Props) => {
         <Row>
           <Input
             control={control}
-            name="qtdCoupon"
+            name="quantity"
             label="Quantidade"
             placeholder="ex: 100"
             type="number"
@@ -57,7 +62,7 @@ const ModalCreateCoupon = ({ closeModal } : Props) => {
         <Row>
           <Input
             control={control}
-            name="priceDiscount"
+            name="value"
             label="Valor"
             placeholder="ex: 100,00"
             containerStyle={styles.elementStyle}

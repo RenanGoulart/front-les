@@ -5,3 +5,10 @@ export interface ICouponResponse {
   quantity: number;
   expirationDate: string;
 }
+
+export interface ICreateCouponDTO {
+  name: string;
+  value: number;
+  quantity: number;
+  expirationDate: Date;
+}

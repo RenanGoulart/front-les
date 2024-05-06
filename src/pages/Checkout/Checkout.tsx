@@ -109,6 +109,8 @@ const Checkout = () => {
   const calculateTotal = () =>
     (cart?.total || 0) + freight - (user?.credits || 0) - (coupon?.value || 0);
 
+  console.log("to paid", freight + (cart?.total || 0));
+
   const onSubmit = async (data: CheckoutForm) => {
     const cardsPayment = data?.cardsValue?.map((card) => ({
       id: card.id as string,
