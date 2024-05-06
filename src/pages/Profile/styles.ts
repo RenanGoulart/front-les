@@ -14,7 +14,7 @@ export const Content = styled.section`
 `;
 
 export const ButtonsWrapper = styled.div`
-  margin-top: 3rem;
+  margin-top: 1rem;
 
   display: flex;
   flex-direction: column;
@@ -80,4 +80,11 @@ export const StyledAddressIcon = styled(FaMapLocationDot)`
 export const StyledLogoutIcon = styled(IoLogOut)`
   font-size: 1.5rem;
   color: ${({ theme }) => theme.colors.white_ff};
+`;
+
+export const CreditsText = styled.h3`
+  margin-top: 2rem;
+
+  text-align: center;
+  color: ${({ theme }) => theme.colors.purple_1f};
 `;

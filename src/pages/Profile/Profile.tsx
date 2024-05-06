@@ -4,6 +4,7 @@ import {
   ButtonsWrapper,
   Container,
   Content,
+  CreditsText,
   Image,
   ImageContent,
   StyledAddressIcon,
@@ -15,9 +16,12 @@ import {
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import profileimg from "../../assets/img/profile-img.png";
+import useUser from "../../hooks/useUser";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { user } = useUser();
+
   return (
     <Container>
       <Header />
@@ -27,6 +31,7 @@ const Profile = () => {
           <Image src={profileimg} alt="Vinil" />
           <TextOverlay>Meu Perfil</TextOverlay>
         </ImageContent>
+        <CreditsText>Créditos: {user?.credits || 0}</CreditsText>
         <ButtonsWrapper>
           <Button
             isOutline
