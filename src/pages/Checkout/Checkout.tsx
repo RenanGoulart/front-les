@@ -69,6 +69,8 @@ const Checkout = () => {
     name: "cardsValue",
   });
 
+  const totalToPaid = (cart?.total || 0) + freight;
+
   useEffect(() => {
     if (!cardsWatch) {
       return;
@@ -97,19 +99,33 @@ const Checkout = () => {
   }, [cardsWatch]);
 
   const handleSetCoupon = async () => {
+    if (user?.credits && user?.credits >= totalToPaid) {
+      return handleError("Você não pode aplicar um cupom");
+    }
+
     const couponName = getValues("coupon");
     const existingCoupon = await handleApplyCoupon(couponName as string);
 
     if (existingCoupon) {
+      if (existingCoupon.value + (user?.credits || 0) > totalToPaid) {
+        setValue("coupon", "");
+        return handleError("Você não pode aplicar um cupom");
+      }
+
       setCoupon(existingCoupon);
     }
     setValue("coupon", "");
   };
 
-  const calculateTotal = () =>
-    (cart?.total || 0) + freight - (user?.credits || 0) - (coupon?.value || 0);
+  const calculateTotal = () => {
+    const total =
+      (cart?.total || 0) +
+      freight -
+      (user?.credits || 0) -
+      (coupon?.value || 0);
 
-  console.log("to paid", freight + (cart?.total || 0));
+    return Math.max(0, total);
+  };
 
   const onSubmit = async (data: CheckoutForm) => {
     const cardsPayment = data?.cardsValue?.map((card) => ({
@@ -117,8 +133,17 @@ const Checkout = () => {
       value: card.value as number,
     }));
 
-    const values = cardsPayment?.reduce((acc, card) => acc + card.value, 0);
-    if (values !== calculateTotal()) {
+    const values =
+      cardsPayment?.reduce((acc, card) => acc + card.value, 0) || 0;
+    if (calculateTotal() > 0 && values < calculateTotal()) {
+      return handleError("Valores dos cartões não correspondem ao total");
+    }
+
+    if (
+      cardsPayment &&
+      cardsPayment?.length > 0 &&
+      values !== calculateTotal()
+    ) {
       return handleError("Valores dos cartões não correspondem ao total");
     }
 
@@ -128,7 +153,10 @@ const Checkout = () => {
       couponId: coupon?.id || null,
       freight,
       cards: cardsPayment || [],
-      creditsUsed: user?.credits || 0,
+      creditsUsed:
+        user?.credits && user?.credits >= totalToPaid
+          ? totalToPaid
+          : user?.credits || 0,
     };
 
     const order = await handleFinishOrder(body);
@@ -225,7 +253,12 @@ const Checkout = () => {
               </Row>
               <Row>
                 <Text>Créditos</Text>
-                <Text isDimmed>-{formatCurrency(user?.credits || 0)}</Text>
+                <Text isDimmed>
+                  -
+                  {user?.credits && user?.credits >= totalToPaid
+                    ? formatCurrency(totalToPaid)
+                    : formatCurrency(user?.credits || 0)}
+                </Text>
               </Row>
               {coupon && (
                 <Row>
@@ -245,7 +278,6 @@ const Checkout = () => {
               <Button
                 style={styles.buttonStyle}
                 onClick={handleSubmit(onSubmit)}
-                disabled={!getValues("address") || !getValues("cards")}
                 data-cy="btn-finish-payment"
               >
                 Finalizar Pagamento
