@@ -67,7 +67,12 @@ const ModalCreateCoupon = ({ closeModal }: Props) => {
             placeholder="ex: 100,00"
             containerStyle={styles.elementStyle}
           />
-          <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            data-cy="btn-save-coupon"
+          >
+            Salvar
+          </Button>
         </Row>
       </Container>
     </Background>

@@ -33,7 +33,7 @@ const Coupons = () => {
       <Content>
         <TableHeader>
           <Title>Meus Cupons</Title>
-          <Button onClick={openModal}>Adicionar Cupom</Button>
+          <Button onClick={openModal} data-cy="btn-add-coupon">Adicionar Cupom</Button>
         </TableHeader>
         <TableContainer>
           <TableRow isHeader>
