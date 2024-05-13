@@ -98,7 +98,14 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 containerStyle={{ width: "100%" }}
               />
             </Row>
-            <Row style={{justifyContent: 'flex-end'}}>
+            <Row>
+              <Input
+                control={control}
+                name="quantityInStock"
+                label="Quantidade em Estoque"
+                type="number"
+                containerStyle={{ width: "50%" }}
+              />
               <Button onClick={() => setStep(2)}>Próximo</Button>
             </Row>
           </>

@@ -15,6 +15,7 @@ export const CreateProductSchema = Yup.object({
   categories: Yup.string().required("Categoria Obrigatória"),
   photo: Yup.string().required("Foto Obrigatória"),
   price: Yup.string().required("Preço Obrigatório"),
+  quantityInStock: Yup.number().required("Quantidade em Estoque Obrigatória"),
 });
 
 export type ChangeProductStatusForm = Yup.InferType<

@@ -17,3 +17,20 @@ export interface IProductResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ICreateProductDTO {
+  artist: string;
+  album: string;
+  year: string;
+  producer: string;
+  pricingGroup: string;
+  numberOfTracks: string;
+  height: string;
+  width: string;
+  weight: string;
+  categories: string[];
+  price: number;
+  photo: string;
+  quantityInStock: number;
+}
+
