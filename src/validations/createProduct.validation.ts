@@ -3,19 +3,29 @@ import * as Yup from "yup";
 export type CreateProductForm = Yup.InferType<typeof CreateProductSchema>;
 
 export const CreateProductSchema = Yup.object({
-  artist: Yup.string().required("Nome do Artista Obrigatório"),
   album: Yup.string().required("Nome do Álbum Obrigatório"),
   year: Yup.string().required("Nome do Álbum Obrigatório"),
+  artist: Yup.string().required("Nome do Artista Obrigatório"),
   producer: Yup.string().required("Nome do Produtor Obrigatório"),
-  numberOfTracks: Yup.string().required("Quantidade de Faixas Obrigatória"),
-  height: Yup.string().required("Altura do Produto Obrigatória"),
-  width: Yup.string().required("Largura do Produto Obrigatória"),
-  weight: Yup.string().required("Peso do Produto Obrigatório"),
-  pricingGroup: Yup.string().required("Grupo de Precificação Obrigatório"),
-  categories: Yup.string().required("Categoria Obrigatória"),
-  photo: Yup.string().required("Foto Obrigatória"),
-  price: Yup.string().required("Preço Obrigatório"),
+  height: Yup.number().required("Altura do Produto Obrigatória"),
+  width: Yup.number().required("Largura do Produto Obrigatória"),
+  weight: Yup.number().required("Peso do Produto Obrigatório"),
+  photo: Yup.mixed().required("Foto Obrigatória"),
   quantityInStock: Yup.number().required("Quantidade em Estoque Obrigatória"),
+  categories: Yup.array().of(
+    Yup.object({
+      label: Yup.string(),
+      value: Yup.string(),
+    }),
+  ),
+  pricingGroup: Yup.string().required("Grupo de Precificação Obrigatório"),
+  price: Yup.number().required("Preço Obrigatório"),
+  tracks: Yup.array().of(
+    Yup.object({
+      name: Yup.string(),
+      duration: Yup.string(),
+    }),
+  ),
 });
 
 export type ChangeProductStatusForm = Yup.InferType<

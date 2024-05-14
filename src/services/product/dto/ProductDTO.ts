@@ -18,13 +18,17 @@ export interface IProductResponse {
   updatedAt: string;
 }
 
+interface ITrack {
+  name: string;
+  duration: string;
+}
+
 export interface ICreateProductDTO {
   artist: string;
   album: string;
   year: string;
   producer: string;
   pricingGroup: string;
-  numberOfTracks: string;
   height: string;
   width: string;
   weight: string;
@@ -32,5 +36,5 @@ export interface ICreateProductDTO {
   price: number;
   photo: string;
   quantityInStock: number;
+  tracks: ITrack[];
 }
-

@@ -39,6 +39,8 @@ const Products = () => {
     setStatus(false);
   };
 
+  console.log(products);
+
   return (
     <Container>
       <SideBar />
@@ -65,7 +67,14 @@ const Products = () => {
                   alt={`Capa ${product.album} - ${product.artist}`}
                 />
               </TableCell>
-              <TableCell>{product.categories}</TableCell>
+              <TableCell>
+                {product.categories.map((category, index) =>
+                  `${category}${index === product.categories.length - 1 ? "" : ", "}`.replace(
+                    "_",
+                    "-",
+                  ),
+                )}
+              </TableCell>
               <TableCell>{product.album}</TableCell>
               <TableCell>{product.artist}</TableCell>
               <TableCell>{product.price}</TableCell>

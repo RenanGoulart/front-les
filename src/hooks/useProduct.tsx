@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Product from "../services/product/Product";
-import { ICreateProductDTO } from "../services/product/dto/ProductDTO";
+import { CreateProductForm } from "../validations/createProduct.validation";
 
 const useProduct = () => {
   const queryClient = useQueryClient();
@@ -18,8 +18,35 @@ const useProduct = () => {
     },
   });
 
-  const handleCreateProduct = async (body: ICreateProductDTO) => {
-    await createProduct(body);
+  const handleCreateProduct = async (body: CreateProductForm) => {
+    const formData = new FormData();
+    formData.append("artist", body.artist);
+    formData.append("album", body.album);
+    formData.append("year", body.year);
+    formData.append("producer", body.producer);
+    formData.append("height", String(body.height));
+    formData.append("width", String(body.width));
+    formData.append("weight", String(body.weight));
+    formData.append("pricingGroup", body.pricingGroup);
+    body.categories?.forEach((category, index) => {
+      formData.append(`categories[${index}]`, category.value as string);
+    });
+    formData.append("price", String(body.price));
+    formData.append("quantityInStock", String(body.quantityInStock));
+
+    const extension = (body.photo as File).name.split(".").pop();
+    formData.append(
+      "photo",
+      body.photo as Blob,
+      `${body.album}-${body.artist}.${extension}`.replace(/\s/g, "_"),
+    );
+
+    body.tracks?.forEach((track, index) => {
+      formData.append(`tracks[${index}][name]`, track.name as string);
+      formData.append(`tracks[${index}][duration]`, track.duration as string);
+    });
+
+    await createProduct(formData);
   };
 
   return {

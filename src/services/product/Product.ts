@@ -1,5 +1,5 @@
 import api from "../../lib/axios";
-import { ICreateProductDTO, IProductResponse } from "./dto/ProductDTO";
+import { IProductResponse } from "./dto/ProductDTO";
 
 class Product {
   static async findAll() {
@@ -12,7 +12,7 @@ class Product {
     return data;
   }
 
-  static async create(product: ICreateProductDTO) {
+  static async create(product: FormData) {
     const { data } = await api.post<IProductResponse>("/product", product);
     return data;
   }

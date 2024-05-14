@@ -1,27 +1,61 @@
-import { useForm } from "react-hook-form";
+import { Control, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import Input from "../Input/Input";
-import { Background, Container, ReturnIcon, Row } from "./styles";
+import {
+  AddButton,
+  Background,
+  Container,
+  RemoveButton,
+  ReturnIcon,
+  Row,
+  StyledDeleteIcon,
+  TrackNumber,
+  TrackRow,
+  TracksWrapper,
+} from "./styles";
 import Button from "../Button/Button";
 import {
   CreateProductForm,
   CreateProductSchema,
 } from "../../validations/createProduct.validation";
+import {
+  categoriesOptions,
+  pricingGroupOptions,
+} from "../../data/createProductOptions";
 import Select from "../Select/Select";
-import { categoriesOptions, pricingGroupOptions } from "../../data/createProductOptions";
+import MultiSelect from "../MultiSelect/MultiSelect";
+import { theme } from "../../styles/theme";
+import useProduct from "../../hooks/useProduct";
+import FileInput from "../FileInput/FileInput";
+
 interface Props {
   closeModal: () => void;
 }
 
 const ModalCreateProduct = ({ closeModal }: Props) => {
+  const { handleCreateProduct } = useProduct();
+
   const [step, setStep] = useState(1);
   const { control, handleSubmit } = useForm<CreateProductForm>({
     resolver: yupResolver(CreateProductSchema),
+    defaultValues: {
+      tracks: [{ name: "", duration: "" }],
+    },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const {
+    append: appendTrack,
+    fields: tracks,
+    remove: removeTrack,
+  } = useFieldArray({
+    control,
+    name: "tracks",
+    rules: { minLength: 1 },
+  });
+
+  const onSubmit = (data: CreateProductForm) => {
+    handleCreateProduct(data);
     closeModal();
   };
 
@@ -90,11 +124,10 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
               />
             </Row>
             <Row>
-              <Input
+              <FileInput
                 control={control}
                 name="photo"
                 label="Foto"
-                type="file"
                 containerStyle={{ width: "100%" }}
               />
             </Row>
@@ -113,12 +146,16 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
         {step === 2 && (
           <>
             <Row>
-              <Select
-                control={control}
+              <MultiSelect
                 name="categories"
-                label="Categorias"
+                control={control as unknown as Control}
                 options={categoriesOptions}
-                containerStyle={{ width: "100%" }}
+                label="Categorias"
+                placeholder="Selecione uma ou mais categorias"
+                containerStyle={{
+                  width: "100%",
+                }}
+                style={{ borderColor: theme.colors.purple_80 }}
               />
             </Row>
             <Row>
@@ -148,16 +185,36 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
         )}
         {step === 3 && (
           <>
-            <Row>
-              <Input
-                control={control}
-                name="numberOfTracks"
-                label="Quantidade de Faixas"
-                placeholder="Ex: 20"
-                type="number"
-                containerStyle={{ width: "100%" }}
-              />
-            </Row>
+            <TracksWrapper>
+              {tracks.map((track, index) => (
+                <TrackRow key={track.id}>
+                  <TrackNumber>{index + 1}.</TrackNumber>
+                  <Input
+                    control={control}
+                    name={`tracks.${index}.name`}
+                    label="Nome da faixa"
+                    placeholder="Ex: Black"
+                    containerStyle={{ width: "65%" }}
+                  />
+                  <Input
+                    control={control}
+                    name={`tracks.${index}.duration`}
+                    label="Duração"
+                    placeholder="Ex: 03:14"
+                    mask="99:99"
+                    containerStyle={{ width: "20%" }}
+                  />
+                  <RemoveButton onClick={() => removeTrack(index)}>
+                    <StyledDeleteIcon />
+                  </RemoveButton>
+                </TrackRow>
+              ))}
+              <AddButton
+                onClick={() => appendTrack({ name: "", duration: "" })}
+              >
+                Adicionar faixa
+              </AddButton>
+            </TracksWrapper>
             <Row>
               <ReturnIcon onClick={() => setStep(2)}>Anterior</ReturnIcon>
               <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
