@@ -34,6 +34,17 @@ const Client = () => {
 
   const [form, setForm] = useState<FormType>(null);
   const [clients, setClients] = useState([] as IUserResponse[]);
+  const [search, setSearch] = useState('');
+
+  const filterClients = clients.filter(
+    (client) =>
+      client.name.toLowerCase().includes(search.toLowerCase()) ||
+      client.cpf.includes(search) ||
+      client.email.toLowerCase().includes(search.toLowerCase()) ||
+      client.status.toLowerCase().includes(search.toLowerCase()) ||
+      client.phone.includes(search) ||
+      client.gender.toLowerCase().includes(search.toLowerCase())
+  );
 
   const handleChangeForm = (formName: FormType) => {
     setForm(formName);
@@ -83,7 +94,9 @@ const Client = () => {
         <Input
           control={control}
           name="search"
-          placeholder="Pesquise por nome, CPF ou e-mail"
+          placeholder="Pesquise por nome, e-mail, CPF, status, telefone e/ou gênero"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <TableContainer>
           <TableRow isHeader>
@@ -97,7 +110,7 @@ const Client = () => {
             <TableCell />
             <TableCell />
           </TableRow>
-          {clients.map((client) => (
+          {filterClients.map((client) => (
             <TableRow key={client.id}>
               <TableCell>{client.name}</TableCell>
               <TableCell>{client.status}</TableCell>

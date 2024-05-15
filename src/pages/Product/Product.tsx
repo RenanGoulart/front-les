@@ -13,23 +13,37 @@ import {
   AlbumCover,
 } from "./styles";
 import Button from "../../components/Button/Button";
+import Input from "../../components/Input/Input";
 import SideBar from "../../components/SideBar/SideBar";
 import ModalCreateProduct from "../../components/ModalCreateProduct/ModalCreateProduct";
 import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
 import Product from "../../services/product/Product";
+import { useForm } from "react-hook-form";
 
 const Products = () => {
+  const { control } = useForm();
+
   const [form, setForm] = useState(false);
   const [details, setDetails] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
+  const [search, setSearch] = useState('');
 
   const { data: products } = useQuery({
     queryKey: ["products"],
     queryFn: () => Product.findAll(),
   });
+
+  const filterProducts = products?.filter(
+    (product) =>
+      product.album.toLowerCase().includes(search.toLowerCase()) ||
+      product.artist.toLowerCase().includes(search.toLowerCase()) ||
+      product.barCode.includes(search) ||
+      product.categories.some((category) => category.toLowerCase().includes(search.toLowerCase())) ||
+      product.year.includes(search)
+  ) ?? [];
 
   const handleCheck = () => {
     if (isActive) {
@@ -49,6 +63,13 @@ const Products = () => {
           <Title>Produtos</Title>
           <Button onClick={() => setForm(true)}>Adicionar Produto</Button>
         </TableHeader>
+        <Input
+          control={control}
+          name="search"
+          placeholder="Pesquise por pelo nome do álbum, artista, categoria, ano e/ou código de barras"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <TableContainer>
           <TableRow isHeader>
             <TableCell>Capa</TableCell>
@@ -59,7 +80,7 @@ const Products = () => {
             <TableCell>Ativo/Inativo</TableCell>
             <TableCell />
           </TableRow>
-          {products?.map((product) => (
+          {filterProducts?.map((product) => (
             <TableRow key={product.id}>
               <TableCell>
                 <AlbumCover

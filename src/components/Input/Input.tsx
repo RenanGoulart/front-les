@@ -19,6 +19,8 @@ type Props<TFieldValues extends FieldValues> = {
   containerStyle?: React.CSSProperties;
   labelStyle?: React.CSSProperties;
   style?: React.CSSProperties;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
 } & UseControllerProps<TFieldValues>;
 
 const Input = <TFieldValues extends FieldValues>({
@@ -31,6 +33,8 @@ const Input = <TFieldValues extends FieldValues>({
   containerStyle,
   labelStyle,
   style,
+  onChange,
+  value,
   ...props
 }: Props<TFieldValues>) => {
   const {
@@ -41,6 +45,13 @@ const Input = <TFieldValues extends FieldValues>({
     control,
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    field.onChange(e);
+    if (onChange) {
+      onChange(e);
+    }
+  };
+
   return (
     <Container style={containerStyle}>
       {label && <Label style={labelStyle}>{label}</Label>}
@@ -50,16 +61,18 @@ const Input = <TFieldValues extends FieldValues>({
           placeholder={placeholder}
           mask={mask}
           style={style}
+          value={value !== undefined ? value : field.value}
+          onChange={handleChange}
           {...props}
-          {...field}
         />
       ) : (
         <TextInput
           type={type || "text"}
           placeholder={placeholder}
           style={style}
+          value={value !== undefined ? value : field.value}
+          onChange={handleChange}
           {...props}
-          {...field}
         />
       )}
       {error && <ErrorMessage>{error.message}</ErrorMessage>}
