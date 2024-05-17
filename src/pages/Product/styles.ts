@@ -5,12 +5,15 @@ import { FaEdit } from "react-icons/fa";
 export const Container = styled.main`
   width: 100vw;
   height: 100vh;
+  overflow-x: hidden;
+
 
   display: flex;
 `;
 
 export const Content = styled.section`
-  width: 85%;
+  width: 90%;
+  margin-left: 15%;
 
   padding: 2rem 8rem;
 `;

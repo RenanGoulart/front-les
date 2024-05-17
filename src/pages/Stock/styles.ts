@@ -9,6 +9,7 @@ export const Container = styled.main`
 
 export const Content = styled.section`
   width: 85%;
+  margin-left: 15%;
 
   padding: 2rem 8rem;
 `;

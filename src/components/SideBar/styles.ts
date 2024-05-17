@@ -8,6 +8,7 @@ export const Container = styled.aside`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
 
   padding: 20px;
 
