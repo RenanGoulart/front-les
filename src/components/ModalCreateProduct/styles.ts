@@ -106,3 +106,22 @@ export const ReturnIcon = styled(IoMdArrowRoundBack)`
 
   cursor: pointer;
 `;
+
+export const CalculateButton = styled.div`
+  margin-top: 25px;
+  padding: 0.25rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: ${({ theme }) => theme.colors.white_ff};
+  border: 1px solid ${({ theme }) => theme.colors.purple_1f};
+  border-radius: 5px;
+
+  color: ${({ theme }) => theme.colors.purple_1f};
+  font-weight: bold;
+
+  cursor: pointer;
+`;
+

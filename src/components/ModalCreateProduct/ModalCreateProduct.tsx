@@ -13,6 +13,7 @@ import {
   TrackNumber,
   TrackRow,
   TracksWrapper,
+  CalculateButton,
 } from "./styles";
 import Button from "../Button/Button";
 import {
@@ -33,16 +34,46 @@ interface Props {
   closeModal: () => void;
 }
 
+const priceGroup = {
+  EDICAO_ESPECIAL: 1.20,
+  EDICAO_LIMITADA: 1.30,
+  EDICAO_NORMAL: 1.00,
+};
+
 const ModalCreateProduct = ({ closeModal }: Props) => {
   const { handleCreateProduct } = useProduct();
+  const [salePrice, setSalePrice] = useState<number | null>(null);
+  const [priceCalculated, setPriceCalculated] = useState(false);
+
 
   const [step, setStep] = useState(1);
-  const { control, handleSubmit } = useForm<CreateProductForm>({
+  const { control, handleSubmit, getValues} = useForm<CreateProductForm>({
     resolver: yupResolver(CreateProductSchema),
     defaultValues: {
       tracks: [{ name: "", duration: "" }],
     },
   });
+
+  const priceGroup: { [key: string]: number } = {
+    EDICAO_ESPECIAL: 1.20,
+    EDICAO_LIMITADA: 1.30,
+    EDICAO_NORMAL: 1.00,
+  };
+
+  const calculatePrice = () => {
+    const price = Number(getValues("price"));
+    const pricingGroup = getValues("pricingGroup");
+    const percentual = priceGroup[pricingGroup];
+
+    if (!isNaN(price) && percentual) {
+      const calculatedSalePrice = price * percentual;
+      setSalePrice(calculatedSalePrice);
+      setPriceCalculated(true);
+    } else {
+      setSalePrice(null);
+      setPriceCalculated(false);
+    }
+  };
 
   const {
     append: appendTrack,
@@ -174,9 +205,17 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 label="Preço"
                 placeholder="Ex: 200"
                 type="number"
-                containerStyle={{ width: "100%" }}
+                containerStyle={{ width: "65%" }}
               />
+              <CalculateButton onClick={calculatePrice}>
+                Calcular Preço de Venda
+              </CalculateButton>
             </Row>
+            {priceCalculated && salePrice !== null && (
+              <Row>
+                <p>O valor de venda é: {salePrice.toFixed(2)}</p>
+              </Row>
+            )}
             <Row>
               <ReturnIcon onClick={() => setStep(1)}>Anterior</ReturnIcon>
               <Button onClick={() => setStep(3)}>Próximo</Button>
