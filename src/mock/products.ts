@@ -4,7 +4,7 @@ import happierThanEverImg from "../assets/img/cover-happierThanEver.png";
 import tenImg from "../assets/img/cover-ten.png";
 import brandNewEyesImg from "../assets/img/cover-brandNewEyes.png";
 
-export interface ITrack {
+interface ITrack {
   id: number;
   name: string;
   duration: string;

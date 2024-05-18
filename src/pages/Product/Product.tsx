@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import {
   Container,
   TableContainer,
@@ -20,7 +21,6 @@ import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
 import Product from "../../services/product/Product";
-import { useForm } from "react-hook-form";
 
 const Products = () => {
   const { control } = useForm();
@@ -29,21 +29,24 @@ const Products = () => {
   const [details, setDetails] = useState(false);
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   const { data: products } = useQuery({
     queryKey: ["products"],
     queryFn: () => Product.findAll(),
   });
 
-  const filterProducts = products?.filter(
-    (product) =>
-      product.album.toLowerCase().includes(search.toLowerCase()) ||
-      product.artist.toLowerCase().includes(search.toLowerCase()) ||
-      product.barCode.includes(search) ||
-      product.categories.some((category) => category.toLowerCase().includes(search.toLowerCase())) ||
-      product.year.includes(search)
-  ) ?? [];
+  const filterProducts =
+    products?.filter(
+      (product) =>
+        product.album.toLowerCase().includes(search.toLowerCase()) ||
+        product.artist.toLowerCase().includes(search.toLowerCase()) ||
+        product.barCode.includes(search) ||
+        product.categories.some((category) =>
+          category.toLowerCase().includes(search.toLowerCase()),
+        ) ||
+        product.year.includes(search),
+    ) ?? [];
 
   const handleCheck = () => {
     if (isActive) {
@@ -52,8 +55,6 @@ const Products = () => {
     setIsActive(!isActive);
     setStatus(false);
   };
-
-  console.log(products);
 
   return (
     <Container>

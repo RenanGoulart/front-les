@@ -19,9 +19,9 @@ import {
   Separator,
   TrackContainer,
   TracksTitle,
-  // TrackList,
-  // TrackText,
-  // TrackRow,
+  TrackRow,
+  TrackList,
+  TrackText,
 } from "./styles";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
@@ -30,6 +30,7 @@ import brain from "../../assets/icons/brain.svg";
 import { formatCurrency } from "../../utils/format";
 import Product from "../../services/product/Product";
 import { useCart } from "../../contexts/useCart";
+import { ITrack } from "../../services/product/dto/ProductDTO";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -42,43 +43,43 @@ const ProductDetails = () => {
     queryFn: () => (id ? Product.findById(id) : null),
   });
 
-  // const renderTracks = (tracks: ITrack[]) => {
-  //   if (tracks.length < 12) {
-  //     return (
-  //       <TrackList>
-  //         {product?.tracks.map((track) => (
-  //           <TrackText
-  //             key={track.id}
-  //           >{`${track.id}. ${track.name} (${track.duration})`}</TrackText>
-  //         ))}
-  //       </TrackList>
-  //     );
-  //   }
+  const renderTracks = (tracks: ITrack[]) => {
+    if (tracks.length < 12) {
+      return (
+        <TrackList>
+          {product?.tracks.map((track, index) => (
+            <TrackText
+              key={track.id}
+            >{`${index + 1}. ${track.name} (${track.duration})`}</TrackText>
+          ))}
+        </TrackList>
+      );
+    }
 
-  //   const mid = Math.floor(tracks.length / 2);
-  //   return (
-  //     <>
-  //       <TrackList>
-  //         {product?.tracks
-  //           .slice(0, mid)
-  //           .map((track) => (
-  //             <TrackText
-  //               key={track.id}
-  //             >{`${track.id}. ${track.name} (${track.duration})`}</TrackText>
-  //           ))}
-  //       </TrackList>
-  //       <TrackList>
-  //         {product?.tracks
-  //           .slice(-mid)
-  //           .map((track) => (
-  //             <TrackText
-  //               key={track.id}
-  //             >{`${track.id}. ${track.name} (${track.duration})`}</TrackText>
-  //           ))}
-  //       </TrackList>
-  //     </>
-  //   );
-  // };
+    const mid = Math.floor(tracks.length / 2);
+    return (
+      <>
+        <TrackList>
+          {product?.tracks
+            .slice(0, mid)
+            .map((track, index) => (
+              <TrackText
+                key={track.id}
+              >{`${index + 1}. ${track.name} (${track.duration})`}</TrackText>
+            ))}
+        </TrackList>
+        <TrackList>
+          {product?.tracks
+            .slice(-mid)
+            .map((track, index) => (
+              <TrackText
+                key={track.id}
+              >{`${index + 1}. ${track.name} (${track.duration})`}</TrackText>
+            ))}
+        </TrackList>
+      </>
+    );
+  };
 
   if (!product) {
     return null;
@@ -129,7 +130,9 @@ const ProductDetails = () => {
         </TableRow>
         <TableRow>
           <TableCell isPurple>Gênero</TableCell>
-          <TableCell>{product.categories.join(", ")}</TableCell>
+          <TableCell>
+            {product.categories.join(", ").replace("_", "-")}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell isPurple>Ano</TableCell>
@@ -152,7 +155,7 @@ const ProductDetails = () => {
       </ContainerTable>
       <TrackContainer>
         <TracksTitle>Faixas</TracksTitle>
-        {/* <TrackRow>{renderTracks(product?.tracks as ITrack[])}</TrackRow> */}
+        <TrackRow>{renderTracks(product?.tracks as ITrack[])}</TrackRow>
       </TrackContainer>
       <Footer />
     </Container>

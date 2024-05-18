@@ -14,11 +14,13 @@ export interface IProductResponse {
   price: number;
   photo: string;
   quantityInStock: number;
+  tracks: ITrack[];
   createdAt: string;
   updatedAt: string;
 }
 
-interface ITrack {
+export interface ITrack {
+  id: string;
   name: string;
   duration: string;
 }
