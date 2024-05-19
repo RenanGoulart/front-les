@@ -8,18 +8,26 @@ class Cart {
   }
 
   static async create({ userId, productId }: ICreateCartDTO) {
-    const { data } = await api.post<ICartResponse>("/cart", {
-      userId,
-      productId,
-    });
-    return data;
+    try {
+      const { data } = await api.post<ICartResponse>("/cart", {
+        userId,
+        productId,
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   static async addItem({ cartId, productId }: IUpdateItemDTO) {
-    const { data } = await api.put<ICartResponse>(`/cart/add/${cartId}`, {
-      productId,
-    });
-    return data;
+    try {
+      const { data } = await api.put<ICartResponse>(`/cart/add/${cartId}`, {
+        productId,
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   static async subtractItem({ cartId, productId }: IUpdateItemDTO) {

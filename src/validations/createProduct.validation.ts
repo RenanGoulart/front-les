@@ -19,7 +19,7 @@ export const CreateProductSchema = Yup.object({
     }),
   ),
   pricingGroup: Yup.string().required("Grupo de Precificação Obrigatório"),
-  price: Yup.number().required("Preço Obrigatório"),
+  costPrice: Yup.number().required("Preço Obrigatório"),
   tracks: Yup.array().of(
     Yup.object({
       name: Yup.string(),

@@ -34,7 +34,7 @@ const Client = () => {
 
   const [form, setForm] = useState<FormType>(null);
   const [clients, setClients] = useState([] as IUserResponse[]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
 
   const filterClients = clients.filter(
     (client) =>
@@ -43,7 +43,7 @@ const Client = () => {
       client.email.toLowerCase().includes(search.toLowerCase()) ||
       client.status.toLowerCase().includes(search.toLowerCase()) ||
       client.phone.includes(search) ||
-      client.gender.toLowerCase().includes(search.toLowerCase())
+      client.gender.toLowerCase().includes(search.toLowerCase()),
   );
 
   const handleChangeForm = (formName: FormType) => {

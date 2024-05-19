@@ -7,6 +7,8 @@ export const Container = styled.main`
   height: 100vh;
 
   display: flex;
+
+  overflow-x: hidden;
 `;
 export const Content = styled.section`
   width: 85%;

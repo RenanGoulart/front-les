@@ -31,7 +31,7 @@ const useProduct = () => {
     body.categories?.forEach((category, index) => {
       formData.append(`categories[${index}]`, category.value as string);
     });
-    formData.append("price", String(body.price));
+    formData.append("costPrice", String(body.costPrice));
     formData.append("quantityInStock", String(body.quantityInStock));
 
     const extension = (body.photo as File).name.split(".").pop();

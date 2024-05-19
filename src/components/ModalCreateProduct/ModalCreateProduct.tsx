@@ -34,10 +34,10 @@ interface Props {
   closeModal: () => void;
 }
 
-const priceGroup = {
-  EDICAO_ESPECIAL: 1.20,
-  EDICAO_LIMITADA: 1.30,
-  EDICAO_NORMAL: 1.00,
+const priceGroup: { [key: string]: number } = {
+  EDICAO_ESPECIAL: 1.2,
+  EDICAO_LIMITADA: 1.3,
+  EDICAO_NORMAL: 1.1,
 };
 
 const ModalCreateProduct = ({ closeModal }: Props) => {
@@ -45,23 +45,16 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
   const [salePrice, setSalePrice] = useState<number | null>(null);
   const [priceCalculated, setPriceCalculated] = useState(false);
 
-
   const [step, setStep] = useState(1);
-  const { control, handleSubmit, getValues} = useForm<CreateProductForm>({
+  const { control, handleSubmit, getValues } = useForm<CreateProductForm>({
     resolver: yupResolver(CreateProductSchema),
     defaultValues: {
       tracks: [{ name: "", duration: "" }],
     },
   });
 
-  const priceGroup: { [key: string]: number } = {
-    EDICAO_ESPECIAL: 1.20,
-    EDICAO_LIMITADA: 1.30,
-    EDICAO_NORMAL: 1.00,
-  };
-
   const calculatePrice = () => {
-    const price = Number(getValues("price"));
+    const price = Number(getValues("costPrice"));
     const pricingGroup = getValues("pricingGroup");
     const percentual = priceGroup[pricingGroup];
 
@@ -201,8 +194,8 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
             <Row>
               <Input
                 control={control}
-                name="price"
-                label="Preço"
+                name="costPrice"
+                label="Preço de custo"
                 placeholder="Ex: 200"
                 type="number"
                 containerStyle={{ width: "65%" }}

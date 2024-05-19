@@ -35,7 +35,7 @@ export interface ICreateProductDTO {
   width: string;
   weight: string;
   categories: string[];
-  price: number;
+  costPrice: number;
   photo: string;
   quantityInStock: number;
   tracks: ITrack[];
