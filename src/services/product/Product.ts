@@ -1,5 +1,5 @@
 import api from "../../lib/axios";
-import { IProductResponse } from "./dto/ProductDTO";
+import { IProductResponse, IUpdateProductInStockDTO } from "./dto/ProductDTO";
 
 class Product {
   static async findAll() {
@@ -14,6 +14,11 @@ class Product {
 
   static async create(product: FormData) {
     const { data } = await api.post<IProductResponse>("/product", product);
+    return data;
+  }
+
+  static async updateInStock({ id, quantityInStock, costPrice }: IUpdateProductInStockDTO) {
+    const { data } = await api.put<IProductResponse>(`/product/stock/${id}`, { quantityInStock,  costPrice });
     return data;
   }
 }
