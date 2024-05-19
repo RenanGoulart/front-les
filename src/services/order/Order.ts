@@ -27,16 +27,10 @@ class Order {
   }
 
   static async updateExchange({ id, status }: IUpdateOrderDTO) {
-    try {
-      const { data } = await api.put<IOrderResponse>(`/order/exchange/${id}`, {
-        status,
-      });
-      console.log("data", data);
-      return data;
-    } catch (error) {
-      console.log("error", error);
-    }
-    return {} as IOrderResponse;
+    const { data } = await api.put<IOrderResponse>(`/order/exchange/${id}`, {
+      status,
+    });
+    return data;
   }
 }
 

@@ -19,7 +19,7 @@ import Button from "../../components/Button/Button";
 import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
 import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
 import { IUserResponse, deleteUser, listUsers } from "../../services/user";
-import { useClient } from "../../hooks/useClient";
+import { useClient } from "../../contexts/useClient";
 import SideBar from "../../components/SideBar/SideBar";
 import Input from "../../components/Input/Input";
 

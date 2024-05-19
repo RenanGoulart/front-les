@@ -10,7 +10,7 @@ import {
   CreateCreditCardSchema,
 } from "../../validations/createClient.validation";
 import { cardBrandOptions } from "../../data/createClientOptions";
-import { useClient } from "../../hooks/useClient";
+import { useClient } from "../../contexts/useClient";
 import {
   ICreditCardResponse,
   findCreditCardById,

@@ -25,7 +25,7 @@ import {
 } from "../../data/createClientOptions";
 import Button from "../Button/Button";
 import { FormType } from "../../pages/Client/Client";
-import { useClient } from "../../hooks/useClient";
+import { useClient } from "../../contexts/useClient";
 import { IUserResponse, findUserById, updateUser } from "../../services/user";
 
 interface Props {

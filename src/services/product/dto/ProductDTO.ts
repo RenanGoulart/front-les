@@ -11,6 +11,7 @@ export interface IProductResponse {
   pricingGroup: string;
   categories: string[];
   barCode: string;
+  costPrice: number;
   price: number;
   costPrice: number;
   photo: string;

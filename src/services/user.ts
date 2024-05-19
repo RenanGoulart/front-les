@@ -1,4 +1,4 @@
-import { IFormUser } from "../hooks/useClient";
+import { IFormUser } from "../contexts/useClient";
 import api from "../lib/axios";
 
 interface ICountry {

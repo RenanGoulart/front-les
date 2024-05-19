@@ -15,7 +15,7 @@ import {
 import Button from "../../components/Button/Button";
 import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
 import { IAddress, deleteAddress, listAddresses } from "../../services/user";
-import { useClient } from "../../hooks/useClient";
+import { useClient } from "../../contexts/useClient";
 import SideBar from "../../components/SideBar/SideBar";
 
 export type FormType = "client" | "address" | "address2" | "creditCard" | null;

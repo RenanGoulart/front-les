@@ -1,6 +1,7 @@
 import { Control, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Input from "../Input/Input";
 import {
   AddButton,
@@ -14,6 +15,7 @@ import {
   TrackRow,
   TracksWrapper,
   CalculateButton,
+  Image,
 } from "./styles";
 import Button from "../Button/Button";
 import {
@@ -29,8 +31,10 @@ import MultiSelect from "../MultiSelect/MultiSelect";
 import { theme } from "../../styles/theme";
 import useProduct from "../../hooks/useProduct";
 import FileInput from "../FileInput/FileInput";
+import Product from "../../services/product/Product";
 
 interface Props {
+  id?: string;
   closeModal: () => void;
 }
 
@@ -40,18 +44,49 @@ const priceGroup: { [key: string]: number } = {
   EDICAO_NORMAL: 1.1,
 };
 
-const ModalCreateProduct = ({ closeModal }: Props) => {
-  const { handleCreateProduct } = useProduct();
+const ModalCreateProduct = ({ id, closeModal }: Props) => {
+  const { handleCreateProduct, handleUpdateProduct } = useProduct();
   const [salePrice, setSalePrice] = useState<number | null>(null);
   const [priceCalculated, setPriceCalculated] = useState(false);
 
   const [step, setStep] = useState(1);
-  const { control, handleSubmit, getValues } = useForm<CreateProductForm>({
-    resolver: yupResolver(CreateProductSchema),
-    defaultValues: {
-      tracks: [{ name: "", duration: "" }],
-    },
+  const { control, handleSubmit, getValues, setValue, watch } =
+    useForm<CreateProductForm>({
+      resolver: yupResolver(CreateProductSchema),
+      defaultValues: {
+        tracks: [{ name: "", duration: "" }],
+      },
+    });
+  const albumImage = watch("photo");
+
+  const { data: product } = useQuery({
+    queryKey: ["productInfo", id],
+    queryFn: () => (id ? Product.findById(id) : null),
+    enabled: !!id,
   });
+
+  useEffect(() => {
+    if (product) {
+      setValue("album", product.album);
+      setValue("year", product.year);
+      setValue("artist", product.artist);
+      setValue("producer", product.producer);
+      setValue("height", Number(product.height));
+      setValue("width", Number(product.width));
+      setValue("weight", Number(product.weight));
+      setValue("quantityInStock", product.quantityInStock);
+      setValue("pricingGroup", product.pricingGroup);
+      setValue("costPrice", Number(product.costPrice));
+
+      const selectedCategories = categoriesOptions.filter((category) =>
+        product.categories.includes(category.value),
+      );
+      setValue("categories", selectedCategories);
+      setValue("photo", product.photo);
+      setValue("tracks", product.tracks);
+      console.log(product);
+    }
+  }, [product]);
 
   const calculatePrice = () => {
     const price = Number(getValues("costPrice"));
@@ -79,14 +114,25 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
   });
 
   const onSubmit = (data: CreateProductForm) => {
-    handleCreateProduct(data);
+    if (product && id) {
+      handleUpdateProduct(id, data);
+    } else {
+      handleCreateProduct(data);
+    }
     closeModal();
+  };
+
+  const getImageUrl = (image: string | File) => {
+    if (albumImage instanceof File) {
+      return URL.createObjectURL(albumImage);
+    }
+    return image;
   };
 
   return (
     <Background onClick={closeModal}>
       <Container onClick={(e) => e.stopPropagation()}>
-        <h1>Adicionar Produto</h1>
+        <h1>{product ? "Editar" : "Adicionar"} Produto</h1>
         {step === 1 && (
           <>
             <Row>
@@ -147,12 +193,18 @@ const ModalCreateProduct = ({ closeModal }: Props) => {
                 containerStyle={{ width: "30%" }}
               />
             </Row>
-            <Row>
+            <Row style={{ alignItems: "flex-end" }}>
+              {albumImage && (
+                <Image
+                  src={String(getImageUrl(albumImage as File | string))}
+                  alt="Foto do produto"
+                />
+              )}
               <FileInput
                 control={control}
                 name="photo"
                 label="Foto"
-                containerStyle={{ width: "100%" }}
+                containerStyle={{ width: "70%" }}
               />
             </Row>
             <Row>

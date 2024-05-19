@@ -17,8 +17,20 @@ class Product {
     return data;
   }
 
-  static async updateInStock({ id, quantityInStock, costPrice }: IUpdateProductInStockDTO) {
-    const { data } = await api.put<IProductResponse>(`/product/stock/${id}`, { quantityInStock,  costPrice });
+  static async updateInStock({
+    id,
+    quantityInStock,
+    costPrice,
+  }: IUpdateProductInStockDTO) {
+    const { data } = await api.put<IProductResponse>(`/product/stock/${id}`, {
+      quantityInStock,
+      costPrice,
+    });
+    return data;
+  }
+
+  static async update({ id, product }: { id: string; product: FormData }) {
+    const { data } = await api.put<IProductResponse>(`/product/${id}`, product);
     return data;
   }
 }

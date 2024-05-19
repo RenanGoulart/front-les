@@ -26,6 +26,7 @@ const Products = () => {
   const { control } = useForm();
 
   const [form, setForm] = useState(false);
+  const [editForm, setEditForm] = useState<string | null>(null);
   const [details, setDetails] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
@@ -104,7 +105,7 @@ const Products = () => {
                 <Switch isChecked={isActive} onChange={handleCheck} />
               </TableCell>
               <TableCell style={{ justifyContent: "flex-end" }}>
-                <StyledEditIcon onClick={() => setForm(true)} />
+                <StyledEditIcon onClick={() => setEditForm(product.id)} />
               </TableCell>
               <TableCell style={{ justifyContent: "flex-end" }}>
                 <DetailsIcon onClick={() => setDetails(product.id)} />
@@ -115,6 +116,12 @@ const Products = () => {
       </Content>
       {status && (
         <ModalChangeProductStatus closeModal={() => setStatus(false)} />
+      )}
+      {editForm && (
+        <ModalCreateProduct
+          id={editForm}
+          closeModal={() => setEditForm(null)}
+        />
       )}
       {form && <ModalCreateProduct closeModal={() => setForm(false)} />}
       {details && (

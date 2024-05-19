@@ -16,7 +16,7 @@ import {
 import Button from "../../components/Button/Button";
 import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
 
-import { useClient } from "../../hooks/useClient";
+import { useClient } from "../../contexts/useClient";
 import {
   ICreditCardListResponse,
   deleteCreditCard,
@@ -85,7 +85,7 @@ const CreditCard = () => {
               <TableCell>{card.number}</TableCell>
               <TableCell>{card.cvv}</TableCell>
               <TableCell>{card.isMain ? <StyledCheckIcon /> : null}</TableCell>
-              <TableCell style={{justifyContent: 'flex-end'}}>
+              <TableCell style={{ justifyContent: "flex-end" }}>
                 <StyledEditIcon
                   onClick={() => {
                     setCurrentCreditCardId(card.id);

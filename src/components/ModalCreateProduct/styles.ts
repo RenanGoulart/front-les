@@ -125,3 +125,9 @@ export const CalculateButton = styled.div`
   cursor: pointer;
 `;
 
+export const Image = styled.img`
+  width: 25%;
+  aspect-ratio: 1;
+
+  object-fit: cover;
+`;

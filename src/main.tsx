@@ -7,7 +7,7 @@ import { queryClient } from "./lib/queryClient";
 import AppRoutes from "./routes/Routes";
 import { theme } from "./styles/theme";
 import GlobalStyle from "./styles/global";
-import ClientProvider from "./hooks/useClient";
+import ClientProvider from "./contexts/useClient";
 import CartProvider from "./contexts/useCart";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

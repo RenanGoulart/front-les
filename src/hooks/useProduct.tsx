@@ -15,20 +15,28 @@ const useProduct = () => {
   const { mutateAsync: createProduct } = useMutation({
     mutationFn: Product.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] }),
+      queryClient.invalidateQueries({ queryKey: ["products"] });
       handleSuccess("Produto criado com sucesso!");
+    },
+  });
+
+  const { mutateAsync: updateProduct } = useMutation({
+    mutationFn: Product.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      handleSuccess("Produto atualizado com sucesso!");
     },
   });
 
   const { mutateAsync: updateProductInStock } = useMutation({
     mutationFn: Product.updateInStock,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] }),
+      queryClient.invalidateQueries({ queryKey: ["products"] });
       handleSuccess("Estoque atualizado com sucesso!");
     },
   });
 
-  const handleCreateProduct = async (body: CreateProductForm) => {
+  const formatProduct = async (body: CreateProductForm) => {
     const formData = new FormData();
     formData.append("artist", body.artist);
     formData.append("album", body.album);
@@ -44,22 +52,40 @@ const useProduct = () => {
     formData.append("costPrice", String(body.costPrice));
     formData.append("quantityInStock", String(body.quantityInStock));
 
-    const extension = (body.photo as File).name.split(".").pop();
-    formData.append(
-      "photo",
-      body.photo as Blob,
-      `${body.album}-${body.artist}.${extension}`.replace(/\s/g, "_"),
-    );
+    if (body.photo) {
+      const extension = (body.photo as File).name.split(".").pop();
+      formData.append(
+        "photo",
+        body.photo as Blob,
+        `${body.album}-${body.artist}.${extension}`
+          .replace(/\s/g, "_")
+          .toLowerCase(),
+      );
+    }
 
     body.tracks?.forEach((track, index) => {
       formData.append(`tracks[${index}][name]`, track.name as string);
       formData.append(`tracks[${index}][duration]`, track.duration as string);
     });
 
-    await createProduct(formData);
+    return formData;
   };
 
-  const handleUpdateStock = async (id: string, quantityInStock: number, costPrice: number) => {
+  const handleCreateProduct = async (body: CreateProductForm) => {
+    const data = await formatProduct(body);
+    await createProduct(data);
+  };
+
+  const handleUpdateProduct = async (id: string, body: CreateProductForm) => {
+    const data = await formatProduct(body);
+    await updateProduct({ id, product: data });
+  };
+
+  const handleUpdateStock = async (
+    id: string,
+    quantityInStock: number,
+    costPrice: number,
+  ) => {
     await updateProductInStock({ id, quantityInStock, costPrice });
   };
 
@@ -67,6 +93,7 @@ const useProduct = () => {
     products,
     handleCreateProduct,
     handleUpdateStock,
+    handleUpdateProduct,
   };
 };
 
