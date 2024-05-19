@@ -66,8 +66,9 @@ export const IssueButton = styled.div`
   padding: 0.5rem;
   border-radius: 0.25rem;
 
-  background-color: ${({ theme }) => theme.colors.green_56};
+  background-color: ${({ theme }) => theme.colors.purple_af};
   color: ${({ theme }) => theme.colors.white_ff};
+  font-weight: bold;
 
   cursor: pointer;
 `;

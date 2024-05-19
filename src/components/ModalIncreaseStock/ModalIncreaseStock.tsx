@@ -29,8 +29,8 @@ const ModalIncreaseStock = ({ closeModal }: Props) => {
         <Row>
           <Input
             control={control}
-            name="rise"
-            label="Quantidade"
+            name="quantity"
+            label="Quantidade disponível"
             placeholder="Ex: 20"
             containerStyle={styles.elementStyle}
           />
@@ -38,13 +38,14 @@ const ModalIncreaseStock = ({ closeModal }: Props) => {
         <Row>
           <Input
             control={control}
-            name="entryDate"
-            label="Data de entrada"
-            type="date"
-            containerStyle={styles.elementStyle}
+            name="price"
+            label="Preço de custo"
+            placeholder="Ex: 200"
+            containerStyle={{width: '48%'}}
           />
+          <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
         </Row>
-        <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
+
       </Container>
     </Background>
   );

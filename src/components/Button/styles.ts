@@ -4,7 +4,7 @@ export const ButtonContainer = styled.button`
   min-width: 200px;
   height: 50px;
 
-  align-self: center;
+  align-self: flex-end;
 
   background-color: ${({ theme }) => theme.colors.purple_48};
   border: none;
