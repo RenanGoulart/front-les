@@ -26,7 +26,7 @@ const Products = () => {
   const { control } = useForm();
 
   const [form, setForm] = useState(false);
-  const [details, setDetails] = useState(false);
+  const [details, setDetails] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(true);
   const [status, setStatus] = useState(false);
   const [search, setSearch] = useState("");
@@ -107,7 +107,7 @@ const Products = () => {
                 <StyledEditIcon onClick={() => setForm(true)} />
               </TableCell>
               <TableCell style={{ justifyContent: "flex-end" }}>
-                <DetailsIcon onClick={() => setDetails(true)} />
+                <DetailsIcon onClick={() => setDetails(product.id)} />
               </TableCell>
             </TableRow>
           ))}
@@ -117,7 +117,9 @@ const Products = () => {
         <ModalChangeProductStatus closeModal={() => setStatus(false)} />
       )}
       {form && <ModalCreateProduct closeModal={() => setForm(false)} />}
-      {details && <ProductDetails closeModal={() => setDetails(false)} />}
+      {details && (
+        <ProductDetails closeModal={() => setDetails(null)} id={details} />
+      )}
     </Container>
   );
 };
