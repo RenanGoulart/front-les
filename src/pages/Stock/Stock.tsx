@@ -17,7 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 
 const Stock = () => {
-  const [increaseForm, setIncreaseForm] = useState(false);
+  const [increaseForm, setIncreaseForm] = useState<string|null>(null);
 
   const { data: products } = useQuery({
     queryKey: ["products"],
@@ -48,13 +48,15 @@ const Stock = () => {
               <TableCell>{product.quantityInStock}</TableCell>
               <TableCell>{`R$ ${product.price},00`}</TableCell>
               <TableCell>
-                <IssueButton onClick={()=> setIncreaseForm(true)}>Atualizar</IssueButton>
+                <IssueButton onClick={()=> setIncreaseForm(product.id)}>Atualizar</IssueButton>
               </TableCell>
             </TableRow>
           ))}
         </TableContainer>
       </Content>
-      {increaseForm && <ModalIncreaseStock closeModal={() => setIncreaseForm(false)} />}
+      {increaseForm && (
+        <ModalIncreaseStock closeModal={() => setIncreaseForm(null)} id={increaseForm}/>
+      )}
     </Container>
   );
 };

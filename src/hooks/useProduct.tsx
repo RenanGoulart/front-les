@@ -2,6 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Product from "../services/product/Product";
 import { CreateProductForm } from "../validations/createProduct.validation";
+import { handleSuccess } from "../lib/toastify";
 
 const useProduct = () => {
   const queryClient = useQueryClient();
@@ -14,7 +15,16 @@ const useProduct = () => {
   const { mutateAsync: createProduct } = useMutation({
     mutationFn: Product.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] }),
+      handleSuccess("Produto criado com sucesso!");
+    },
+  });
+
+  const { mutateAsync: updateProductInStock } = useMutation({
+    mutationFn: Product.updateInStock,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] }),
+      handleSuccess("Estoque atualizado com sucesso!");
     },
   });
 
@@ -49,9 +59,14 @@ const useProduct = () => {
     await createProduct(formData);
   };
 
+  const handleUpdateStock = async (id: string, quantityInStock: number, costPrice: number) => {
+    await updateProductInStock({ id, quantityInStock, costPrice });
+  };
+
   return {
     products,
     handleCreateProduct,
+    handleUpdateStock,
   };
 };
 
