@@ -24,7 +24,12 @@ const SideBar = () => {
         >
           Cadastrar Cupons
         </MenuItem>
-        <MenuItem onClick={() => navigate("/stock")}>Estoque</MenuItem>
+        <MenuItem
+          onClick={() => navigate("/stock")}
+          data-cy="option-stock"
+        >
+          Estoque
+        </MenuItem>
         <MenuItem
           onClick={() => navigate("/allOrders")}
           data-cy="option-orders"

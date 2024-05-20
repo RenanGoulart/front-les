@@ -62,7 +62,10 @@ const ModalIncreaseStock = ({ id, closeModal }: Props) => {
 
   return (
     <Background onClick={closeModal}>
-      <Container onClick={(e) => e.stopPropagation()}>
+      <Container
+        onClick={(e) => e.stopPropagation()}
+        data-cy='modal-update-stock'
+        >
         <h1>Atualizar estoque</h1>
         <Row>
           <Input
@@ -70,6 +73,7 @@ const ModalIncreaseStock = ({ id, closeModal }: Props) => {
             name="quantityInStock"
             label="Quantidade disponível"
             placeholder="Ex: 20"
+            data-cy="input-quantityInStock"
             containerStyle={styles.elementStyle}
           />
         </Row>
@@ -79,9 +83,15 @@ const ModalIncreaseStock = ({ id, closeModal }: Props) => {
             name="costPrice"
             label="Preço de custo"
             placeholder="Ex: 200"
+            data-cy="input-costPrice"
             containerStyle={{ width: "48%" }}
           />
-          <Button onClick={handleSubmit(onSubmit)}>Salvar</Button>
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            data-cy="btn-update-stock"
+          >
+            Salvar
+          </Button>
         </Row>
       </Container>
     </Background>

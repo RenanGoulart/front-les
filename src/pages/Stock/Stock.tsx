@@ -31,7 +31,7 @@ const Stock = () => {
         <TableHeader>
           <Title>Estoque</Title>
         </TableHeader>
-        <TableContainer>
+        <TableContainer data-cy="stock-list">
           <TableRow isHeader>
             <TableCell>Data de Entrada</TableCell>
             <TableCell>Código de Barras</TableCell>
