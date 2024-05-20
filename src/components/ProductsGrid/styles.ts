@@ -22,6 +22,21 @@ export const ContainerGrid = styled.div`
   margin: 2rem 0;
 `;
 
+export const NotFoundContainer = styled.div`
+  width: 100%;
+  height: 50vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const NotFoundText = styled.h3`
+  font-size: 1.5rem;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.black_00};
+`;
+
 export const SelectFilter = styled.select`
   width: 180px;
 

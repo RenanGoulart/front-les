@@ -11,8 +11,11 @@ import {
 import LogoName from "../../assets/img/logo-name.svg";
 import Instagram from "../../assets/img/instagram.svg";
 import Facebook from "../../assets/img/facebook.svg";
+import { useNavigate } from "react-router-dom";
 
 export const Footer = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Section>
@@ -26,20 +29,20 @@ export const Footer = () => {
       <Section style={{ width: "10%" }}>
         <Title>Gênero</Title>
         <Row>
-          <Text>Rock</Text>
-          <Text>Pop</Text>
+          <Text onClick={() => navigate("/productsList/rock")}>Rock</Text>
+          <Text onClick={() => navigate("/productsList/pop")}>Pop</Text>
         </Row>
         <Row>
-          <Text>Hip-Hop</Text>
-          <Text>MPB</Text>
+          <Text onClick={() => navigate("/productsList/hip-hop")}>Hip-Hop</Text>
+          <Text onClick={() => navigate("/productsList/mpb")}>MPB</Text>
         </Row>
         <Row>
-          <Text>Blues</Text>
-          <Text>Soul</Text>
+          <Text onClick={() => navigate("/productsList/blues")}>Blues</Text>
+          <Text onClick={() => navigate("/productsList/soul")}>Soul</Text>
         </Row>
         <Row>
-          <Text>Funk</Text>
-          <Text>Reggae</Text>
+          <Text onClick={() => navigate("/productsList/funk")}>Funk</Text>
+          <Text onClick={() => navigate("/productsList/reggae")}>Reggae</Text>
         </Row>
       </Section>
       <Section>

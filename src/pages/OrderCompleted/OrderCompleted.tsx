@@ -20,7 +20,7 @@ const OrderCompleted = () => {
         <h3>ID do pedido: #{code}</h3>
         <Button
           onClick={() => navigate("/orders")}
-          style={{ marginTop: "20px" }}
+          style={{ marginTop: "20px", alignSelf: 'center' }}
           data-cy="btn-my-orders"
         >
           Ver Meus Pedidos

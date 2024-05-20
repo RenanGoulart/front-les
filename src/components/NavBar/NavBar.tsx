@@ -11,44 +11,44 @@ const NavBar = () => {
 
   return (
     <Container>
-      <NavigationCategory onClick={() => navigate("/rock")}>
+      <NavigationCategory onClick={() => navigate("/productsList/rock")}>
         <NavigationCategoryText isActive={location.pathname.includes("/rock")}>
           Rock
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/pop")}>
+      <NavigationCategory onClick={() => navigate("/productsList/pop")}>
         <NavigationCategoryText isActive={location.pathname.includes("/pop")}>
           Pop
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/hiphop")}>
+      <NavigationCategory onClick={() => navigate("/productsList/hip-hop")}>
         <NavigationCategoryText
-          isActive={location.pathname.includes("/hiphop")}
+          isActive={location.pathname.includes("/hip-hop")}
         >
           Hip-Hop
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/mpb")}>
+      <NavigationCategory onClick={() => navigate("/productsList/mpb")}>
         <NavigationCategoryText isActive={location.pathname.includes("/mpb")}>
           MPB
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/blues")}>
+      <NavigationCategory onClick={() => navigate("/productsList/blues")}>
         <NavigationCategoryText isActive={location.pathname.includes("/blues")}>
           Blues
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/soul")}>
+      <NavigationCategory onClick={() => navigate("/productsList/soul")}>
         <NavigationCategoryText isActive={location.pathname.includes("/soul")}>
           Soul
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/funk")}>
+      <NavigationCategory onClick={() => navigate("/productsList/funk")}>
         <NavigationCategoryText isActive={location.pathname.includes("/funk")}>
           Funk
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/reggae")}>
+      <NavigationCategory onClick={() => navigate("/productsList/reggae")}>
         <NavigationCategoryText
           isActive={location.pathname.includes("/reggae")}
         >

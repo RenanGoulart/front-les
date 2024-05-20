@@ -16,6 +16,7 @@ import Client from "../pages/Client/Client";
 import UserAddresses from "../pages/UserAddresses/UserAddresses";
 import UserCreditCards from "../pages/UserCreditCards/UserCreditCards";
 import OrderCompleted from "../pages/OrderCompleted/OrderCompleted";
+import ProductsList from "../pages/ProductsList/ProductsList";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,7 @@ const AppRoutes = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/userAddresses" element={<UserAddresses />} />
         <Route path="/userCreditCards" element={<UserCreditCards />} />
+        <Route path="/productsList/:category" element={<ProductsList />} />
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/client" element={<Client />} />

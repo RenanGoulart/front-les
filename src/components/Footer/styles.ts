@@ -31,6 +31,8 @@ export const Title = styled.h3`
 export const Text = styled.p`
   font-size: 0.85rem;
   color: ${({ theme }) => theme.colors.white_ff};
+
+  cursor: pointer;
 `;
 
 export const Logo = styled.img`
