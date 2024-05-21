@@ -98,7 +98,7 @@ const Client = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <TableContainer>
+        <TableContainer data-cy="list-users">
           <TableRow isHeader>
             <TableCell>Nome</TableCell>
             <TableCell>Status</TableCell>
