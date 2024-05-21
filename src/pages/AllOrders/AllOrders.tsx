@@ -38,7 +38,9 @@ const AllOrders = () => {
               <TableRow key={order.id}>
                 <TableCell data-cy="list-order-code">#{order.code}</TableCell>
                 <TableCell>{format(order.createdAt, "dd/MM/yyyy")}</TableCell>
-                <TableCell data-cy="all-order-status">{renderStatus(order.status)}</TableCell>
+                <TableCell data-cy="all-order-status">
+                  {renderStatus(order.status)}
+                </TableCell>
                 <TableCell>
                   <Button
                     onClick={() => setCurrentOrder(order)}

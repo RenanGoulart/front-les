@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import {
   Container,
@@ -20,7 +19,7 @@ import ModalCreateProduct from "../../components/ModalCreateProduct/ModalCreateP
 import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
-import Product from "../../services/product/Product";
+import useProduct from "../../hooks/useProduct";
 
 const Products = () => {
   const { control } = useForm();
@@ -32,10 +31,7 @@ const Products = () => {
   const [status, setStatus] = useState(false);
   const [search, setSearch] = useState("");
 
-  const { data: products } = useQuery({
-    queryKey: ["products"],
-    queryFn: () => Product.findAll(),
-  });
+  const { products } = useProduct();
 
   const filterProducts =
     products?.filter(
@@ -120,7 +116,9 @@ const Products = () => {
       {editForm && (
         <ModalCreateProduct
           id={editForm}
-          closeModal={() => setEditForm(null)}
+          closeModal={() => {
+            setEditForm(null);
+          }}
         />
       )}
       {form && <ModalCreateProduct closeModal={() => setForm(false)} />}

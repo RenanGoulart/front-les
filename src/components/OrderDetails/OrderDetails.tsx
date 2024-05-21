@@ -12,6 +12,8 @@ import {
 } from "./styles";
 import Button from "../Button/Button";
 import {
+  deliveredOptions,
+  exchangedOptions,
   exchangeOptions,
   finalOptions,
   initialOptions,
@@ -20,9 +22,12 @@ import {
 import { IOrderResponse, OrderItem } from "../../services/order/dto/OrderDTO";
 import useOrder from "../../hooks/useOrder";
 
+type ItemType = "order" | "orderItem";
+
 interface DropdownOption {
   value: string;
   label: string;
+  type: ItemType;
 }
 interface Props {
   data: IOrderResponse;
@@ -30,22 +35,21 @@ interface Props {
 }
 
 const OrderDetails = ({ data, closeModal }: Props) => {
-  const { renderStatus, handleUpdateOrder, handleUpdateExchange } = useOrder();
+  const { renderStatus, handleUpdateOrder } = useOrder();
 
   const [selectedItems, setSelectedItems] = useState<
     Record<string, DropdownOption>
   >({});
 
-  const handleSelect = (itemId: string, selectedItem: DropdownOption) => {
-    setSelectedItems((prevState) => ({ ...prevState, [itemId]: selectedItem }));
-  };
-
-  const isExchangeStatus = (status: string | null) => {
-    return (
-      status === "TROCA_SOLICITADA" ||
-      status === "TROCA_AUTORIZADA" ||
-      status === "TROCADO"
-    );
+  const handleSelect = (
+    itemId: string,
+    selectedItem: DropdownOption,
+    type: ItemType,
+  ) => {
+    setSelectedItems((prevState) => ({
+      ...prevState,
+      [itemId]: { ...selectedItem, type },
+    }));
   };
 
   const dropdownOptions = () => {
@@ -55,10 +59,16 @@ const OrderDetails = ({ data, closeModal }: Props) => {
     if (data.status === "APROVADA") {
       return intermediateOptions;
     }
-    if (data.status === "EM_TRANSITO" || data.status === "ENTREGUE") {
+    if (data.status === "EM_TRANSITO") {
       return finalOptions;
     }
-    if (isExchangeStatus(data.status)) {
+    if (data.status === "ENTREGUE") {
+      return deliveredOptions;
+    }
+    if (data.status === "TROCADO") {
+      return exchangedOptions;
+    }
+    if (data.status.includes("TROCA")) {
       return exchangeOptions;
     }
     return initialOptions;
@@ -69,18 +79,13 @@ const OrderDetails = ({ data, closeModal }: Props) => {
   };
 
   const handleUpdate = async () => {
-    const updatePromises = Object.entries(selectedItems).map(
-      async ([itemId, selectedOption]) => {
-        if (selectedOption && isExchangeStatus(selectedOption.value)) {
-          await handleUpdateExchange(itemId, selectedOption.value);
-        } else if (selectedOption) {
-          await handleUpdateOrder(itemId, selectedOption.value);
-        }
-      },
+    const isOrder = Object.values(selectedItems).some(
+      (item) => item.type === "order",
     );
-
-    await Promise.all(updatePromises);
-    closeModal();
+    if (isOrder) {
+      await handleUpdateOrder(data.id, selectedItems[data.id].value);
+      return closeModal();
+    }
   };
 
   return (
@@ -118,7 +123,7 @@ const OrderDetails = ({ data, closeModal }: Props) => {
                   : renderStatus(data.status)}
               </TableCell>
               <TableCell>
-                {isExchangeStatus(item.status) && (
+                {/* {isExchangeStatus(item.status) && (
                   <Select
                     options={dropdownOptions()}
                     placeholder="Selecione o status"
@@ -128,7 +133,7 @@ const OrderDetails = ({ data, closeModal }: Props) => {
                     }
                     classNamePrefix="order-item-status"
                   />
-                )}
+                )} */}
               </TableCell>
             </TableRow>
           ))}
@@ -143,7 +148,7 @@ const OrderDetails = ({ data, closeModal }: Props) => {
           placeholder="Selecione o status"
           defaultValue={defaultOption(data)}
           onChange={(selectedItem) =>
-            handleSelect(data.id, selectedItem as DropdownOption)
+            handleSelect(data.id, selectedItem as DropdownOption, "order")
           }
           classNamePrefix="order-status"
         />

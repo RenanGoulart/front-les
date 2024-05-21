@@ -7,7 +7,7 @@ import { handleSuccess } from "../lib/toastify";
 const useProduct = () => {
   const queryClient = useQueryClient();
 
-  const { data: products } = useQuery({
+  const { data: products, refetch: refetchProducts } = useQuery({
     queryKey: ["products"],
     queryFn: () => Product.findAll(),
   });
@@ -52,7 +52,7 @@ const useProduct = () => {
     formData.append("costPrice", String(body.costPrice));
     formData.append("quantityInStock", String(body.quantityInStock));
 
-    if (body.photo) {
+    if ((body.photo as File).name) {
       const extension = (body.photo as File).name.split(".").pop();
       formData.append(
         "photo",
@@ -91,6 +91,7 @@ const useProduct = () => {
 
   return {
     products,
+    refetchProducts,
     handleCreateProduct,
     handleUpdateStock,
     handleUpdateProduct,

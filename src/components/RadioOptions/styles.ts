@@ -16,7 +16,7 @@ export const RadioRow = styled.div`
   cursor: pointer;
 `;
 
-export const RadioCircle = styled.span`
+export const RadioCircle = styled.div`
   width: 20px;
   height: 20px;
 
@@ -29,13 +29,11 @@ export const RadioCircle = styled.span`
   background-color: ${({ theme }) => theme.colors.white_ff};
 `;
 
-export const RadioCheck = styled.span`
-  width: 12px;
-  height: 12px;
+export const RadioCheck = styled.div`
+  width: 14px;
+  height: 14px;
 
-  display: block;
-
-  border-radius: 8px;
+  border-radius: 7px;
   background-color: ${({ theme }) => theme.colors.purple_1f};
 `;
 

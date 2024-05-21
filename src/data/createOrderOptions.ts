@@ -14,8 +14,12 @@ export const finalOptions = [
   { value: "ENTREGUE", label: "Entregue" },
 ];
 
+export const deliveredOptions = [{ value: "ENTREGUE", label: "Entregue" }];
+
 export const exchangeOptions = [
   { value: "TROCA_SOLICITADA", label: "Troca Solicitada" },
   { value: "TROCA_AUTORIZADA", label: "Troca Autorizada" },
   { value: "TROCADO", label: "Trocado" },
 ];
+
+export const exchangedOptions = [{ value: "TROCADO", label: "Trocado" }];

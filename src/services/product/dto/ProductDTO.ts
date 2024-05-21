@@ -13,7 +13,6 @@ export interface IProductResponse {
   barCode: string;
   costPrice: number;
   price: number;
-  costPrice: number;
   photo: string;
   quantityInStock: number;
   tracks: ITrack[];
@@ -43,7 +42,7 @@ export interface ICreateProductDTO {
   tracks: ITrack[];
 }
 
-export interface IUpdateProductInStockDTO{
+export interface IUpdateProductInStockDTO {
   id: string;
   quantityInStock: number;
   costPrice: number;

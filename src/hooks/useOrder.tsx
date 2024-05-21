@@ -46,6 +46,14 @@ const useOrder = () => {
     },
   });
 
+  const { mutateAsync: requestOrderExchange } = useMutation({
+    mutationFn: Order.requestOrderExchange,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allOrders"] });
+      queryClient.invalidateQueries({ queryKey: ["userOrders", user?.id] });
+    },
+  });
+
   const handleFinishOrder = async (body: ICreateOrderDTO) => {
     if (cart) {
       const order = await finishOrder(body);
@@ -59,6 +67,10 @@ const useOrder = () => {
 
   const handleUpdateExchange = async (id: string, status: string) => {
     await updateExchange({ id, status });
+  };
+
+  const handleRequestOrderExchange = async (id: string, status: string) => {
+    await requestOrderExchange({ id, status });
   };
 
   const statusMap = {
@@ -81,6 +93,7 @@ const useOrder = () => {
     userOrders,
     handleFinishOrder,
     handleUpdateOrder,
+    handleRequestOrderExchange,
     handleUpdateExchange,
     renderStatus,
   };

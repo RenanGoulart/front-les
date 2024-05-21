@@ -27,10 +27,11 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     queryKey: ["cart", user?.id],
     queryFn: () => Cart.findByUserId(user?.id as string),
     enabled: !!user?.id,
+    staleTime: 1000 * 60 * 5,
   });
 
   const quantityOfProducts = useMemo(() => {
-    if (cart) {
+    if (cart?.cartItems) {
       return cart.cartItems.reduce((acc, item) => acc + item.quantity, 0);
     }
     return 0;
