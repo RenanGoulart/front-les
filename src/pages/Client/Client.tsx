@@ -133,6 +133,7 @@ const Client = () => {
                     setCurrentUserId(client.id);
                     setForm("client");
                   }}
+                  data-cy="btn-edit-client"
                 />
               </TableCell>
               <TableCell>
