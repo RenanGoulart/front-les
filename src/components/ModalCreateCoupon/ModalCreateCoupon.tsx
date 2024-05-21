@@ -38,6 +38,7 @@ const ModalCreateCoupon = ({ closeModal }: Props) => {
             name="name"
             label="Código do Cupom"
             placeholder="Ex: DISCO15"
+            data-cy="input-coupon"
             containerStyle={{ width: "100%" }}
           />
         </Row>
@@ -48,6 +49,7 @@ const ModalCreateCoupon = ({ closeModal }: Props) => {
             label="Quantidade"
             placeholder="ex: 100"
             type="number"
+            data-cy="input-quantityOfcoupon"
             containerStyle={styles.elementStyle}
           />
           <Input
@@ -56,6 +58,7 @@ const ModalCreateCoupon = ({ closeModal }: Props) => {
             label="Data de Validade"
             placeholder="ex: 02/06/2024"
             type="date"
+            data-cy="input-expirationDate"
             containerStyle={styles.elementStyle}
           />
         </Row>
@@ -65,6 +68,7 @@ const ModalCreateCoupon = ({ closeModal }: Props) => {
             name="value"
             label="Valor"
             placeholder="ex: 100,00"
+            data-cy="input-valueOfCoupon"
             containerStyle={styles.elementStyle}
           />
           <Button

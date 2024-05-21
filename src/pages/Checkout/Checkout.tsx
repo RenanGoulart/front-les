@@ -229,6 +229,7 @@ const Checkout = () => {
                   containerStyle={{ width: "78%" }}
                   style={{ borderRadius: "0.5rem" }}
                   labelStyle={styles.labelStyle}
+                  data-cy="input-coupon"
                 />
                 <ApplyButton
                   onClick={handleSetCoupon}

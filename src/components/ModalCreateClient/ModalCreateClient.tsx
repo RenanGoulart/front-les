@@ -102,6 +102,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             label="Nome"
             placeholder="Maria Alice"
             containerStyle={styles.elementStyle}
+            data-cy="input-name"
           />
           <GenderWrapper>
             <Label>Gênero</Label>
@@ -109,6 +110,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
               control={control}
               name="gender"
               options={genderOptions}
+              data-cy="radio-gender"
             />
           </GenderWrapper>
         </Row>
@@ -119,6 +121,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             label="Data de Nascimento"
             type="date"
             containerStyle={styles.elementStyle}
+            data-cy="input-birthDate"
           />
           <Input
             control={control}
@@ -127,6 +130,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             placeholder="100.200.300.40"
             mask="999.999.999-99"
             containerStyle={styles.elementStyle}
+            data-cy="input-cpf"
           />
         </Row>
         <Row>
@@ -138,6 +142,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
               placeholder="11"
               mask="99"
               containerStyle={{ width: "18%" }}
+              data-cy="input-ddd"
             />
             <Input
               control={control}
@@ -146,6 +151,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
               placeholder="99999-9999"
               mask="99999-9999"
               containerStyle={{ width: "80%" }}
+              data-cy="input-phoneNumber"
             />
           </PhoneWrapper>
           <Select
@@ -154,6 +160,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             label="Tipo de Telefone"
             options={phoneTypeOptions}
             containerStyle={styles.elementStyle}
+            data-cy="select-phoneType"
           />
         </Row>
         <Row>
@@ -163,6 +170,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             label="E-mail"
             placeholder="maria@gmail.com"
             containerStyle={styles.elementStyle}
+            data-cy="input-email"
           />
           <Input
             control={control}
@@ -171,6 +179,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             placeholder="********"
             containerStyle={styles.elementStyle}
             type="password"
+            data-cy="input-password"
           />
         </Row>
         <Row>
@@ -181,6 +190,7 @@ const ModalCreateClient = ({ changeForm, closeModal }: Props) => {
             placeholder="********"
             containerStyle={styles.elementStyle}
             type="password"
+            data-cy="input-confirmPassword"
           />
           <Button
             style={styles.elementStyle}

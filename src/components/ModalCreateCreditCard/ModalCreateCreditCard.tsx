@@ -76,6 +76,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             label="Bandeira do cartão"
             options={cardBrandOptions}
             containerStyle={{ width: "100%" }}
+            data-cy="select-cardBrand"
           />
         </Row>
         <Row>
@@ -86,6 +87,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             placeholder="9999 9999 9999 9999"
             mask="9999 9999 9999 9999"
             containerStyle={styles.elementStyle}
+            data-cy="input-number"
           />
           <Input
             control={control}
@@ -94,6 +96,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             placeholder="999"
             mask="999"
             containerStyle={{ width: "48%" }}
+            data-cy="input-cvv"
           />
         </Row>
         <Row>
@@ -103,6 +106,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             label="Nome do Titular"
             placeholder="Renan Goulart"
             containerStyle={styles.elementStyle}
+            data-cy="input-cardHolder"
           />
           <Button
             style={styles.elementStyle}
