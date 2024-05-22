@@ -24,7 +24,9 @@ const UserAddresses = () => {
       <NavBar />
       <Content>
         <Title>Meus Endereços</Title>
-        <Button onClick={() => {setIsAddressModalVisible(true)}}
+        <Button
+          onClick={() => {setIsAddressModalVisible(true)}}
+          data-cy="btn-add-user-address"
         >
           Adicionar Endereço
         </Button>
@@ -59,10 +61,16 @@ const UserAddresses = () => {
               <StyledCheckIcon />
             </TableCell>
             <TableCell>
-              <StyledEditIcon onClick={() => setIsAddressModalVisible(true)} />
+              <StyledEditIcon
+                onClick={() => setIsAddressModalVisible(true)}
+                data-cy="btn-edit-user-address"
+              />
             </TableCell>
             <TableCell>
-              <StyledDeleteIcon onClick={() => null} />
+              <StyledDeleteIcon
+                onClick={() => null}
+                data-cy="btn-delete-user-address"
+              />
             </TableCell>
           </TableRow>
         </TableContainer>

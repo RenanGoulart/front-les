@@ -24,7 +24,9 @@ const UserCreditCards = () => {
       <NavBar />
       <Content>
         <Title>Meus Cartões de Crédito</Title>
-        <Button onClick={() => {setIsCardModalVisible(true)}}
+        <Button
+          onClick={() => {setIsCardModalVisible(true)}}
+          data-cy="btn-add-user-creditCard"
         >
           Adicionar Cartão
         </Button>
@@ -49,10 +51,16 @@ const UserCreditCards = () => {
               <StyledCheckIcon />
             </TableCell>
             <TableCell>
-              <StyledEditIcon onClick={() => setIsCardModalVisible(true)} />
+              <StyledEditIcon
+                onClick={() => setIsCardModalVisible(true)}
+                data-cy="btn-edit-user-creditCard"
+              />
             </TableCell>
             <TableCell>
-              <StyledDeleteIcon onClick={() => null} />
+              <StyledDeleteIcon
+                onClick={() => null}
+                data-cy="btn-delete-user-creditCard"
+              />
             </TableCell>
           </TableRow>
         </TableContainer>

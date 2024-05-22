@@ -123,6 +123,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             placeholder="99999-999"
             mask="99999-999"
             containerStyle={styles.elementStyle}
+            data-cy="input-zipCode"
           />
         </Row>
         <Row>
@@ -132,6 +133,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="País"
             options={countries || []}
             containerStyle={styles.elementStyle}
+            data-cy="select-country"
           />
           <Select
             control={control}
@@ -139,6 +141,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Estado"
             options={states || []}
             containerStyle={styles.elementStyle}
+            data-cy="select-state"
           />
         </Row>
         <Row>
@@ -148,6 +151,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Cidade"
             options={cities || []}
             containerStyle={styles.elementStyle}
+            data-cy="select-city"
           />
           <Input
             control={control}
@@ -155,6 +159,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Rua"
             placeholder="Rua Joaquim Afonso"
             containerStyle={{ width: "30%" }}
+            data-cy="input-street"
           />
           <Input
             control={control}
@@ -162,6 +167,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Número"
             placeholder="100"
             containerStyle={{ width: "14%" }}
+            data-cy="input-number"
           />
         </Row>
         <Row>
@@ -171,6 +177,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Bairro"
             placeholder="Bairro Bom Sucesso"
             containerStyle={styles.elementStyle}
+            data-cy="input-district"
           />
           <Input
             control={control}
@@ -178,6 +185,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Observação"
             placeholder="Observações"
             containerStyle={styles.elementStyle}
+            data-cy="input-observation"
           />
         </Row>
         <Row>
@@ -187,6 +195,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Tipo de Endereço"
             options={addressTypesOptions}
             containerStyle={styles.elementStyle}
+            data-cy="select-addressType"
           />
           <Select
             control={control}
@@ -194,6 +203,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Tipo de Logradouro"
             options={streetTypeOptions}
             containerStyle={styles.elementStyle}
+            data-cy="select-streetType"
           />
         </Row>
         <Row>
@@ -203,6 +213,7 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
             label="Tipo de Residência"
             options={residenceTypeOptions}
             containerStyle={styles.elementStyle}
+            data-cy="select-residenceType"
           />
           <Button onClick={handleSubmit(onSubmit)} data-cy="btn-submit">
             Cadastrar

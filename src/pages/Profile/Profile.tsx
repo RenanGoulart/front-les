@@ -41,11 +41,19 @@ const Profile = () => {
             <StyledShoppingBagIcon />
             Meus Pedidos
           </Button>
-          <Button isOutline onClick={() => navigate("/userAddresses")}>
+          <Button
+            isOutline
+            onClick={() => navigate("/userAddresses")}
+            data-cy="btn-my-addresses"
+          >
             <StyledAddressIcon />
             Meus Endereços
           </Button>
-          <Button isOutline onClick={() => navigate("/userCreditCards")}>
+          <Button
+            isOutline
+            onClick={() => navigate("/userCreditCards")}
+            data-cy="btn-my-creditCards"
+          >
             <StyledCreditCardIcon />
             Meus Cartões
           </Button>
