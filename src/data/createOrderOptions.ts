@@ -22,4 +22,4 @@ export const exchangeOptions = [
   { value: "TROCADO", label: "Trocado" },
 ];
 
-export const exchangedOptions = [{ value: "TROCADO", label: "Trocado" }];
+export const exchangeFinalOptions = [{ value: "TROCADO", label: "Trocado" }];

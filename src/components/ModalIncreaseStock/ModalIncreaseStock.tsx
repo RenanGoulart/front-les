@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Input from "../Input/Input";
 import { Background, Container, Row } from "./styles";
 import Button from "../Button/Button";
@@ -10,8 +12,6 @@ import {
 import useProduct from "../../hooks/useProduct";
 import { IProductResponse } from "../../services/product/dto/ProductDTO";
 import { findById } from "../../services/product";
-import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import Product from "../../services/product/Product";
 
 interface Props {
@@ -35,7 +35,7 @@ const ModalIncreaseStock = ({ id, closeModal }: Props) => {
       handleUpdateStock(
         id,
         Number(data.quantityInStock),
-        Number(data.costPrice)
+        Number(data.costPrice),
       );
       closeModal();
     }
@@ -53,7 +53,6 @@ const ModalIncreaseStock = ({ id, closeModal }: Props) => {
   }, [product]);
 
   const getProductInfo = async (productId: string) => {
-    console.log("Aqui");
     const productInfo = await findById(productId);
     if (productInfo) {
       setProductFields(productInfo);
@@ -64,8 +63,8 @@ const ModalIncreaseStock = ({ id, closeModal }: Props) => {
     <Background onClick={closeModal}>
       <Container
         onClick={(e) => e.stopPropagation()}
-        data-cy='modal-update-stock'
-        >
+        data-cy="modal-update-stock"
+      >
         <h1>Atualizar estoque</h1>
         <Row>
           <Input
@@ -86,10 +85,7 @@ const ModalIncreaseStock = ({ id, closeModal }: Props) => {
             data-cy="input-costPrice"
             containerStyle={{ width: "48%" }}
           />
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            data-cy="btn-update-stock"
-          >
+          <Button onClick={handleSubmit(onSubmit)} data-cy="btn-update-stock">
             Salvar
           </Button>
         </Row>

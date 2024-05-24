@@ -3,6 +3,7 @@ import {
   ICreateOrderDTO,
   IOrderResponse,
   IUpdateOrderDTO,
+  IUpdateOrderItemDTO,
 } from "./dto/OrderDTO";
 
 class Order {
@@ -26,6 +27,13 @@ class Order {
     return data;
   }
 
+  static async updateItem({ id, status }: IUpdateOrderDTO) {
+    const { data } = await api.put<IOrderResponse>(`/order/item/${id}`, {
+      status,
+    });
+    return data;
+  }
+
   static async requestOrderExchange({ id, status }: IUpdateOrderDTO) {
     const { data } = await api.put<IOrderResponse>(
       `/order/exchangeOrder/${id}`,
@@ -36,10 +44,20 @@ class Order {
     return data;
   }
 
-  static async updateExchange({ id, status }: IUpdateOrderDTO) {
-    const { data } = await api.put<IOrderResponse>(`/order/exchange/${id}`, {
-      status,
-    });
+  static async requestOrderItemExchange({
+    id,
+    orderId,
+    quantity,
+    status,
+  }: IUpdateOrderItemDTO) {
+    const { data } = await api.put<IOrderResponse>(
+      `/order/exchangeOrderItem/${id}`,
+      {
+        orderId,
+        quantity,
+        status,
+      },
+    );
     return data;
   }
 }

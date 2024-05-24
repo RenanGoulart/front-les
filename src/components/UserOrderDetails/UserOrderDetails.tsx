@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { useState } from "react";
 import {
   Background,
   Container,
@@ -9,8 +10,9 @@ import {
   TableRow,
 } from "./styles";
 import Button from "../Button/Button";
-import { IOrderResponse } from "../../services/order/dto/OrderDTO";
+import { IOrderResponse, OrderItem } from "../../services/order/dto/OrderDTO";
 import useOrder from "../../hooks/useOrder";
+import ModalConfirmExchange from "../ModalConfirmExchange/ModalConfirmExchange";
 
 interface Props {
   data: IOrderResponse;
@@ -20,21 +22,20 @@ interface Props {
 const UserOrderDetails = ({ data, closeModal }: Props) => {
   const { renderStatus, handleRequestOrderExchange } = useOrder();
 
-  // const isExchangeEnable = (orderStatus: string, itemStatus: string | null) => {
-  //   if (
-  //     itemStatus === "TROCADO" ||
-  //     itemStatus === "TROCA_AUTORIZADA" ||
-  //     itemStatus === "TROCA_SOLICITADA"
-  //   ) {
-  //     return false;
-  //   }
+  const [isConfirmationVisible, setIsConfirmationVisible] =
+    useState<OrderItem | null>(null);
 
-  //   return (
-  //     orderStatus === "ENTREGUE" ||
-  //     orderStatus === "TROCA_SOLICITADA" ||
-  //     orderStatus === "TROCA_AUTORIZADA"
-  //   );
-  // };
+  const isExchangeEnable = (orderStatus: string, itemStatus: string | null) => {
+    if (itemStatus?.includes("TROCA")) {
+      return false;
+    }
+
+    return (
+      orderStatus === "ENTREGUE" ||
+      orderStatus === "TROCA_SOLICITADA" ||
+      orderStatus === "TROCA_AUTORIZADA"
+    );
+  };
 
   const renderExchangeButton = (status: string) => {
     const allOrderItemsStatus = data.orderItems.every((item) =>
@@ -94,16 +95,16 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
                   ? renderStatus(item.status)
                   : renderStatus(data.status)}
               </TableCell>
+
               <TableCell>
-                {/* {isExchangeEnable(data.status, item.status) && (
+                {isExchangeEnable(data.status, item.status) && (
                   <Button
-                    onClick={() =>
-                      handleUpdateExchange(item.id, "TROCA_SOLICITADA")
-                    }
+                    onClick={() => setIsConfirmationVisible(item)}
+                    style={{ minWidth: "100%" }}
                   >
                     Solicitar Troca
                   </Button>
-                )} */}
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -114,6 +115,15 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
         </Row>
         {renderExchangeButton(data.status)}
       </Container>
+      {isConfirmationVisible && (
+        <ModalConfirmExchange
+          closeModal={() => {
+            setIsConfirmationVisible(null);
+            closeModal();
+          }}
+          item={isConfirmationVisible}
+        />
+      )}
     </Background>
   );
 };

@@ -38,8 +38,8 @@ const useOrder = () => {
     },
   });
 
-  const { mutateAsync: updateExchange } = useMutation({
-    mutationFn: Order.updateExchange,
+  const { mutateAsync: updateOrderItem } = useMutation({
+    mutationFn: Order.updateItem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allOrders"] });
       queryClient.invalidateQueries({ queryKey: ["userOrders", user?.id] });
@@ -48,6 +48,14 @@ const useOrder = () => {
 
   const { mutateAsync: requestOrderExchange } = useMutation({
     mutationFn: Order.requestOrderExchange,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allOrders"] });
+      queryClient.invalidateQueries({ queryKey: ["userOrders", user?.id] });
+    },
+  });
+
+  const { mutateAsync: requestOrderItemExchange } = useMutation({
+    mutationFn: Order.requestOrderItemExchange,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allOrders"] });
       queryClient.invalidateQueries({ queryKey: ["userOrders", user?.id] });
@@ -65,12 +73,21 @@ const useOrder = () => {
     await updateOrder({ id, status });
   };
 
-  const handleUpdateExchange = async (id: string, status: string) => {
-    await updateExchange({ id, status });
+  const handleUpdateOrderItem = async (id: string, status: string) => {
+    await updateOrderItem({ id, status });
   };
 
   const handleRequestOrderExchange = async (id: string, status: string) => {
     await requestOrderExchange({ id, status });
+  };
+
+  const handleRequestOrderItemExchange = async (
+    id: string,
+    orderId: string,
+    quantity: number,
+    status: string,
+  ) => {
+    await requestOrderItemExchange({ id, orderId, quantity, status });
   };
 
   const statusMap = {
@@ -93,8 +110,9 @@ const useOrder = () => {
     userOrders,
     handleFinishOrder,
     handleUpdateOrder,
+    handleUpdateOrderItem,
     handleRequestOrderExchange,
-    handleUpdateExchange,
+    handleRequestOrderItemExchange,
     renderStatus,
   };
 };

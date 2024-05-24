@@ -21,9 +21,9 @@ const NavBar = () => {
           Pop
         </NavigationCategoryText>
       </NavigationCategory>
-      <NavigationCategory onClick={() => navigate("/productsList/hip-hop")}>
+      <NavigationCategory onClick={() => navigate("/productsList/hip_hop")}>
         <NavigationCategoryText
-          isActive={location.pathname.includes("/hip-hop")}
+          isActive={location.pathname.includes("/hip_hop")}
         >
           Hip-Hop
         </NavigationCategoryText>

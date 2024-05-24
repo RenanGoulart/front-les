@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { useState } from "react";
 import Select from "react-select";
 import { format } from "date-fns";
@@ -13,13 +15,17 @@ import {
 import Button from "../Button/Button";
 import {
   deliveredOptions,
-  exchangedOptions,
+  exchangeFinalOptions,
   exchangeOptions,
   finalOptions,
   initialOptions,
   intermediateOptions,
 } from "../../data/createOrderOptions";
-import { IOrderResponse, OrderItem } from "../../services/order/dto/OrderDTO";
+import {
+  IOrderResponse,
+  OrderItem,
+  OrderStatus,
+} from "../../services/order/dto/OrderDTO";
 import useOrder from "../../hooks/useOrder";
 
 type ItemType = "order" | "orderItem";
@@ -35,7 +41,7 @@ interface Props {
 }
 
 const OrderDetails = ({ data, closeModal }: Props) => {
-  const { renderStatus, handleUpdateOrder } = useOrder();
+  const { renderStatus, handleUpdateOrder, handleUpdateOrderItem } = useOrder();
 
   const [selectedItems, setSelectedItems] = useState<
     Record<string, DropdownOption>
@@ -66,7 +72,7 @@ const OrderDetails = ({ data, closeModal }: Props) => {
       return deliveredOptions;
     }
     if (data.status === "TROCADO") {
-      return exchangedOptions;
+      return exchangeFinalOptions;
     }
     if (data.status.includes("TROCA")) {
       return exchangeOptions;
@@ -74,11 +80,53 @@ const OrderDetails = ({ data, closeModal }: Props) => {
     return initialOptions;
   };
 
+  const dropdownItemOptions = (status: OrderStatus | null) => {
+    if (status === "TROCADO") {
+      return exchangeFinalOptions;
+    }
+    return exchangeOptions;
+  };
+
+  const defaultItemOption = (item: IOrderResponse | OrderItem) => {
+    return dropdownItemOptions(item.status).find(
+      (option) => option.value === item.status,
+    );
+  };
+
   const defaultOption = (item: IOrderResponse | OrderItem) => {
     return dropdownOptions().find((option) => option.value === item.status);
   };
 
+  const updateOrderItemsSequentially = async (
+    orderItems: { key: string; value: string }[],
+  ) => {
+    for (const orderItem of orderItems) {
+      await handleUpdateOrderItem(orderItem.key, orderItem.value);
+    }
+    closeModal();
+  };
+
   const handleUpdate = async () => {
+    if (Object.keys(selectedItems).length === 0) {
+      return closeModal();
+    }
+
+    const orderItems = Object.entries(selectedItems)
+      .map(([key, item]) => {
+        if (item.type === "orderItem") {
+          return {
+            key,
+            value: item.value,
+          };
+        }
+        return null;
+      })
+      .filter((orderItem) => orderItem !== null);
+
+    if (orderItems.length > 0) {
+      updateOrderItemsSequentially(orderItems);
+    }
+
     const isOrder = Object.values(selectedItems).some(
       (item) => item.type === "order",
     );
@@ -86,6 +134,17 @@ const OrderDetails = ({ data, closeModal }: Props) => {
       await handleUpdateOrder(data.id, selectedItems[data.id].value);
       return closeModal();
     }
+  };
+
+  const isExchangeEnable = (itemStatus: string | null) => {
+    if (itemStatus === "TROCADO") {
+      return false;
+    }
+    if (itemStatus?.includes("TROCA")) {
+      return true;
+    }
+
+    return false;
   };
 
   return (
@@ -123,17 +182,21 @@ const OrderDetails = ({ data, closeModal }: Props) => {
                   : renderStatus(data.status)}
               </TableCell>
               <TableCell>
-                {/* {isExchangeStatus(item.status) && (
+                {isExchangeEnable(item.status) && (
                   <Select
-                    options={dropdownOptions()}
+                    options={dropdownItemOptions(item.status)}
                     placeholder="Selecione o status"
-                    defaultValue={defaultOption(item)}
+                    defaultValue={defaultItemOption(item)}
                     onChange={(selectedItem) =>
-                      handleSelect(item.id, selectedItem as DropdownOption)
+                      handleSelect(
+                        item.id,
+                        selectedItem as DropdownOption,
+                        "orderItem",
+                      )
                     }
                     classNamePrefix="order-item-status"
                   />
-                )} */}
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -146,6 +209,7 @@ const OrderDetails = ({ data, closeModal }: Props) => {
         <Select
           options={dropdownOptions()}
           placeholder="Selecione o status"
+          isDisabled={data.status === "ENTREGUE" || data.status === "TROCADO"}
           defaultValue={defaultOption(data)}
           onChange={(selectedItem) =>
             handleSelect(data.id, selectedItem as DropdownOption, "order")

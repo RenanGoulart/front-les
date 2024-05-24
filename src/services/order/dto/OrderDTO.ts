@@ -65,3 +65,10 @@ export interface IUpdateOrderDTO {
   id: string;
   status: string;
 }
+
+export interface IUpdateOrderItemDTO {
+  id: string;
+  orderId: string;
+  quantity: number;
+  status: string;
+}
