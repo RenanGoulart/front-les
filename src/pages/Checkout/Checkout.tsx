@@ -98,8 +98,15 @@ const Checkout = () => {
     }
   }, [cardsWatch]);
 
+  useEffect(() => {
+    if (user?.credits && user?.credits >= totalToPaid) {
+      setCoupon(null);
+    }
+  }, [cart]);
+
   const handleSetCoupon = async () => {
     if (user?.credits && user?.credits >= totalToPaid) {
+      setValue("coupon", "");
       return handleError("Você não pode aplicar um cupom");
     }
 
