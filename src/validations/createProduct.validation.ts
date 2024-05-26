@@ -33,5 +33,5 @@ export type ChangeProductStatusForm = Yup.InferType<
 >;
 
 export const ChangeProductStatusSchema = Yup.object({
-  reason: Yup.string().required("Motivo Obrigatório"),
+  statusReason: Yup.string().required("Motivo Obrigatório"),
 });

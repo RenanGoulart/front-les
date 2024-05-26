@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Product from "../services/product/Product";
 import { CreateProductForm } from "../validations/createProduct.validation";
 import { handleSuccess } from "../lib/toastify";
+import { ProductStatus } from "../services/product/dto/ProductDTO";
 
 const useProduct = () => {
   const queryClient = useQueryClient();
@@ -33,6 +34,14 @@ const useProduct = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       handleSuccess("Estoque atualizado com sucesso!");
+    },
+  });
+
+  const { mutateAsync: updateProductStatus } = useMutation({
+    mutationFn: Product.updateStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      handleSuccess("Produto atualizado com sucesso!");
     },
   });
 
@@ -81,6 +90,18 @@ const useProduct = () => {
     await updateProduct({ id, product: data });
   };
 
+  const handleUpdateStatus = async (
+    id: string,
+    status: ProductStatus,
+    statusReason: string,
+  ) => {
+    await updateProductStatus({
+      id,
+      status,
+      statusReason,
+    });
+  };
+
   const handleUpdateStock = async (
     id: string,
     quantityInStock: number,
@@ -95,6 +116,7 @@ const useProduct = () => {
     handleCreateProduct,
     handleUpdateStock,
     handleUpdateProduct,
+    handleUpdateStatus,
   };
 };
 

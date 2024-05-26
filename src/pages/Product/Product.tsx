@@ -20,6 +20,10 @@ import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import ModalChangeProductStatus from "../../components/ModalChangeProductStatus/ModalChangeProductStatus";
 import Switch from "../../components/Switch/Switch";
 import useProduct from "../../hooks/useProduct";
+import {
+  IProductResponse,
+  ProductStatus,
+} from "../../services/product/dto/ProductDTO";
 
 const Products = () => {
   const { control } = useForm();
@@ -27,8 +31,9 @@ const Products = () => {
   const [form, setForm] = useState(false);
   const [editForm, setEditForm] = useState<string | null>(null);
   const [details, setDetails] = useState<string | null>(null);
-  const [isActive, setIsActive] = useState(true);
-  const [status, setStatus] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<IProductResponse | null>(
+    null,
+  );
   const [search, setSearch] = useState("");
 
   const { products } = useProduct();
@@ -45,13 +50,7 @@ const Products = () => {
         product.year.includes(search),
     ) ?? [];
 
-  const handleCheck = () => {
-    if (isActive) {
-      setStatus(true);
-    }
-    setIsActive(!isActive);
-    setStatus(false);
-  };
+  console.log(products);
 
   return (
     <Container>
@@ -98,7 +97,10 @@ const Products = () => {
               <TableCell>{product.artist}</TableCell>
               <TableCell>{product.price}</TableCell>
               <TableCell>
-                <Switch isChecked={isActive} onChange={handleCheck} />
+                <Switch
+                  isChecked={product.status === ProductStatus.ACTIVE}
+                  onChange={() => setCurrentProduct(product)}
+                />
               </TableCell>
               <TableCell style={{ justifyContent: "flex-end" }}>
                 <StyledEditIcon onClick={() => setEditForm(product.id)} />
@@ -110,8 +112,11 @@ const Products = () => {
           ))}
         </TableContainer>
       </Content>
-      {status && (
-        <ModalChangeProductStatus closeModal={() => setStatus(false)} />
+      {currentProduct && (
+        <ModalChangeProductStatus
+          product={currentProduct}
+          closeModal={() => setCurrentProduct(null)}
+        />
       )}
       {editForm && (
         <ModalCreateProduct

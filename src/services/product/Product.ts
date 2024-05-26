@@ -1,5 +1,9 @@
 import api from "../../lib/axios";
-import { IProductResponse, IUpdateProductInStockDTO } from "./dto/ProductDTO";
+import {
+  IProductResponse,
+  IUpdateProductInStockDTO,
+  IUpdateProductStatusDTO,
+} from "./dto/ProductDTO";
 
 class Product {
   static async findAll() {
@@ -26,6 +30,21 @@ class Product {
       quantityInStock,
       costPrice,
     });
+    return data;
+  }
+
+  static async updateStatus({
+    id,
+    status,
+    statusReason,
+  }: IUpdateProductStatusDTO) {
+    const { data } = await api.patch<IProductResponse>(
+      `/product/status/${id}`,
+      {
+        status,
+        statusReason,
+      },
+    );
     return data;
   }
 

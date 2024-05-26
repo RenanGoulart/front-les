@@ -1,3 +1,8 @@
+export enum ProductStatus {
+  ACTIVE = "ATIVO",
+  INACTIVE = "INATIVO",
+}
+
 export interface IProductResponse {
   id: string;
   artist: string;
@@ -8,6 +13,8 @@ export interface IProductResponse {
   height: string;
   width: string;
   weight: string;
+  status: ProductStatus;
+  statusReason: string;
   pricingGroup: string;
   categories: string[];
   barCode: string;
@@ -46,4 +53,10 @@ export interface IUpdateProductInStockDTO {
   id: string;
   quantityInStock: number;
   costPrice: number;
+}
+
+export interface IUpdateProductStatusDTO {
+  id: string;
+  status: ProductStatus;
+  statusReason: string;
 }
