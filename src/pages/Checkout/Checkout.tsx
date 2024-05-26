@@ -119,6 +119,16 @@ const Checkout = () => {
         return handleError("Você não pode aplicar um cupom");
       }
 
+      if(existingCoupon.expirationDate && new Date(existingCoupon.expirationDate) < new Date()) {
+        setValue("coupon", "");
+        return handleError("Cupom expirado");
+      }
+
+      if(existingCoupon.quantity <= 0) {
+        setValue("coupon", "");
+        return handleError("Cupom esgotado");
+      }
+
       setCoupon(existingCoupon);
     }
     setValue("coupon", "");
