@@ -216,7 +216,7 @@ const Checkout = () => {
                 Forma de pagamento{" "}
                 <IconWrapper
                   onClick={() => setIsVisibleCardModal(true)}
-                  data-cy="btn-add-creditCard-address"
+                  data-cy="btn-add-cart-creditCard"
                   role='button'
                   >
                   <PlusIcon />

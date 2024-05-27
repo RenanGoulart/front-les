@@ -101,6 +101,7 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
                   <Button
                     onClick={() => setIsConfirmationVisible(item)}
                     style={{ minWidth: "100%" }}
+                    data-cy="btn-request-itemExchange"
                   >
                     Solicitar Troca
                   </Button>
