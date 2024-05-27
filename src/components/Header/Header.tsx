@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import {
   Container,
   Logo,
@@ -12,8 +11,12 @@ import logo from "../../assets/img/logo.svg";
 import SearchBar from "../SearchBar/SearchBar";
 import CheckoutButton from "../CheckoutButton/CheckoutButton";
 
-const Header = () => {
-  const [searchValue, setSearchValue] = useState("");
+interface Props {
+  searchValue?: string;
+  setSearchValue?: (value: string) => void;
+}
+
+const Header = ({ searchValue, setSearchValue }: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -21,7 +24,13 @@ const Header = () => {
       <a href="/user">
         <Logo src={logo} alt="Logo" />
       </a>
-      <SearchBar search={searchValue} setSearch={setSearchValue} isSearchable />
+      {searchValue && setSearchValue && (
+        <SearchBar
+          search={searchValue}
+          setSearch={setSearchValue}
+          isSearchable
+        />
+      )}
       <IconsWrapper>
         <NavigationItem onClick={() => navigate("/checkout")}>
           <CheckoutButton />

@@ -119,12 +119,15 @@ const Checkout = () => {
         return handleError("Você não pode aplicar um cupom");
       }
 
-      if(existingCoupon.expirationDate && new Date(existingCoupon.expirationDate) < new Date()) {
+      if (
+        existingCoupon.expirationDate &&
+        new Date(existingCoupon.expirationDate) < new Date()
+      ) {
         setValue("coupon", "");
         return handleError("Cupom expirado");
       }
 
-      if(existingCoupon.quantity <= 0) {
+      if (existingCoupon.quantity <= 0) {
         setValue("coupon", "");
         return handleError("Cupom esgotado");
       }
@@ -196,8 +199,8 @@ const Checkout = () => {
                 <IconWrapper
                   onClick={() => setIsVisibleAddressModal(true)}
                   data-cy="btn-add-cart-address"
-                  role='button'
-                  >
+                  role="button"
+                >
                   <PlusIcon />
                 </IconWrapper>
               </OptionsSubtitle>
@@ -217,8 +220,8 @@ const Checkout = () => {
                 <IconWrapper
                   onClick={() => setIsVisibleCardModal(true)}
                   data-cy="btn-add-cart-creditCard"
-                  role='button'
-                  >
+                  role="button"
+                >
                   <PlusIcon />
                 </IconWrapper>
               </OptionsSubtitle>
@@ -238,8 +241,13 @@ const Checkout = () => {
               )}
               {fields.map((field, index) => (
                 <CardRow data-cy="cardPrice-content">
-                  <Text style={{fontSize: '1rem', marginLeft: '0.5rem'}}>{field.label}</Text>
-                  <Text style={{fontSize: '1rem', fontWeight: 'bold'}}> R$</Text>
+                  <Text style={{ fontSize: "1rem", marginLeft: "0.5rem" }}>
+                    {field.label}
+                  </Text>
+                  <Text style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                    {" "}
+                    R$
+                  </Text>
                   <Input
                     control={control}
                     name={`cardsValue.${index}.value`}
@@ -302,7 +310,9 @@ const Checkout = () => {
               <Separator />
               <Row>
                 <TotalText>Total</TotalText>
-                <TotalText isBold data-cy="value-of-total">{formatCurrency(calculateTotal())}</TotalText>
+                <TotalText isBold data-cy="value-of-total">
+                  {formatCurrency(calculateTotal())}
+                </TotalText>
               </Row>
               <Button
                 style={styles.buttonStyle}

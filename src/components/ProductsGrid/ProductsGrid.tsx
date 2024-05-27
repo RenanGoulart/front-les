@@ -11,10 +11,11 @@ import Product from "../../services/product/Product";
 import { IProductResponse } from "../../services/product/dto/ProductDTO";
 
 interface Props {
+  searchValue?: string;
   category?: string;
 }
 
-export const ProductsGrid = ({ category }: Props) => {
+export const ProductsGrid = ({ searchValue, category }: Props) => {
   const [filteredProducts, setFilteredProducts] = useState<IProductResponse[]>(
     [],
   );
@@ -47,6 +48,17 @@ export const ProductsGrid = ({ category }: Props) => {
     if (!products) {
       return null;
     }
+    if (searchValue) {
+      return products.map((product) =>
+        (product.album.toLowerCase().includes(searchValue.toLowerCase()) ||
+          product.artist.toLowerCase().includes(searchValue.toLowerCase())) &&
+        product.quantityInStock > 0 &&
+        product.status === "ATIVO" ? (
+          <ProductCard key={product.id} data={product} />
+        ) : null,
+      );
+    }
+
     if (category) {
       return filteredProducts.map((product) =>
         product.quantityInStock > 0 && product.status === "ATIVO" ? (
