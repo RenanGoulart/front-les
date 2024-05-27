@@ -45,7 +45,10 @@ const ModalConfirmExchange = ({ item, closeModal }: Props) => {
 
   return (
     <Background onClick={closeModal}>
-      <Container onClick={(e) => e.stopPropagation()}>
+      <Container
+        onClick={(e) => e.stopPropagation()}
+        data-cy="modal-user-order-details"
+        >
         <h1>
           Trocar: {item.product.album} - {item.product.artist}
         </h1>

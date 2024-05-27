@@ -88,9 +88,9 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
           </TableRow>
           {data.orderItems.map((item) => (
             <TableRow key={item.id}>
-              <TableCell>{item.product.album}</TableCell>
-              <TableCell>{item.quantity}</TableCell>
-              <TableCell>
+              <TableCell data-cy="nameOfproduct">{item.product.album}</TableCell>
+              <TableCell data-cy="quantityOfProducts">{item.quantity}</TableCell>
+              <TableCell data-cy="statusOfProduct">
                 {item.status
                   ? renderStatus(item.status)
                   : renderStatus(data.status)}
