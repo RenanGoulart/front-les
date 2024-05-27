@@ -49,13 +49,13 @@ export const ProductsGrid = ({ category }: Props) => {
     }
     if (category) {
       return filteredProducts.map((product) =>
-        product.quantityInStock > 0 && product.status == "ATIVO" ? (
+        product.quantityInStock > 0 && product.status === "ATIVO" ? (
           <ProductCard key={product.id} data={product} />
         ) : null,
       );
     }
     return products.map((product) =>
-      product.quantityInStock > 0 && product.status == "ATIVO" ? (
+      product.quantityInStock > 0 && product.status === "ATIVO" ? (
         <ProductCard key={product.id} data={product} />
       ) : null,
     );
