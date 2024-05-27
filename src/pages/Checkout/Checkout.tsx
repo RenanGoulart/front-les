@@ -193,7 +193,11 @@ const Checkout = () => {
             <OptionsContainer>
               <OptionsSubtitle>
                 Endereço de entrega{" "}
-                <IconWrapper onClick={() => setIsVisibleAddressModal(true)}>
+                <IconWrapper
+                  onClick={() => setIsVisibleAddressModal(true)}
+                  data-cy="btn-add-cart-address"
+                  role='button'
+                  >
                   <PlusIcon />
                 </IconWrapper>
               </OptionsSubtitle>
@@ -210,7 +214,11 @@ const Checkout = () => {
               )}
               <OptionsSubtitle style={{ marginTop: "1.5rem" }}>
                 Forma de pagamento{" "}
-                <IconWrapper onClick={() => setIsVisibleCardModal(true)}>
+                <IconWrapper
+                  onClick={() => setIsVisibleCardModal(true)}
+                  data-cy="btn-add-cart-creditCard"
+                  role='button'
+                  >
                   <PlusIcon />
                 </IconWrapper>
               </OptionsSubtitle>
@@ -229,13 +237,16 @@ const Checkout = () => {
                 />
               )}
               {fields.map((field, index) => (
-                <CardRow>
+                <CardRow data-cy="cardPrice-content">
+                  <Text style={{fontSize: '1rem', marginLeft: '0.5rem'}}>{field.label}</Text>
+                  <Text style={{fontSize: '1rem', fontWeight: 'bold'}}> R$</Text>
                   <Input
                     control={control}
                     name={`cardsValue.${index}.value`}
                     type="number"
+                    containerStyle={{ width: "30%" }}
+                    data-cy="input-cardPrice"
                   />
-                  <Text>{field.label}</Text>
                 </CardRow>
               ))}
               <InputWrapper style={{ marginTop: "auto" }}>
@@ -291,7 +302,7 @@ const Checkout = () => {
               <Separator />
               <Row>
                 <TotalText>Total</TotalText>
-                <TotalText isBold>{formatCurrency(calculateTotal())}</TotalText>
+                <TotalText isBold data-cy="value-of-total">{formatCurrency(calculateTotal())}</TotalText>
               </Row>
               <Button
                 style={styles.buttonStyle}

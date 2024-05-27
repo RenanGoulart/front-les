@@ -110,6 +110,7 @@ export const CardRow = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 70%;
 
   margin: 1rem 0;
 `;

@@ -57,8 +57,13 @@ const ModalConfirmExchange = ({ item, closeModal }: Props) => {
             label={`Quantidade a ser trocada (Máximo: ${item.quantity})`}
             placeholder="Ex: 1"
             type="number"
+            data-cy="input-quantityOfExchange"
           />
-          <Button onClick={handleSubmit(onSubmit)}>Confirmar Troca</Button>
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            data-cy="btn-confirm-exchange"
+          >
+            Confirmar Troca</Button>
         </Row>
       </Container>
     </Background>
