@@ -193,7 +193,11 @@ const Checkout = () => {
             <OptionsContainer>
               <OptionsSubtitle>
                 Endereço de entrega{" "}
-                <IconWrapper onClick={() => setIsVisibleAddressModal(true)}>
+                <IconWrapper
+                  onClick={() => setIsVisibleAddressModal(true)}
+                  data-cy="btn-add-cart-address"
+                  role='button'
+                  >
                   <PlusIcon />
                 </IconWrapper>
               </OptionsSubtitle>
@@ -210,7 +214,11 @@ const Checkout = () => {
               )}
               <OptionsSubtitle style={{ marginTop: "1.5rem" }}>
                 Forma de pagamento{" "}
-                <IconWrapper onClick={() => setIsVisibleCardModal(true)}>
+                <IconWrapper
+                  onClick={() => setIsVisibleCardModal(true)}
+                  data-cy="btn-add-creditCard-address"
+                  role='button'
+                  >
                   <PlusIcon />
                 </IconWrapper>
               </OptionsSubtitle>
