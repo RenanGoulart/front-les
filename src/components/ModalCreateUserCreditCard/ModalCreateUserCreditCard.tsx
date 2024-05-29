@@ -10,26 +10,47 @@ import {
 } from "../../validations/createClient.validation";
 import { cardBrandOptions } from "../../data/createClientOptions";
 import useUser from "../../hooks/useUser";
+import { ICreditCardResponse } from "../../services/card/dto/CardDTO";
+import { useEffect } from "react";
 
 interface Props {
   closeModal: () => void;
+  card: ICreditCardResponse;
 }
 
-const ModalCreateUserCreditCard = ({ closeModal }: Props) => {
-  const { user, handleCreateCard } = useUser();
+const ModalCreateUserCreditCard = ({ card, closeModal }: Props) => {
+  const { user, handleCreateCard, handleUpdateCard } = useUser();
 
-  const { control, handleSubmit } = useForm<CreateCreditCardForm>({
+  const { control, handleSubmit, reset } = useForm<CreateCreditCardForm>({
     resolver: yupResolver(CreateCreditCardSchema),
   });
 
   const onSubmit = (data: CreateCreditCardForm) => {
-    handleCreateCard({
-      ...data,
-      userId: user?.id as string,
+    const formattedCard = {
+      cardBrand: data.cardBrand,
+      number: data.number,
+      cvv: data.cvv,
+      cardHolder: data.cardHolder,
       isMain: true,
-    });
+      userId: user?.id as string
+    };
+    if(card){
+      const uptadedCard = {
+        ...formattedCard,
+        id: card.id,
+      }
+      handleUpdateCard(uptadedCard);
+      return closeModal();
+    }
+    handleCreateCard(formattedCard);
     closeModal();
   };
+
+  useEffect(()=>{
+    if(card){
+      reset(card)
+    }
+  }, []);
 
   return (
     <Background onClick={closeModal}>

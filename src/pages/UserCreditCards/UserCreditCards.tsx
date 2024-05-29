@@ -12,11 +12,15 @@ import {
 } from "./styles";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
-import ModalCreateCreditCard from "../../components/ModalCreateCreditCard/ModalCreateCreditCard";
 import Button from "../../components/Button/Button";
+import useUser from "../../hooks/useUser";
+import { ICreditCardResponse } from "../../services/card/dto/CardDTO";
+import ModalCreateUserCreditCard from "../../components/ModalCreateUserCreditCard/ModalCreateUserCreditCard";
 
 const UserCreditCards = () => {
-  const [isCardModalVisible, setIsCardModalVisible] = useState(false);
+  const [ isCardModalVisible, setIsCardModalVisible ] = useState(false);
+  const [ card, setCard ] = useState<ICreditCardResponse | null>(null);
+  const { cards, handleDeleteCard } = useUser();
 
   return (
     <Container>
@@ -34,7 +38,6 @@ const UserCreditCards = () => {
           <TableRow isHeader>
             <TableCell>Titular do Cartão</TableCell>
             <TableCell>Bandeira do Cartão</TableCell>
-            <TableCell>Número do Cartão</TableCell>
             <TableCell>CVV</TableCell>
             <TableCell style={{ justifyContent: "center" }}>
               Preferencial
@@ -42,32 +45,39 @@ const UserCreditCards = () => {
             <TableCell />
             <TableCell />
           </TableRow>
-          <TableRow>
-            <TableCell>Maria Alice O G</TableCell>
-            <TableCell>Mastercard</TableCell>
-            <TableCell>5468 5034 5641 7531</TableCell>
-            <TableCell>592</TableCell>
+          {cards && cards.map((card) => (
+          <TableRow key={card.id}>
+            <TableCell>{card.cardHolder}</TableCell>
+            <TableCell>{card.cardBrand}</TableCell>
+            <TableCell>{card.cvv}</TableCell>
             <TableCell>
               <StyledCheckIcon />
             </TableCell>
-            <TableCell>
+            <TableCell style={{ justifyContent: "flex-end" }}>
               <StyledEditIcon
-                onClick={() => setIsCardModalVisible(true)}
+                onClick={() => {
+                  setCard(card)
+                }}
                 data-cy="btn-edit-user-creditCard"
               />
             </TableCell>
             <TableCell>
               <StyledDeleteIcon
-                onClick={() => null}
+                onClick={() => handleDeleteCard(card.id)}
                 data-cy="btn-delete-user-creditCard"
               />
             </TableCell>
           </TableRow>
+          ))}
         </TableContainer>
       </Content>
-      {isCardModalVisible && (
-        <ModalCreateCreditCard
-          closeModal={() => setIsCardModalVisible(false)}
+      {(card || isCardModalVisible) && (
+        <ModalCreateUserCreditCard
+          closeModal={() => {
+            setIsCardModalVisible(false);
+            setCard(null);
+          }}
+          card={card as ICreditCardResponse}
         />
       )}
     </Container>

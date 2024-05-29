@@ -1,5 +1,5 @@
 import api from "../../lib/axios";
-import { ICreateCreditCardDTO, ICreditCardResponse } from "./dto/CardDTO";
+import { ICreateCreditCardDTO, ICreditCardResponse, IUpdateCreditCardDTO } from "./dto/CardDTO";
 
 class Card {
   static async findByUserId(userId: string) {
@@ -12,6 +12,15 @@ class Card {
   static async create(body: ICreateCreditCardDTO) {
     const { data } = await api.post<ICreditCardResponse>("/creditCard", body);
     return data;
+  }
+
+  static async update(body: IUpdateCreditCardDTO) {
+    const { data } = await api.put<ICreditCardResponse>(`/creditCard/${body.id}`, body);
+    return data;
+  }
+
+  static async delete(id: string) {
+    await api.delete<ICreditCardResponse>(`/creditCard/${id}`);
   }
 }
 
