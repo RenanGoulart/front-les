@@ -12,11 +12,15 @@ import {
 } from "./styles";
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
-import ModalCreateAddress from "../../components/ModalCreateAddress/ModalCreateAddress";
 import Button from "../../components/Button/Button";
+import useUser from "../../hooks/useUser";
+import { IAddressResponse } from "../../services/address/dto/AddressDTO";
+import ModalCreateUserAddress from "../../components/ModalCreateUserAddress/ModalCreateUserAddress";
 
 const UserAddresses = () => {
-  const [isAddressModalVisible, setIsAddressModalVisible] = useState(false);
+  const [ isAddressModalVisible, setIsAddressModalVisible] = useState(false);
+  const [ address, setAddress ] = useState<IAddressResponse | null>(null);
+  const { addresses, handleDeleteAddress } = useUser();
 
   return (
     <Container>
@@ -25,7 +29,9 @@ const UserAddresses = () => {
       <Content>
         <Title>Meus Endereços</Title>
         <Button
-          onClick={() => {setIsAddressModalVisible(true)}}
+          onClick={() => {
+          setIsAddressModalVisible(true);
+        }}
           data-cy="btn-add-user-address"
         >
           Adicionar Endereço
@@ -35,8 +41,6 @@ const UserAddresses = () => {
             <TableCell>CEP</TableCell>
             <TableCell>Rua</TableCell>
             <TableCell>Nº</TableCell>
-            <TableCell>Bairro</TableCell>
-            <TableCell>Cidade</TableCell>
             <TableCell>Estado</TableCell>
             <TableCell>País</TableCell>
             <TableCell>Tipo de Endereço</TableCell>
@@ -46,38 +50,44 @@ const UserAddresses = () => {
             <TableCell />
             <TableCell />
           </TableRow>
-          <TableRow>
-            <TableCell>12948-180</TableCell>
-            <TableCell>Rua do Portão</TableCell>
-            <TableCell>100</TableCell>
-            <TableCell>Estância Santa Maria do Portão</TableCell>
-            <TableCell>Atibaia</TableCell>
-            <TableCell>São Paulo</TableCell>
-            <TableCell>Brasil</TableCell>
-            <TableCell>Entrega</TableCell>
-            <TableCell>Rua</TableCell>
-            <TableCell>Casa</TableCell>
-            <TableCell>
-              <StyledCheckIcon />
-            </TableCell>
-            <TableCell>
-              <StyledEditIcon
-                onClick={() => setIsAddressModalVisible(true)}
-                data-cy="btn-edit-user-address"
-              />
-            </TableCell>
-            <TableCell>
-              <StyledDeleteIcon
-                onClick={() => null}
-                data-cy="btn-delete-user-address"
-              />
-            </TableCell>
-          </TableRow>
+          {addresses && addresses.map((address) => (
+            <TableRow key={address.id}>
+              <TableCell> {`${address.zipCode.substring(0, 5)}...`}</TableCell>
+              <TableCell>{address.street}</TableCell>
+              <TableCell>{address.number}</TableCell>
+              <TableCell>{address.city.state.name}</TableCell>
+              <TableCell>{address.city.state.country.name}</TableCell>
+              <TableCell>{address.addressType}</TableCell>
+              <TableCell>{address.streetType}</TableCell>
+              <TableCell>{address.residenceType}</TableCell>
+              <TableCell>
+                {" "}
+                {address.isMain ? <StyledCheckIcon /> : null}
+              </TableCell>
+              <TableCell style={{ justifyContent: "flex-end" }}>
+                {" "}
+                <StyledEditIcon
+                  onClick={() => {
+                    setAddress(address);
+                  }}
+                />
+              </TableCell>
+              <TableCell>
+                <StyledDeleteIcon
+                  onClick={() => handleDeleteAddress(address.id)}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
         </TableContainer>
       </Content>
-      {isAddressModalVisible && (
-        <ModalCreateAddress
-          closeModal={() => setIsAddressModalVisible(false)}
+      {(address || isAddressModalVisible) && (
+        <ModalCreateUserAddress
+        closeModal={() =>  {
+          setIsAddressModalVisible(false);
+          setAddress(null)
+        }}
+          address={address as IAddressResponse}
         />
       )}
     </Container>

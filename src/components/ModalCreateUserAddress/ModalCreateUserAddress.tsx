@@ -20,6 +20,7 @@ import {
   listStatesByCountryId,
 } from "../../services/address";
 import useUser from "../../hooks/useUser";
+import { IAddressResponse } from "../../services/address/dto/AddressDTO";
 
 interface DropdownOption {
   value: string;
@@ -28,16 +29,17 @@ interface DropdownOption {
 
 interface Props {
   closeModal: () => void;
+  address?: IAddressResponse;
 }
 
-const ModalCreateUserAddress = ({ closeModal }: Props) => {
-  const { user, handleCreateAddress } = useUser();
+const ModalCreateUserAddress = ({ address, closeModal }: Props) => {
+  const { user, handleCreateAddress, handleUpdateAddress } = useUser();
 
   const [countries, setCountries] = useState<DropdownOption[]>([]);
   const [states, setStates] = useState<DropdownOption[]>([]);
   const [cities, setCities] = useState<DropdownOption[]>([]);
 
-  const { control, handleSubmit, watch } = useForm<CreateAddressForm>({
+  const { control, handleSubmit, watch, reset } = useForm<CreateAddressForm>({
     resolver: yupResolver(CreateAddressSchema),
   });
 
@@ -58,10 +60,20 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
       userId: user?.id as string,
       isMain: true,
     };
+    if(address){
+      const updateAddress = {
+        ...formattedAddress,
+        id: address.id,
+        createdAt: address.createdAt,
+        updatedAt: address.updatedAt
+      }
+      handleUpdateAddress(updateAddress);
+      return closeModal();
+    }
     handleCreateAddress(formattedAddress);
     closeModal();
   };
-
+  console.log(address)
   const getCountries = async () => {
     const allCountries = await listCountries();
     if (allCountries) {
@@ -110,6 +122,17 @@ const ModalCreateUserAddress = ({ closeModal }: Props) => {
       getCities(state);
     }
   }, [state]);
+
+  useEffect(() => {
+    if(address){
+      reset({
+        ...address,
+        country: address.city.state.country.id,
+        state: address.city.state.id,
+        city: address.city.id,
+      });
+    }
+  }, []);
 
   return (
     <Background onClick={closeModal}>
