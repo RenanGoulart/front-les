@@ -34,6 +34,11 @@ class Address {
     const { data } = await api.put(`/address/${body.id}`, body);
     return data;
   }
+
+  static async delete(id: string) {
+    console.log(id);
+    await api.delete(`/address/${id}`);
+  }
 }
 
 export default Address;

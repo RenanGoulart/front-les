@@ -3,8 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import User from "../services/user/User";
 import Address from "../services/address/Address";
 import Card from "../services/card/Card";
-import { ICreateAddressDTO } from "../services/address/dto/AddressDTO";
-import { ICreateCreditCardDTO } from "../services/card/dto/CardDTO";
+import { ICreateAddressDTO, IUpdateAddressDTO } from "../services/address/dto/AddressDTO";
+import { ICreateCreditCardDTO, IUpdateCreditCardDTO } from "../services/card/dto/CardDTO";
 
 const useUser = () => {
   const queryClient = useQueryClient();
@@ -33,8 +33,36 @@ const useUser = () => {
     },
   });
 
+  const { mutate: updateAddress } = useMutation({
+    mutationFn: Address.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addresses", user?.id] });
+    },
+  });
+
+  const { mutate: deleteAddress } = useMutation({
+    mutationFn: Address.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addresses", user?.id] });
+    },
+  });
+
   const { mutate: createCard } = useMutation({
     mutationFn: Card.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cards", user?.id] });
+    },
+  });
+
+  const { mutate: updateCard } = useMutation({
+    mutationFn: Card.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cards", user?.id] });
+    },
+  });
+
+  const { mutate: deleteCard } = useMutation({
+    mutationFn: Card.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cards", user?.id] });
     },
@@ -44,11 +72,37 @@ const useUser = () => {
     createAddress(body);
   };
 
+  const handleUpdateAddress = (body: IUpdateAddressDTO) => {
+    updateAddress(body);
+  };
+
+  const handleDeleteAddress = (id: string) => {
+    deleteAddress(id);
+  };
+
   const handleCreateCard = (body: ICreateCreditCardDTO) => {
     createCard(body);
   };
 
-  return { user, addresses, cards, handleCreateAddress, handleCreateCard };
+  const handleUpdateCard = (body: IUpdateCreditCardDTO) => {
+    updateCard(body);
+  };
+
+  const handleDeleteCard = (id: string) => {
+    deleteCard(id);
+  };
+
+  return {
+    user,
+    addresses,
+    cards,
+    handleCreateAddress,
+    handleCreateCard,
+    handleUpdateAddress,
+    handleDeleteAddress,
+    handleUpdateCard,
+    handleDeleteCard,
+  };
 };
 
 export default useUser;

@@ -29,7 +29,7 @@ interface TableRowProps {
 
 export const TableRow = styled.div<TableRowProps>`
   display: grid;
-  grid-template-columns: repeat(11, minmax(0, 1fr)) 5rem 5rem;
+  grid-template-columns: repeat(9, minmax(0, 1fr)) 5rem 5rem;
   align-items: center;
 
   border-bottom: 1px solid black;
