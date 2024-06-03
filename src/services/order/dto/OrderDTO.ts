@@ -72,3 +72,22 @@ export interface IUpdateOrderItemDTO {
   quantity: number;
   status: string;
 }
+
+export interface IDashboardResponse {
+  id: string;
+  code: string;
+  status: OrderStatus;
+  freight: number;
+  total: number;
+  creditsUsed: number;
+  addressId: string;
+  couponId: null | string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IShowDashboardDTO {
+  startDate: string;
+  endDate: string;
+}

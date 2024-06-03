@@ -62,6 +62,10 @@ const useOrder = () => {
     },
   });
 
+  const { mutateAsync: showDashboard } = useMutation({
+    mutationFn: Order.showDashboard,
+  });
+
   const handleFinishOrder = async (body: ICreateOrderDTO) => {
     if (cart) {
       const order = await finishOrder(body);
@@ -79,6 +83,11 @@ const useOrder = () => {
 
   const handleRequestOrderExchange = async (id: string, status: string) => {
     await requestOrderExchange({ id, status });
+  };
+
+  const handleShowDashboard = async (startDate: string, endDate: string) => {
+    const data = await showDashboard({ startDate, endDate });
+    return data;
   };
 
   const handleRequestOrderItemExchange = async (
@@ -113,6 +122,7 @@ const useOrder = () => {
     handleUpdateOrderItem,
     handleRequestOrderExchange,
     handleRequestOrderItemExchange,
+    handleShowDashboard,
     renderStatus,
   };
 };

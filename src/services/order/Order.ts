@@ -1,7 +1,9 @@
 import api from "../../lib/axios";
 import {
   ICreateOrderDTO,
+  IDashboardResponse,
   IOrderResponse,
+  IShowDashboardDTO,
   IUpdateOrderDTO,
   IUpdateOrderItemDTO,
 } from "./dto/OrderDTO";
@@ -58,6 +60,14 @@ class Order {
         status,
       },
     );
+    return data;
+  }
+
+  static async showDashboard({ startDate, endDate }: IShowDashboardDTO) {
+    const { data } = await api.post<IDashboardResponse[]>(`/order/dashboard`, {
+      startDate,
+      endDate,
+    });
     return data;
   }
 }

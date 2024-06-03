@@ -31,24 +31,26 @@ export const CheckoutProductCard = ({ data }: Props) => {
         <Text isBold>{product.album}</Text>
         <Text>{product.artist}</Text>
         <Row>
-          <Text data-cy='value-product'>{formatCurrency(product.price * data.quantity)}</Text>
+          <Text data-cy="value-product">
+            {formatCurrency(product.price * data.quantity)}
+          </Text>
           <QuantityContainer>
             {data.quantity > 1 && (
               <IconWrapper
                 onClick={() => handleSubFromCart(product.id)}
                 data-cy="btn-minus"
                 role="button"
-                >
-                <MinusIcon/>
+              >
+                <MinusIcon />
               </IconWrapper>
             )}
-            <Text data-cy='qtd-product'>{data.quantity}</Text>
+            <Text data-cy="qtd-product">{data.quantity}</Text>
             <IconWrapper
               onClick={() => handleAddToCart(product.id)}
               data-cy="btn-plus"
               role="button"
-              >
-              <PlusIcon/>
+            >
+              <PlusIcon />
             </IconWrapper>
           </QuantityContainer>
         </Row>
