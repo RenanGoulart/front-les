@@ -90,4 +90,6 @@ export interface IDashboardResponse {
 export interface IShowDashboardDTO {
   startDate: string;
   endDate: string;
+  productFilters?: string[];
+  categoryFilters?: string[];
 }

@@ -63,10 +63,17 @@ class Order {
     return data;
   }
 
-  static async showDashboard({ startDate, endDate }: IShowDashboardDTO) {
+  static async showDashboard({
+    startDate,
+    endDate,
+    productFilters,
+    categoryFilters,
+  }: IShowDashboardDTO) {
     const { data } = await api.post<IDashboardResponse[]>(`/order/dashboard`, {
       startDate,
       endDate,
+      productFilters,
+      categoryFilters,
     });
     return data;
   }

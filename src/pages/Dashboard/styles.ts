@@ -5,6 +5,8 @@ export const Container = styled.main`
   height: 100vh;
 
   display: flex;
+
+  overflow-x: hidden;
 `;
 
 export const Content = styled.section`
@@ -14,9 +16,19 @@ export const Content = styled.section`
   padding: 2rem 8rem;
 `;
 
+export const ChartWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+
+  padding: 2rem 0 4rem;
+`;
+
 export const Header = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  gap: 16px;
+
   margin: 24px 0 12px;
 `;
 
@@ -31,6 +43,8 @@ export const FilterRow = styled.div`
 `;
 
 export const FilterLabel = styled.label`
+  margin-top: 24px;
+
   font-size: 1rem;
 `;
 

@@ -18,6 +18,7 @@ interface Props {
   classNamePrefix?: string;
   containerStyle?: React.CSSProperties;
   style?: React.CSSProperties;
+  disabled?: boolean;
   noOptionsMessage?: () => string;
 }
 
@@ -30,6 +31,7 @@ const MultiSelect = ({
   classNamePrefix,
   containerStyle,
   style,
+  disabled,
   noOptionsMessage,
   ...props
 }: Props) => {
@@ -49,6 +51,7 @@ const MultiSelect = ({
             placeholder={placeholder}
             noOptionsMessage={noOptionsMessage}
             classNamePrefix={classNamePrefix}
+            isDisabled={disabled}
             styles={{
               container(base) {
                 return {

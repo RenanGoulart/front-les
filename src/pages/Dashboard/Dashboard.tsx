@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  ChartWrapper,
   Container,
   Content,
   FilterLabel,
@@ -21,6 +22,9 @@ import {
 } from "../../validations/dashboard.validation";
 import { theme } from "../../styles/theme";
 import { IDashboardResponse } from "../../services/order/dto/OrderDTO";
+import MultiSelect from "../../components/MultiSelect/MultiSelect";
+import useProduct from "../../hooks/useProduct";
+import { categoriesOptions } from "../../data/createProductOptions";
 
 Chart.register(...registerables);
 
@@ -33,15 +37,22 @@ interface DataType {
   value: number;
 }
 
+type SelectDisable = "categories" | "products" | null;
+
 const Dashboard = () => {
+  const { products } = useProduct();
   const { handleShowDashboard } = useOrder();
   const [graphData, setGraphData] = useState<ChartData<"line">>(
     {} as ChartData<"line">,
   );
+  const [isSelectDisable, setIsSelectDisable] = useState<SelectDisable>(null);
 
-  const { control, handleSubmit, reset } = useForm<DashboardForm>({
+  const { control, handleSubmit, reset, watch } = useForm<DashboardForm>({
     resolver: yupResolver(DashboardSchema),
   });
+
+  const watchProducts = watch("productsFilter");
+  const watchCategories = watch("categoriesFilter");
 
   const formatLabel = (date: string) => date.split("-").reverse().join("/");
 
@@ -83,41 +94,112 @@ const Dashboard = () => {
     ],
   });
 
-  const fetchData = async (startDate: string, endDate: string) => {
-    const data = await handleShowDashboard(startDate, endDate);
+  const fetchData = async (
+    startDate: string,
+    endDate: string,
+    productValues: string[],
+    categoryValues: string[],
+  ) => {
+    const data = await handleShowDashboard(
+      startDate,
+      endDate,
+      productValues,
+      categoryValues,
+    );
     const finalData = processData(data);
     setGraphData(formatGraphData(finalData));
   };
 
-  const onSubmit = async ({ startDate, endDate }: DashboardForm) => {
-    if (startDate && endDate) {
-      await fetchData(startDate, endDate);
-    } else {
-      const end = new Date();
-      const start = new Date();
-      start.setFullYear(end.getFullYear() - 1);
-      await fetchData(start.toISOString(), end.toISOString());
-    }
+  const onSubmit = async ({
+    startDate,
+    endDate,
+    categoriesFilter = [],
+    productsFilter = [],
+  }: DashboardForm) => {
+    const mappedProducts = productsFilter.map((item) => item.value!);
+    const mappedCategories = categoriesFilter.map((item) => item.value!);
+
+    const end = endDate ? new Date(endDate) : new Date();
+    const start = startDate
+      ? new Date(startDate)
+      : new Date(end.getFullYear() - 1);
+
+    await fetchData(
+      start.toISOString(),
+      end.toISOString(),
+      mappedProducts,
+      mappedCategories,
+    );
   };
 
   useEffect(() => {
     onSubmit({});
   }, []);
 
+  useEffect(() => {
+    if (watchProducts?.length) {
+      setIsSelectDisable("categories");
+    } else if (watchCategories?.length) {
+      setIsSelectDisable("products");
+    } else {
+      setIsSelectDisable(null);
+    }
+  }, [watchCategories, watchProducts]);
+
   return (
     <Container>
       <SideBar />
       <Content>
+        <PageTitle>Dashboard de Vendas</PageTitle>
         <Header>
-          <PageTitle>Dashboard de Vendas</PageTitle>
           <FilterRow>
-            <FilterLabel>De</FilterLabel>
-            <Input control={control} name="startDate" type="date" />
-            <FilterLabel>Até</FilterLabel>
-            <Input control={control} name="endDate" type="date" />
+            <MultiSelect
+              control={control}
+              name="productsFilter"
+              label="Filtre por produto(s)"
+              options={
+                products?.map((item) => ({
+                  label: `${item.album} - ${item.artist}`,
+                  value: item.id,
+                })) || []
+              }
+              placeholder={
+                isSelectDisable === "products"
+                  ? "Remova as categorias para selecionar produtos"
+                  : "Selecione um ou mais produto(s)"
+              }
+              disabled={isSelectDisable === "products"}
+            />
+            <FilterLabel>Ou</FilterLabel>
+            <MultiSelect
+              control={control}
+              name="categoriesFilter"
+              label="Filtre por categoria(s)"
+              options={categoriesOptions}
+              placeholder={
+                isSelectDisable === "categories"
+                  ? "Remova os produtos para selecionar categorias"
+                  : "Selecione um ou mais categoria(s)"
+              }
+              disabled={isSelectDisable === "categories"}
+            />
+          </FilterRow>
+          <FilterRow>
+            <Input
+              control={control}
+              name="startDate"
+              label="Data inicial"
+              type="date"
+            />
+            <Input
+              control={control}
+              name="endDate"
+              label="Data final"
+              type="date"
+            />
             <Button
               style={{
-                minWidth: 100,
+                minWidth: 150,
                 backgroundColor: "white",
                 color: theme.colors.purple_1f,
               }}
@@ -128,14 +210,14 @@ const Dashboard = () => {
             >
               Limpar
             </Button>
-            <Button style={{ minWidth: 100 }} onClick={handleSubmit(onSubmit)}>
-              Aplicar
-            </Button>
+            <Button onClick={handleSubmit(onSubmit)}>Aplicar</Button>
           </FilterRow>
         </Header>
-        {graphData?.datasets?.length > 0 && (
-          <Line options={options} data={graphData} />
-        )}
+        <ChartWrapper>
+          {graphData?.datasets?.length > 0 && (
+            <Line options={options} data={graphData} />
+          )}
+        </ChartWrapper>
       </Content>
     </Container>
   );

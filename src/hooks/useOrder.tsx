@@ -85,8 +85,18 @@ const useOrder = () => {
     await requestOrderExchange({ id, status });
   };
 
-  const handleShowDashboard = async (startDate: string, endDate: string) => {
-    const data = await showDashboard({ startDate, endDate });
+  const handleShowDashboard = async (
+    startDate: string,
+    endDate: string,
+    productFilters?: string[],
+    categoryFilters?: string[],
+  ) => {
+    const data = await showDashboard({
+      startDate,
+      endDate,
+      productFilters,
+      categoryFilters,
+    });
     return data;
   };
 
