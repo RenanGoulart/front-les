@@ -75,11 +75,6 @@ const Dashboard = () => {
         label: formatLabel(key),
         value: value.total,
       }))
-      .sort(
-        (a, b) =>
-          Number(a.label.substring(0, 2)) - Number(b.label.substring(0, 2)) &&
-          Number(a.label.substring(3, 7)) - Number(b.label.substring(3, 7)),
-      );
   };
 
   const formatGraphData = (finalData: DataType[]) => ({
