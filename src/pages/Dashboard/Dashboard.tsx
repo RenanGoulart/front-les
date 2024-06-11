@@ -21,10 +21,11 @@ import {
   DashboardSchema,
 } from "../../validations/dashboard.validation";
 import { theme } from "../../styles/theme";
-import { IDashboardResponse } from "../../services/order/dto/OrderDTO";
 import MultiSelect from "../../components/MultiSelect/MultiSelect";
 import useProduct from "../../hooks/useProduct";
 import { categoriesOptions } from "../../data/createProductOptions";
+import { randomColor } from "../../utils/randomColor";
+import { IProductResponse } from "../../services/product/dto/ProductDTO";
 
 Chart.register(...registerables);
 
@@ -33,9 +34,18 @@ const options = {
 };
 
 interface DataType {
+  productName: string;
   label: string;
   value: number;
 }
+
+type Dataset = {
+  label: string;
+  data: number[];
+  borderColor?: string;
+  backgroundColor?: string;
+  fill?: boolean;
+};
 
 type SelectDisable = "categories" | "products" | null;
 
@@ -54,40 +64,36 @@ const Dashboard = () => {
   const watchProducts = watch("productsFilter");
   const watchCategories = watch("categoriesFilter");
 
-  const formatLabel = (date: string) => date.split("-").reverse().join("/");
+  const formatGraphData = (finalData: DataType[]) => {
+    const datasets: Dataset[] = [];
+    const productNames: string[] = [];
 
-  const processData = (data: IDashboardResponse[]) => {
-    const groupedData = data.reduce(
-      (acc, item) => {
-        const key = item.createdAt.substring(0, 7);
-        if (acc[key]) {
-          acc[key].total += item.total;
-        } else {
-          acc[key] = { total: item.total };
-        }
-        return acc;
-      },
-      {} as { [key: string]: { total: number } },
-    );
+    finalData.forEach((item) => {
+      const index = productNames.indexOf(item.productName);
+      if (index === -1) {
+        productNames.push(item.productName);
+        datasets.push({
+          label: item.productName,
+          data: [item.value],
+        });
+      } else {
+        datasets[index].data.push(item.value);
+      }
+    });
 
-    return Object.entries(groupedData)
-      .map(([key, value]) => ({
-        label: formatLabel(key),
-        value: value.total,
-      }))
+    return {
+      labels: finalData.map((item) => item.label),
+      datasets: datasets.map((dataset) => {
+        const color = randomColor();
+        return {
+          ...dataset,
+          borderColor: color,
+          backgroundColor: color,
+          fill: false,
+        };
+      }),
+    };
   };
-
-  const formatGraphData = (finalData: DataType[]) => ({
-    labels: finalData.map((item) => item.label),
-    datasets: [
-      {
-        label: "Valor em vendas (R$)",
-        data: finalData.map((item) => item.value),
-        borderColor: theme.colors.green_56,
-        backgroundColor: theme.colors.green_56,
-      },
-    ],
-  });
 
   const fetchData = async (
     startDate: string,
@@ -101,8 +107,8 @@ const Dashboard = () => {
       productValues,
       categoryValues,
     );
-    const finalData = processData(data);
-    setGraphData(formatGraphData(finalData));
+
+    setGraphData(formatGraphData(data));
   };
 
   const onSubmit = async ({
@@ -117,7 +123,7 @@ const Dashboard = () => {
     const end = endDate ? new Date(endDate) : new Date();
     const start = startDate
       ? new Date(startDate)
-      : new Date(end.getFullYear() - 1);
+      : new Date(end.getMonth() - 1);
 
     await fetchData(
       start.toISOString(),
@@ -127,11 +133,21 @@ const Dashboard = () => {
     );
   };
 
-  useEffect(() => {
-    onSubmit({});
-  }, []);
+  const formatProduct = (item: IProductResponse) => ({
+    label: `${item.album} - ${item.artist}`,
+    value: item.id,
+  });
 
-  useEffect(() => {
+  const resetForm = () => {
+    reset({
+      startDate: "",
+      endDate: "",
+      categoriesFilter: [],
+      productsFilter: products?.map(formatProduct) || [],
+    });
+  };
+
+  const updateSelectDisable = () => {
     if (watchProducts?.length) {
       setIsSelectDisable("categories");
     } else if (watchCategories?.length) {
@@ -139,6 +155,15 @@ const Dashboard = () => {
     } else {
       setIsSelectDisable(null);
     }
+  };
+
+  useEffect(() => {
+    onSubmit({});
+    resetForm();
+  }, []);
+
+  useEffect(() => {
+    updateSelectDisable();
   }, [watchCategories, watchProducts]);
 
   return (
@@ -161,7 +186,7 @@ const Dashboard = () => {
               placeholder={
                 isSelectDisable === "products"
                   ? "Remova as categorias para selecionar produtos"
-                  : "Selecione um ou mais produto(s)"
+                  : "Selecione um ou mais produtos"
               }
               disabled={isSelectDisable === "products"}
             />
@@ -174,7 +199,7 @@ const Dashboard = () => {
               placeholder={
                 isSelectDisable === "categories"
                   ? "Remova os produtos para selecionar categorias"
-                  : "Selecione um ou mais categoria(s)"
+                  : "Selecione uma ou mais categorias"
               }
               disabled={isSelectDisable === "categories"}
             />
@@ -199,7 +224,12 @@ const Dashboard = () => {
                 color: theme.colors.purple_1f,
               }}
               onClick={() => {
-                reset({ startDate: "", endDate: "" });
+                reset({
+                  startDate: "",
+                  endDate: "",
+                  categoriesFilter: [],
+                  productsFilter: [],
+                });
                 onSubmit({});
               }}
             >
