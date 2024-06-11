@@ -66,23 +66,29 @@ const Dashboard = () => {
 
   const formatGraphData = (finalData: DataType[]) => {
     const datasets: Dataset[] = [];
-    const productNames: string[] = [];
 
+    const groupedData: { [key: string]: number } = {};
     finalData.forEach((item) => {
-      const index = productNames.indexOf(item.productName);
-      if (index === -1) {
-        productNames.push(item.productName);
-        datasets.push({
-          label: item.productName,
-          data: [item.value],
-        });
-      } else {
-        datasets[index].data.push(item.value);
-      }
+      const key = `${item.label}_${item.productName}`;
+      groupedData[key] = item.value;
     });
 
+    Object.entries(groupedData).forEach(([key, value]) => {
+      const [_, productName] = key.split("_");
+      const index = datasets.findIndex(
+        (dataset) => dataset.label === productName,
+      );
+      if (index === -1) {
+        datasets.push({
+          label: productName,
+          data: [value],
+        });
+      } else {
+        datasets[index].data.push(value);
+      }
+    });
     return {
-      labels: finalData.map((item) => item.label),
+      labels: Array.from(new Set(finalData.map((item) => item.label))),
       datasets: datasets.map((dataset) => {
         const color = randomColor();
         return {
@@ -107,7 +113,6 @@ const Dashboard = () => {
       productValues,
       categoryValues,
     );
-
     setGraphData(formatGraphData(data));
   };
 
@@ -123,7 +128,7 @@ const Dashboard = () => {
     const end = endDate ? new Date(endDate) : new Date();
     const start = startDate
       ? new Date(startDate)
-      : new Date(end.getMonth() - 1);
+      : new Date(end.getFullYear(), end.getMonth() - 1, end.getDate());
 
     await fetchData(
       start.toISOString(),
