@@ -60,3 +60,7 @@ export interface IUpdateProductStatusDTO {
   status: ProductStatus;
   statusReason: string;
 }
+
+export interface IShowCuriosityDTO {
+  curiosity: string;
+}

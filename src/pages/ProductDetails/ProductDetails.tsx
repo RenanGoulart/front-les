@@ -31,12 +31,19 @@ import { formatCurrency } from "../../utils/format";
 import Product from "../../services/product/Product";
 import { useCart } from "../../contexts/useCart";
 import { ITrack } from "../../services/product/dto/ProductDTO";
+import { useState } from "react";
+import ModalCuriosities from "../../components/ModalCuriosities/ModalCuriosities";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [ isCuriosity, setCuriosity ] = useState(false);
 
   const { handleAddToCart } = useCart();
+
+  const closeModal = () => {
+    setCuriosity(false);
+  };
 
   const { data: product } = useQuery({
     queryKey: ["productDetails", id],
@@ -116,7 +123,7 @@ const ProductDetails = () => {
                 Adicionar ao Carrinho
               </Button>
             </ButtonsColumn>
-            <IaButton>
+            <IaButton onClick={() => setCuriosity(true)}>
               <IaIcon src={brain} />
             </IaButton>
           </ButtonsRow>
@@ -158,6 +165,11 @@ const ProductDetails = () => {
         <TrackRow>{renderTracks(product?.tracks as ITrack[])}</TrackRow>
       </TrackContainer>
       <Footer />
+      {isCuriosity && (
+          <ModalCuriosities closeModal={closeModal}
+            album={product.album}
+          />
+      )}
     </Container>
   );
 };
