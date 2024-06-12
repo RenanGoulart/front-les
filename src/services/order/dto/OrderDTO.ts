@@ -73,15 +73,17 @@ export interface IUpdateOrderItemDTO {
   status: string;
 }
 
-export interface IDashboardResponse {
-  productName: string;
+interface IDataset {
   label: string;
-  value: number;
+  values: number[];
 }
 
+export interface IDashboardResponse {
+  labels: string[];
+  datasets: IDataset[];
+}
 export interface IShowDashboardDTO {
   startDate: string;
   endDate: string;
   productFilters?: string[];
-  categoryFilters?: string[];
 }

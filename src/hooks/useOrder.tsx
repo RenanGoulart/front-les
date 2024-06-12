@@ -89,13 +89,11 @@ const useOrder = () => {
     startDate: string,
     endDate: string,
     productFilters?: string[],
-    categoryFilters?: string[],
   ) => {
     const data = await showDashboard({
       startDate,
       endDate,
       productFilters,
-      categoryFilters,
     });
     return data;
   };

@@ -70,10 +70,10 @@ const MultiSelect = ({
                   paddingBottom: "0.5rem",
                   fontSize: "1rem",
                   borderRadius: "0.5rem",
-                  borderColor: theme.colors.purple_1f,
+                  borderColor: theme.colors.purple_80,
                   boxShadow: "none",
                   "&:hover": {
-                    borderColor: theme.colors.purple_1f,
+                    borderColor: theme.colors.purple_80,
                   },
                   ...style,
                 };
@@ -82,7 +82,7 @@ const MultiSelect = ({
                 return {
                   ...base,
                   backgroundColor: state.isSelected
-                    ? theme.colors.purple_1f
+                    ? theme.colors.purple_80
                     : "white",
                   color: state.isSelected ? "white" : "black",
                   "&:hover": {

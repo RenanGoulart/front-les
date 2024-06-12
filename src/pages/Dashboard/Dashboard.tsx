@@ -3,11 +3,11 @@ import { Chart, ChartData, registerables } from "chart.js";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { format } from "date-fns";
 import {
   ChartWrapper,
   Container,
   Content,
-  FilterLabel,
   FilterRow,
   Header,
   PageTitle,
@@ -23,9 +23,9 @@ import {
 import { theme } from "../../styles/theme";
 import MultiSelect from "../../components/MultiSelect/MultiSelect";
 import useProduct from "../../hooks/useProduct";
-import { categoriesOptions } from "../../data/createProductOptions";
 import { randomColor } from "../../utils/randomColor";
 import { IProductResponse } from "../../services/product/dto/ProductDTO";
+import { IDashboardResponse } from "../../services/order/dto/OrderDTO";
 
 Chart.register(...registerables);
 
@@ -33,21 +33,14 @@ const options = {
   responsive: true,
 };
 
-interface DataType {
-  productName: string;
-  label: string;
-  value: number;
-}
-
-type Dataset = {
+interface IDataset {
   label: string;
   data: number[];
   borderColor?: string;
   backgroundColor?: string;
   fill?: boolean;
-};
-
-type SelectDisable = "categories" | "products" | null;
+  tension?: number;
+}
 
 const Dashboard = () => {
   const { products } = useProduct();
@@ -55,48 +48,24 @@ const Dashboard = () => {
   const [graphData, setGraphData] = useState<ChartData<"line">>(
     {} as ChartData<"line">,
   );
-  const [isSelectDisable, setIsSelectDisable] = useState<SelectDisable>(null);
 
-  const { control, handleSubmit, reset, watch } = useForm<DashboardForm>({
+  const { control, handleSubmit, reset } = useForm<DashboardForm>({
     resolver: yupResolver(DashboardSchema),
   });
 
-  const watchProducts = watch("productsFilter");
-  const watchCategories = watch("categoriesFilter");
-
-  const formatGraphData = (finalData: DataType[]) => {
-    const datasets: Dataset[] = [];
-
-    const groupedData: { [key: string]: number } = {};
-    finalData.forEach((item) => {
-      const key = `${item.label}_${item.productName}`;
-      groupedData[key] = item.value;
-    });
-
-    Object.entries(groupedData).forEach(([key, value]) => {
-      const [_, productName] = key.split("_");
-      const index = datasets.findIndex(
-        (dataset) => dataset.label === productName,
-      );
-      if (index === -1) {
-        datasets.push({
-          label: productName,
-          data: [value],
-        });
-      } else {
-        datasets[index].data.push(value);
-      }
-    });
+  const formatGraphData = (finalData: IDashboardResponse) => {
     return {
-      labels: Array.from(new Set(finalData.map((item) => item.label))),
-      datasets: datasets.map((dataset) => {
+      labels: finalData.labels,
+      datasets: finalData.datasets.map((dataset) => {
         const color = randomColor();
         return {
-          ...dataset,
+          label: dataset.label,
+          data: dataset.values,
           borderColor: color,
           backgroundColor: color,
           fill: false,
-        };
+          tension: 0.5,
+        } as IDataset;
       }),
     };
   };
@@ -105,37 +74,25 @@ const Dashboard = () => {
     startDate: string,
     endDate: string,
     productValues: string[],
-    categoryValues: string[],
   ) => {
-    const data = await handleShowDashboard(
-      startDate,
-      endDate,
-      productValues,
-      categoryValues,
-    );
+    const data = await handleShowDashboard(startDate, endDate, productValues);
+
     setGraphData(formatGraphData(data));
   };
 
   const onSubmit = async ({
     startDate,
     endDate,
-    categoriesFilter = [],
     productsFilter = [],
   }: DashboardForm) => {
     const mappedProducts = productsFilter.map((item) => item.value!);
-    const mappedCategories = categoriesFilter.map((item) => item.value!);
 
     const end = endDate ? new Date(endDate) : new Date();
     const start = startDate
       ? new Date(startDate)
-      : new Date(end.getFullYear(), end.getMonth() - 1, end.getDate());
+      : new Date(end.getFullYear() - 1);
 
-    await fetchData(
-      start.toISOString(),
-      end.toISOString(),
-      mappedProducts,
-      mappedCategories,
-    );
+    await fetchData(start.toISOString(), end.toISOString(), mappedProducts);
   };
 
   const formatProduct = (item: IProductResponse) => ({
@@ -144,32 +101,25 @@ const Dashboard = () => {
   });
 
   const resetForm = () => {
+    const endDate = new Date();
     reset({
-      startDate: "",
-      endDate: "",
-      categoriesFilter: [],
+      startDate: format(
+        new Date(
+          endDate.getFullYear() - 1,
+          endDate.getMonth(),
+          endDate.getDate(),
+        ),
+        "yyyy-MM-dd",
+      ),
+      endDate: format(endDate, "yyyy-MM-dd"),
       productsFilter: products?.map(formatProduct) || [],
     });
-  };
-
-  const updateSelectDisable = () => {
-    if (watchProducts?.length) {
-      setIsSelectDisable("categories");
-    } else if (watchCategories?.length) {
-      setIsSelectDisable("products");
-    } else {
-      setIsSelectDisable(null);
-    }
   };
 
   useEffect(() => {
     onSubmit({});
     resetForm();
   }, []);
-
-  useEffect(() => {
-    updateSelectDisable();
-  }, [watchCategories, watchProducts]);
 
   return (
     <Container>
@@ -188,28 +138,16 @@ const Dashboard = () => {
                   value: item.id,
                 })) || []
               }
-              placeholder={
-                isSelectDisable === "products"
-                  ? "Remova as categorias para selecionar produtos"
-                  : "Selecione um ou mais produtos"
-              }
-              disabled={isSelectDisable === "products"}
+              placeholder="Selecione um ou mais produtos"
+              style={{
+                minHeight: 45,
+                borderRadius: 5,
+                borderWidth: 2,
+                borderColor: theme.colors.purple_80,
+                padding: 0,
+              }}
             />
-            <FilterLabel>Ou</FilterLabel>
-            <MultiSelect
-              control={control}
-              name="categoriesFilter"
-              label="Filtre por categoria(s)"
-              options={categoriesOptions}
-              placeholder={
-                isSelectDisable === "categories"
-                  ? "Remova os produtos para selecionar categorias"
-                  : "Selecione uma ou mais categorias"
-              }
-              disabled={isSelectDisable === "categories"}
-            />
-          </FilterRow>
-          <FilterRow>
+
             <Input
               control={control}
               name="startDate"
@@ -232,7 +170,6 @@ const Dashboard = () => {
                 reset({
                   startDate: "",
                   endDate: "",
-                  categoriesFilter: [],
                   productsFilter: [],
                 });
                 onSubmit({});

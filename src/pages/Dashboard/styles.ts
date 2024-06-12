@@ -42,12 +42,6 @@ export const FilterRow = styled.div`
   gap: 8px;
 `;
 
-export const FilterLabel = styled.label`
-  margin-top: 24px;
-
-  font-size: 1rem;
-`;
-
 export const FilterSelect = styled.select`
   min-height: 50px;
 

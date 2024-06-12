@@ -11,10 +11,4 @@ export const DashboardSchema = Yup.object({
       value: Yup.string(),
     }),
   ),
-  categoriesFilter: Yup.array().of(
-    Yup.object({
-      label: Yup.string(),
-      value: Yup.string(),
-    }),
-  ),
 });

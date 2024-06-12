@@ -67,13 +67,11 @@ class Order {
     startDate,
     endDate,
     productFilters,
-    categoryFilters,
   }: IShowDashboardDTO) {
-    const { data } = await api.post<IDashboardResponse[]>(`/order/dashboard`, {
+    const { data } = await api.post<IDashboardResponse>(`/order/dashboard`, {
       startDate,
       endDate,
       productFilters,
-      categoryFilters,
     });
     return data;
   }
