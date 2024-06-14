@@ -7,7 +7,7 @@ import {
   IconsWrapper,
   AdminIcon,
 } from "./styles";
-import logo from "../../assets/img/logo.svg";
+import logo from "../../assets/img/logo-name.svg";
 import SearchBar from "../SearchBar/SearchBar";
 import CheckoutButton from "../CheckoutButton/CheckoutButton";
 

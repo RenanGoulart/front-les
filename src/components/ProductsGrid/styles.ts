@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 80%;
-  margin: 2rem auto;
+  width: 100%;
+  margin: 1rem auto;
 
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@ export const ContainerGrid = styled.div`
   align-self: center;
 
   display: grid;
-  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  grid-template-columns: repeat(4, minmax(300px, 1fr));
   grid-template-rows: auto;
   justify-items: center;
   row-gap: 4rem;

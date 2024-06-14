@@ -15,7 +15,7 @@ import { useEffect } from "react";
 
 interface Props {
   closeModal: () => void;
-  card: ICreditCardResponse;
+  card?: ICreditCardResponse;
 }
 
 const ModalCreateUserCreditCard = ({ card, closeModal }: Props) => {

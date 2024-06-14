@@ -15,7 +15,7 @@ export const Container = styled.header`
 `;
 
 export const Logo = styled.img`
-  width: 7rem;
+  width: 8rem;
 `;
 
 export const IconsWrapper = styled.div`
