@@ -3,6 +3,7 @@ import { IoLogOut } from "react-icons/io5";
 import { BiSolidShoppingBags } from "react-icons/bi";
 import { FaRegCreditCard } from "react-icons/fa";
 import { FaMapLocationDot } from "react-icons/fa6";
+import { GiTwoCoins } from "react-icons/gi";
 
 export const Container = styled.main`
   width: 100vw;
@@ -13,7 +14,7 @@ export const Content = styled.section`
   width: 100%;
 `;
 
-export const ButtonsWrapper = styled.div`
+export const OptionsWrapper = styled.div`
   margin-top: 1rem;
 
   display: flex;
@@ -83,8 +84,22 @@ export const StyledLogoutIcon = styled(IoLogOut)`
 `;
 
 export const CreditsText = styled.h3`
-  margin-top: 2rem;
+  width: 20%;
+  height: 2.75rem;
+  margin-bottom: 20px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+
+  background-color: ${({ theme }) => theme.colors.green_56};
+  border-radius: 10px;
   text-align: center;
-  color: ${({ theme }) => theme.colors.purple_1f};
+  color: ${({ theme }) => theme.colors.white_ff};
+`;
+
+export const StyledCreditsIcon = styled(GiTwoCoins)`
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.colors.white_ff};
 `;

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import {
   Button,
-  ButtonsWrapper,
+  OptionsWrapper,
   Container,
   Content,
   CreditsText,
@@ -11,6 +11,7 @@ import {
   StyledCreditCardIcon,
   StyledLogoutIcon,
   StyledShoppingBagIcon,
+  StyledCreditsIcon,
   TextOverlay,
 } from "./styles";
 import Header from "../../components/Header/Header";
@@ -31,37 +32,40 @@ const Profile = () => {
           <Image src={profileimg} alt="Vinil" />
           <TextOverlay>Meu Perfil</TextOverlay>
         </ImageContent>
-        <CreditsText>Créditos: {user?.credits || 0}</CreditsText>
-        <ButtonsWrapper>
-          <Button
-            isOutline
-            onClick={() => navigate("/orders")}
-            data-cy="btn-my-orders"
-          >
-            <StyledShoppingBagIcon />
-            Meus Pedidos
-          </Button>
-          <Button
-            isOutline
-            onClick={() => navigate("/userAddresses")}
-            data-cy="btn-my-addresses"
-          >
-            <StyledAddressIcon />
-            Meus Endereços
-          </Button>
-          <Button
-            isOutline
-            onClick={() => navigate("/userCreditCards")}
-            data-cy="btn-my-creditCards"
-          >
-            <StyledCreditCardIcon />
-            Meus Cartões
-          </Button>
-          <Button onClick={() => navigate("/")}>
-            <StyledLogoutIcon />
-            Sair
-          </Button>
-        </ButtonsWrapper>
+        <OptionsWrapper>
+          <CreditsText>
+            <StyledCreditsIcon />
+            Créditos: {user?.credits || 0}
+          </CreditsText>
+            <Button
+              isOutline
+              onClick={() => navigate("/orders")}
+              data-cy="btn-my-orders"
+            >
+              <StyledShoppingBagIcon />
+              Meus Pedidos
+            </Button>
+            <Button
+              isOutline
+              onClick={() => navigate("/userAddresses")}
+              data-cy="btn-my-addresses"
+            >
+              <StyledAddressIcon />
+              Meus Endereços
+            </Button>
+            <Button
+              isOutline
+              onClick={() => navigate("/userCreditCards")}
+              data-cy="btn-my-creditCards"
+            >
+              <StyledCreditCardIcon />
+              Meus Cartões
+            </Button>
+            <Button onClick={() => navigate("/")}>
+              <StyledLogoutIcon />
+              Sair
+            </Button>
+        </OptionsWrapper>
       </Content>
     </Container>
   );
