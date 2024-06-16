@@ -24,9 +24,9 @@ const Header = ({ searchValue, setSearchValue }: Props) => {
       <a href="/user">
         <Logo src={logo} alt="Logo" />
       </a>
-      {searchValue && setSearchValue && (
+      {setSearchValue && (
         <SearchBar
-          search={searchValue}
+          search={searchValue as string}
           setSearch={setSearchValue}
           isSearchable
         />
