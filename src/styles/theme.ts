@@ -9,6 +9,7 @@ export const theme = {
     purple_af: "#afa1c7",
     green_56: "#56AA63",
     gray_cc: "#cccccc",
+    yellow_ff: "#ffb300",
     red_fc: "#fc6868",
   },
 } as const;

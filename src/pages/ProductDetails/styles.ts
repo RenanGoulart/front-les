@@ -83,7 +83,7 @@ export const IaButton = styled.button`
   align-items: center;
 
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.colors.purple_1f};
+  border: 1px solid ${({ theme }) => theme.colors.yellow_ff};
 `;
 
 export const IaIcon = styled.img`

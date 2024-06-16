@@ -19,14 +19,15 @@ export const Background = styled.div`
 
 export const Container = styled.div`
   width: 50%;
-  padding: 30px;
-
-  background-color: ${({ theme }) => theme.colors.purple_1f};
-  border-radius: 20px;
 
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  padding: 30px;
+
+  border-radius: 20px;
+  background-color: ${({ theme }) => theme.colors.purple_1f};
 `;
 export const Row = styled.div`
   width: 100%;
@@ -37,13 +38,12 @@ export const Row = styled.div`
 
 export const TextArea = styled.div`
   width: 100%;
-  height: 20rem;
 
   border-radius: 20px;
 `;
 
 export const Text = styled.div`
-  margin: 0 2rem;
+  margin: auto 2rem;
 
   font-size: 1.5rem;
   color: ${({ theme }) => theme.colors.white_ff};
@@ -64,5 +64,3 @@ export const CloseIcon = styled(IoIosCloseCircleOutline)`
 
   cursor: pointer;
 `;
-
-

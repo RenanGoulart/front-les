@@ -92,7 +92,12 @@ const ProductDetails = ({ id, closeModal }: Props) => {
         <hr />
         <LabelContainer>
           <Row>
-            <Label isTitle>{product.status === "INATIVO" ? "Motivo de Inativação" : "Motivo de Ativação"}:</Label>
+            <Label isTitle>
+              {product.status === "INATIVO"
+                ? "Motivo de Inativação"
+                : "Motivo de Ativação"}
+              :
+            </Label>
             <Label>{product.statusReason}</Label>
           </Row>
         </LabelContainer>

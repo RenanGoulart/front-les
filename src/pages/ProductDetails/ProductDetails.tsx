@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   Button,
   ButtonsRow,
@@ -26,18 +27,17 @@ import {
 import Header from "../../components/Header/Header";
 import NavBar from "../../components/NavBar/NavBar";
 import { Footer } from "../../components/Footer/Footer";
-import brain from "../../assets/icons/brain.svg";
+import sparkler from "../../assets/icons/sparkler.svg";
 import { formatCurrency } from "../../utils/format";
 import Product from "../../services/product/Product";
 import { useCart } from "../../contexts/useCart";
 import { ITrack } from "../../services/product/dto/ProductDTO";
-import { useState } from "react";
 import ModalCuriosities from "../../components/ModalCuriosities/ModalCuriosities";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [ isCuriosity, setCuriosity ] = useState(false);
+  const [isCuriosity, setCuriosity] = useState(false);
 
   const { handleAddToCart } = useCart();
 
@@ -124,7 +124,7 @@ const ProductDetails = () => {
               </Button>
             </ButtonsColumn>
             <IaButton onClick={() => setCuriosity(true)}>
-              <IaIcon src={brain} />
+              <IaIcon src={sparkler} />
             </IaButton>
           </ButtonsRow>
         </DetailsWrapper>
@@ -166,9 +166,10 @@ const ProductDetails = () => {
       </TrackContainer>
       <Footer />
       {isCuriosity && (
-          <ModalCuriosities closeModal={closeModal}
-            album={product.album}
-          />
+        <ModalCuriosities
+          closeModal={closeModal}
+          curiosity={product.curiosity}
+        />
       )}
     </Container>
   );

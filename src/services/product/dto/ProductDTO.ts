@@ -13,6 +13,7 @@ export interface IProductResponse {
   height: string;
   width: string;
   weight: string;
+  curiosity: string;
   status: ProductStatus;
   statusReason: string;
   pricingGroup: string;
@@ -59,8 +60,4 @@ export interface IUpdateProductStatusDTO {
   id: string;
   status: ProductStatus;
   statusReason: string;
-}
-
-export interface IShowCuriosityDTO {
-  curiosity: string;
 }

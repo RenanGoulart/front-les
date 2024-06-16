@@ -1,3 +1,4 @@
+import { TypeAnimation } from "react-type-animation";
 import {
   Background,
   Container,
@@ -5,43 +6,40 @@ import {
   Row,
   TextArea,
   Text,
-  CloseIcon
+  CloseIcon,
 } from "./styles";
-import brain from "../../assets/icons/brain.svg";
-import { useEffect, useState } from "react";
-import { showCuriosity } from "../../services/product";
+import sparkler from "../../assets/icons/sparkler.svg";
+import { theme } from "../../styles/theme";
 
 interface Props {
   closeModal: () => void;
-  album: string;
+  curiosity: string;
 }
 
-const ModalCuriosities = ({ closeModal, album }: Props) => {
-  const [ curiosity, setCuriosity ] = useState('');
-
-  const getCuriosity = async (album: string) => {
-    const productCuriosity = await showCuriosity(album);
-    if (productCuriosity && productCuriosity.curiosity) {
-      setCuriosity(productCuriosity.curiosity);
-    }
-  };
-
-  useEffect(() => {
-    if (album) {
-      getCuriosity(album);
-    }
-  }, [album]);
-
+const ModalCuriosities = ({ closeModal, curiosity }: Props) => {
   return (
     <Background onClick={closeModal}>
       <Container onClick={(e) => e.stopPropagation()}>
         <Row>
-          <IaIcon src={brain}/>
+          <IaIcon src={sparkler} />
           <Text>Curiosidades</Text>
-          <CloseIcon onClick={closeModal}></CloseIcon>
+          <CloseIcon onClick={closeModal} />
         </Row>
         <Row>
-          <TextArea>{curiosity}</TextArea>
+          <TextArea>
+            <TypeAnimation
+              sequence={[curiosity, 1000]}
+              wrapper="span"
+              repeat={1}
+              speed={80}
+              style={{
+                fontSize: "1.2em",
+                display: "inline-block",
+                color: theme.colors.white_ff,
+              }}
+            />
+            {/* <ContentText>{curiosity}</ContentText> */}
+          </TextArea>
         </Row>
       </Container>
     </Background>
