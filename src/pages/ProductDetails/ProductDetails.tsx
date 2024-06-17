@@ -33,6 +33,7 @@ import Product from "../../services/product/Product";
 import { useCart } from "../../contexts/useCart";
 import { ITrack } from "../../services/product/dto/ProductDTO";
 import ModalCuriosities from "../../components/ModalCuriosities/ModalCuriosities";
+import YoutubeEmbed from "../../components/YoutubeEmbed/YoutubeEmbed";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -129,6 +130,8 @@ const ProductDetails = () => {
           </ButtonsRow>
         </DetailsWrapper>
       </Content>
+      <Separator />
+        <YoutubeEmbed link={product.linkVideo} />
       <Separator />
       <ContainerTable>
         <TableRow>

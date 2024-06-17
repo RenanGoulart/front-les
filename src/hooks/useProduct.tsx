@@ -60,6 +60,7 @@ const useProduct = () => {
     });
     formData.append("costPrice", String(body.costPrice));
     formData.append("quantityInStock", String(body.quantityInStock));
+    formData.append("linkVideo", String(body.linkVideo));
 
     if ((body.photo as File).name) {
       const extension = (body.photo as File).name.split(".").pop();

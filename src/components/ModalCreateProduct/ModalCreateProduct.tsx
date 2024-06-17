@@ -75,6 +75,7 @@ const ModalCreateProduct = ({ id, closeModal }: Props) => {
       setValue("width", Number(product.width));
       setValue("weight", Number(product.weight));
       setValue("quantityInStock", product.quantityInStock);
+      setValue("linkVideo", product.linkVideo);
       setValue("pricingGroup", product.pricingGroup);
       setValue("costPrice", Number(product.costPrice));
 
@@ -205,6 +206,14 @@ const ModalCreateProduct = ({ id, closeModal }: Props) => {
                 name="photo"
                 label="Foto"
                 containerStyle={{ width: "70%" }}
+              />
+            </Row>
+            <Row>
+              <Input
+                control={control}
+                name="linkVideo"
+                label="Link do Vídeo"
+                containerStyle={{ width: "100%" }}
               />
             </Row>
             <Row>

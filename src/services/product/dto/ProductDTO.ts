@@ -14,6 +14,7 @@ export interface IProductResponse {
   width: string;
   weight: string;
   curiosity: string;
+  linkVideo: string;
   status: ProductStatus;
   statusReason: string;
   pricingGroup: string;
@@ -47,6 +48,7 @@ export interface ICreateProductDTO {
   costPrice: number;
   photo: string;
   quantityInStock: number;
+  linkVideo: string;
   tracks: ITrack[];
 }
 

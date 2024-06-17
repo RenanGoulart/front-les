@@ -12,6 +12,7 @@ export const CreateProductSchema = Yup.object({
   weight: Yup.number().required("Peso do Produto Obrigatório"),
   photo: Yup.mixed().required("Foto Obrigatória"),
   quantityInStock: Yup.number().required("Quantidade em Estoque Obrigatória"),
+  linkVideo: Yup.string().required("Link do Vídeo Obrigatório"),
   categories: Yup.array().of(
     Yup.object({
       label: Yup.string(),
