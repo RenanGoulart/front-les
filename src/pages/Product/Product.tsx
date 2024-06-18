@@ -95,7 +95,7 @@ const Products = () => {
               </TableCell>
               <TableCell>{product.album}</TableCell>
               <TableCell>{product.artist}</TableCell>
-              <TableCell>{product.price}</TableCell>
+              <TableCell>R$ {product.price}</TableCell>
               <TableCell>
                 <Switch
                   isChecked={product.status === ProductStatus.ACTIVE}
