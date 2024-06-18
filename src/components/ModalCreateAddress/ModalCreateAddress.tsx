@@ -2,7 +2,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import Input from "../Input/Input";
-import { Background, Container, Row } from "./styles";
+import {
+  Background,
+  Container,
+  Row,
+  IsMainWrapper,
+  Label,
+} from "./styles";
 import Select from "../Select/Select";
 import Button from "../Button/Button";
 import {
@@ -11,6 +17,7 @@ import {
 } from "../../validations/createClient.validation";
 import {
   addressTypesOptions,
+  isMainOptions,
   residenceTypeOptions,
   streetTypeOptions,
 } from "../../data/createClientOptions";
@@ -24,6 +31,7 @@ import {
   listStatesByCountryId,
   updateAddress,
 } from "../../services/address";
+import RadioOptions from "../RadioOptions/RadioOptions";
 
 interface DropdownOption {
   value: string;
@@ -52,6 +60,7 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
 
   const country = watch("country");
   const state = watch("state");
+  const addressType = watch('addressType');
 
   const onSubmit = (data: CreateAddressForm) => {
     if (currentAddressId) {
@@ -68,7 +77,7 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
         ...data,
         cityId: data.city,
         userId: currentUserId,
-        isMain: false,
+        isMain: data.isMain,
       });
       return closeModal();
     }
@@ -83,7 +92,7 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
       addressType: data.addressType,
       streetType: data.streetType,
       residenceType: data.residenceType,
-      isMain: true,
+      isMain: data.isMain,
     };
 
     if (formName === "address") {
@@ -168,6 +177,7 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
     setValue("addressType", cardInfoData.addressType);
     setValue("streetType", cardInfoData.streetType);
     setValue("residenceType", cardInfoData.residenceType);
+    setValue("isMain", cardInfoData.isMain);
   };
 
   const getAddressInfo = async (addressId: string) => {
@@ -186,6 +196,7 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
   useEffect(() => {
     if (!currentAddressId) {
       setValue("addressType", formName === "address" ? "COBRANCA" : "ENTREGA");
+      setValue('isMain', false);
     }
   }, []);
 
@@ -215,6 +226,17 @@ const ModalCreateAddress = ({ formName, changeForm, closeModal }: Props) => {
             containerStyle={styles.elementStyle}
             data-cy="input-zipCode"
           />
+          {formName !== 'address' && addressType!== 'COBRANCA' && (
+          <IsMainWrapper>
+            <Label>Endereço preferencial?</Label>
+            <RadioOptions
+              control={control}
+              name="isMain"
+              options={isMainOptions}
+              defaultValue={false}
+            />
+          </IsMainWrapper>
+          )}
         </Row>
         <Row>
           <Select

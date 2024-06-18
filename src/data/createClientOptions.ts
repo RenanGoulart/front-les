@@ -14,6 +14,11 @@ export const statusOptions = [
   { value: "INATIVO", label: "Inativo" },
 ];
 
+export const isMainOptions = [
+  { value: true, label: "Sim" },
+  { value: false, label: "Não" },
+];
+
 export const streetTypeOptions = [
   { value: "RUA", label: "Rua" },
   { value: "AVENIDA", label: "Avenida" },

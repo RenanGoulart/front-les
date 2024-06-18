@@ -24,6 +24,7 @@ export const CreateClientSchema = Yup.object({
 
 export const CreateAddressSchema = Yup.object({
   zipCode: Yup.string().required("CEP Obrigatório"),
+  isMain: Yup.boolean(),
   street: Yup.string().required("Rua Obrigatória"),
   number: Yup.string().required("Número Obrigatório"),
   state: Yup.string().required("Estado Obrigatório"),

@@ -15,7 +15,7 @@ import {
 
 interface IOption {
   label: string;
-  value: string;
+  value: string | boolean;
 }
 
 type Props<TFieldValues extends FieldValues> = {
@@ -47,7 +47,7 @@ const RadioOptions = <TFieldValues extends FieldValues>({
   return (
     <Container style={containerStyle}>
       {options.map((item) => (
-        <RadioRow key={item.value} onClick={() => handleCheckOption(item)}>
+        <RadioRow key={item.value.toString()} onClick={() => handleCheckOption(item)}>
           <RadioCircle data-cy="radio-option">
             {item.value === field.value && <RadioCheck />}
           </RadioCircle>
