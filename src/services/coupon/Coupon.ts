@@ -16,6 +16,10 @@ class Coupon {
     const { data } = await api.get<ICouponResponse[]>("/coupon");
     return data;
   }
+
+  static async delete(id: string) {
+    await api.delete<ICouponResponse[]>(`/coupon/${id}`);
+  }
 }
 
 export default Coupon;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FaTrash } from "react-icons/fa";
 
 export const Container = styled.main`
   width: 100vw;
@@ -50,4 +51,10 @@ export const TableCell = styled.div`
 
   font-size: 1rem;
   padding: 1rem;
+`;
+
+export const StyledDeleteIcon = styled(FaTrash)`
+  font-size: 20px;
+  color: ${({ theme }) => theme.colors.purple_1f};
+  cursor: pointer;
 `;
