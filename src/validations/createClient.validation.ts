@@ -38,6 +38,7 @@ export const CreateAddressSchema = Yup.object({
 });
 
 export const CreateCreditCardSchema = Yup.object({
+  isMain: Yup.boolean(),
   number: Yup.string().required("Número do Cartão Obrigatório"),
   cardHolder: Yup.string().required("Nome do Titular Obrigatório"),
   cvv: Yup.string().required("Código de Segurança Obrigatório"),
