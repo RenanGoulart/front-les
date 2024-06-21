@@ -131,7 +131,7 @@ const ProductDetails = () => {
         </DetailsWrapper>
       </Content>
       <Separator />
-        <YoutubeEmbed link={product.linkVideo} />
+      <YoutubeEmbed link={product.linkVideo} />
       <Separator />
       <ContainerTable>
         <TableRow>
@@ -170,6 +170,7 @@ const ProductDetails = () => {
       <Footer />
       {isCuriosity && (
         <ModalCuriosities
+          productId={product.id}
           closeModal={closeModal}
           curiosity={product.curiosity}
         />

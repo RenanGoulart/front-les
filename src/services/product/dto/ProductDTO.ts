@@ -63,3 +63,13 @@ export interface IUpdateProductStatusDTO {
   status: ProductStatus;
   statusReason: string;
 }
+
+export interface IUpdateProductDTO {
+  id: string;
+  product: FormData;
+}
+
+export interface IChatDTO {
+  id: string;
+  message: string;
+}

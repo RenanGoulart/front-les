@@ -1,6 +1,8 @@
 import api from "../../lib/axios";
 import {
+  IChatDTO,
   IProductResponse,
+  IUpdateProductDTO,
   IUpdateProductInStockDTO,
   IUpdateProductStatusDTO,
 } from "./dto/ProductDTO";
@@ -48,8 +50,13 @@ class Product {
     return data;
   }
 
-  static async update({ id, product }: { id: string; product: FormData }) {
+  static async update({ id, product }: IUpdateProductDTO) {
     const { data } = await api.put<IProductResponse>(`/product/${id}`, product);
+    return data;
+  }
+
+  static async chat({ id, message }: IChatDTO) {
+    const { data } = await api.post<string>(`/chat/${id}`, { message });
     return data;
   }
 }
