@@ -68,3 +68,10 @@ export const CloseIcon = styled(IoIosCloseCircleOutline)`
 
   cursor: pointer;
 `;
+
+export const LoadingText = styled.span`
+  padding-right: 32px;
+
+  font-size: 1.2em;
+  color: ${({ theme }) => theme.colors.white_ff};
+`;

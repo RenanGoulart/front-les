@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import Product from "../services/product/Product";
 
 const useChat = () => {
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending: loadingChat } = useMutation({
     mutationKey: ["chat"],
     mutationFn: Product.chat,
   });
@@ -14,6 +14,7 @@ const useChat = () => {
 
   return {
     handleSendMessage,
+    loadingChat,
   };
 };
 

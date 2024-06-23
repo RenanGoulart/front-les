@@ -1,5 +1,5 @@
-import { TypeAnimation } from "react-type-animation";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import {
   Background,
   Container,
@@ -8,12 +8,13 @@ import {
   TextArea,
   Text,
   CloseIcon,
+  LoadingText,
 } from "./styles";
 import sparkler from "../../assets/icons/sparkler.svg";
-import { theme } from "../../styles/theme";
 import useChat from "../../hooks/useChat";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import TypingAnimation from "../TypingAnimation/TypingAnimation";
 
 interface Props {
   productId: string;
@@ -22,16 +23,18 @@ interface Props {
 }
 
 const ModalCuriosities = ({ productId, curiosity, closeModal }: Props) => {
-  const { handleSendMessage } = useChat();
+  const { handleSendMessage, loadingChat } = useChat();
 
-  const { control, watch, reset } = useForm();
+  const [currentResponse, setCurrentResponse] = useState(curiosity);
+
+  const { control, watch, setValue } = useForm();
 
   const handleSend = async () => {
     const message = watch("message");
     if (message) {
       const response = await handleSendMessage(productId, message);
-      console.log("response", response);
-      reset();
+      setCurrentResponse(response);
+      setValue("message", "");
     }
   };
 
@@ -44,18 +47,11 @@ const ModalCuriosities = ({ productId, curiosity, closeModal }: Props) => {
           <CloseIcon onClick={closeModal} />
         </Row>
         <TextArea>
-          <TypeAnimation
-            sequence={[curiosity, 1000]}
-            wrapper="span"
-            repeat={Infinity}
-            speed={99}
-            style={{
-              fontSize: "1.2em",
-              display: "inline-block",
-              color: theme.colors.white_ff,
-              paddingRight: 32,
-            }}
-          />
+          {loadingChat ? (
+            <LoadingText>Carregando...</LoadingText>
+          ) : (
+            <TypingAnimation text={currentResponse} />
+          )}
         </TextArea>
         <Row style={{ gap: 10, marginTop: "auto" }}>
           <Input
