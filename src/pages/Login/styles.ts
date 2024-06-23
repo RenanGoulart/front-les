@@ -13,7 +13,7 @@ export const LoginContainer = styled.form`
   display: flex;
   flex-direction: column;
 
-  padding: 2rem 5rem;
+  padding: 4rem 5rem;
 
   overflow-y: auto;
 
@@ -52,7 +52,7 @@ export const LoginTitle = styled.span`
 
   color: ${({ theme }) => theme.colors.white_ff};
 
-  margin-bottom: 1rem;
+  margin: 2rem 0rem;
 `;
 
 export const Logo = styled.img`
@@ -60,39 +60,11 @@ export const Logo = styled.img`
 `;
 
 export const Label = styled.label`
-  margin: 10px 0;
+  margin: 20px 0;
 
   font-size: 18px;
 
   color: ${({ theme }) => theme.colors.white_ff};
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  height: 3.375rem;
-
-  display: flex;
-  align-items: center;
-
-  margin-bottom: 10px;
-  padding: 0 3rem 0 2rem;
-
-  font-weight: 400;
-  font-size: 0.875rem;
-
-  border-radius: 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.white_ff};
-  background-color: ${({ theme }) => theme.colors.purple_1f};
-
-  color: ${({ theme }) => theme.colors.white_ff};
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.white_ff}50;
-  }
-
-  &:focus {
-    outline: 2px solid ${({ theme }) => theme.colors.purple_af};
-  }
 `;
 
 export const Button = styled.button`
@@ -103,7 +75,7 @@ export const Button = styled.button`
   align-items: center;
   justify-content: center;
 
-  margin-top: 20px;
+  margin-top: 40px;
 
   font-weight: 600;
   font-size: 18px;
