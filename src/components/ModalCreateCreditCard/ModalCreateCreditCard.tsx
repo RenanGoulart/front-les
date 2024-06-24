@@ -2,20 +2,21 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import Input from "../Input/Input";
-import { Background, Container, Row } from "./styles";
+import { Background, Container, Row, IsMainWrapper, Label } from "./styles";
 import Select from "../Select/Select";
 import Button from "../Button/Button";
 import {
   CreateCreditCardForm,
   CreateCreditCardSchema,
 } from "../../validations/createClient.validation";
-import { cardBrandOptions } from "../../data/createClientOptions";
+import { cardBrandOptions, isMainOptions } from "../../data/createClientOptions";
 import { useClient } from "../../contexts/useClient";
 import {
   ICreditCardResponse,
   findCreditCardById,
   updateCreditCard,
 } from "../../services/creditCard";
+import RadioOptions from "../RadioOptions/RadioOptions";
 
 interface Props {
   closeModal: () => void;
@@ -37,7 +38,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
     }
 
     if (currentUserId) {
-      createCreditCard({ ...data, userId: currentUserId, isMain: false });
+      createCreditCard({ ...data, userId: currentUserId, isMain: data.isMain });
       return closeModal();
     }
     createClient(data);
@@ -50,6 +51,7 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
     setValue("number", cardInfoData.number);
     setValue("cvv", cardInfoData.cvv);
     setValue("cardHolder", cardInfoData.cardHolder);
+    setValue("isMain", cardInfoData.isMain);
   };
 
   const getCreditCardInfo = async (creditCardId: string) => {
@@ -75,9 +77,17 @@ const ModalCreateCreditCard = ({ closeModal }: Props) => {
             name="cardBrand"
             label="Bandeira do cartão"
             options={cardBrandOptions}
-            containerStyle={{ width: "100%" }}
+            containerStyle={styles.elementStyle}
             data-cy="select-cardBrand"
           />
+          <IsMainWrapper>
+            <Label>Cartão preferencial?</Label>
+            <RadioOptions
+              control={control}
+              name="isMain"
+              options={isMainOptions}
+            />
+          </IsMainWrapper>
         </Row>
         <Row>
           <Input

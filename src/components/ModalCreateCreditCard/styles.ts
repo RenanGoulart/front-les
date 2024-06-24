@@ -28,6 +28,10 @@ export const Container = styled.div`
   gap: 20px;
 `;
 
+export const IsMainWrapper = styled.div`
+  width: 48%;
+`;
+
 export const Label = styled.label`
   font-size: 14px;
   font-weight: normal;

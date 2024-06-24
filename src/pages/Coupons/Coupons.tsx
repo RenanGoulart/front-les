@@ -8,6 +8,7 @@ import {
   Content,
   TableCell,
   Title,
+  StyledDeleteIcon,
 } from "./styles";
 import Button from "../../components/Button/Button";
 import SideBar from "../../components/SideBar/SideBar";
@@ -16,8 +17,7 @@ import useCoupon from "../../hooks/useCoupon";
 
 const Coupons = () => {
   const [form, setForm] = useState(false);
-
-  const { coupons } = useCoupon();
+  const { coupons, handleDeleteCoupon } = useCoupon();
 
   const openModal = () => {
     setForm(true);
@@ -48,6 +48,9 @@ const Coupons = () => {
               <TableCell>{coupon.quantity}</TableCell>
               <TableCell>
                 {format(coupon.expirationDate, "dd/MM/yyyy")}
+              </TableCell>
+              <TableCell>
+                <StyledDeleteIcon onClick={() => handleDeleteCoupon(coupon.id)} />
               </TableCell>
             </TableRow>
           ))}

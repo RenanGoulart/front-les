@@ -25,8 +25,15 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
   const [isConfirmationVisible, setIsConfirmationVisible] =
     useState<OrderItem | null>(null);
 
-  const isExchangeEnable = (orderStatus: string, itemStatus: string | null) => {
-    if (itemStatus?.includes("TROCA")) {
+  const isExchangeEnable = (
+    orderStatus: string,
+    itemStatus: string | null,
+    quantity: number,
+  ) => {
+    if (
+      itemStatus?.includes("TROCA") ||
+      (data.orderItems.length === 1 && quantity === 1)
+    ) {
       return false;
     }
 
@@ -88,8 +95,12 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
           </TableRow>
           {data.orderItems.map((item) => (
             <TableRow key={item.id}>
-              <TableCell data-cy="nameOfproduct">{item.product.album}</TableCell>
-              <TableCell data-cy="quantityOfProducts">{item.quantity}</TableCell>
+              <TableCell data-cy="nameOfproduct">
+                {item.product.album}
+              </TableCell>
+              <TableCell data-cy="quantityOfProducts">
+                {item.quantity}
+              </TableCell>
               <TableCell data-cy="statusOfProduct">
                 {item.status
                   ? renderStatus(item.status)
@@ -97,7 +108,7 @@ const UserOrderDetails = ({ data, closeModal }: Props) => {
               </TableCell>
 
               <TableCell>
-                {isExchangeEnable(data.status, item.status) && (
+                {isExchangeEnable(data.status, item.status, item.quantity) && (
                   <Button
                     onClick={() => setIsConfirmationVisible(item)}
                     style={{ minWidth: "100%" }}

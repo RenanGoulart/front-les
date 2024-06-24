@@ -19,6 +19,7 @@ export const Background = styled.div`
 
 export const Container = styled.div`
   width: 50%;
+  height: 70vh;
 
   display: flex;
   flex-direction: column;
@@ -39,7 +40,10 @@ export const Row = styled.div`
 export const TextArea = styled.div`
   width: 100%;
 
-  border-radius: 20px;
+  display: flex;
+  flex: 1;
+
+  overflow-y: auto;
 `;
 
 export const Text = styled.div`
@@ -63,4 +67,11 @@ export const CloseIcon = styled(IoIosCloseCircleOutline)`
   color: ${({ theme }) => theme.colors.white_ff};
 
   cursor: pointer;
+`;
+
+export const LoadingText = styled.span`
+  padding-right: 32px;
+
+  font-size: 1.2em;
+  color: ${({ theme }) => theme.colors.white_ff};
 `;

@@ -5,6 +5,7 @@ import Address from "../services/address/Address";
 import Card from "../services/card/Card";
 import { ICreateAddressDTO, IUpdateAddressDTO } from "../services/address/dto/AddressDTO";
 import { ICreateCreditCardDTO, IUpdateCreditCardDTO } from "../services/card/dto/CardDTO";
+import { handleSuccess } from "../lib/toastify";
 
 const useUser = () => {
   const queryClient = useQueryClient();
@@ -30,6 +31,7 @@ const useUser = () => {
     mutationFn: Address.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["addresses", user?.id] });
+      handleSuccess("Endereço criado com sucesso!");
     },
   });
 
@@ -37,6 +39,7 @@ const useUser = () => {
     mutationFn: Address.update,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["addresses", user?.id] });
+      handleSuccess("Endereço atualizado com sucesso!");
     },
   });
 
@@ -44,6 +47,7 @@ const useUser = () => {
     mutationFn: Address.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["addresses", user?.id] });
+      handleSuccess("Endereço excluído com sucesso!");
     },
   });
 
@@ -51,6 +55,7 @@ const useUser = () => {
     mutationFn: Card.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cards", user?.id] });
+      handleSuccess("Cartão criado com sucesso!");
     },
   });
 
@@ -58,6 +63,7 @@ const useUser = () => {
     mutationFn: Card.update,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cards", user?.id] });
+      handleSuccess("Cartão atualizado com sucesso!");
     },
   });
 
@@ -65,6 +71,7 @@ const useUser = () => {
     mutationFn: Card.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cards", user?.id] });
+      handleSuccess("Cartão excluído com sucesso!");
     },
   });
 

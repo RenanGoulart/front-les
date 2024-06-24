@@ -1,4 +1,5 @@
-import { TypeAnimation } from "react-type-animation";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 import {
   Background,
   Container,
@@ -7,16 +8,36 @@ import {
   TextArea,
   Text,
   CloseIcon,
+  LoadingText,
 } from "./styles";
 import sparkler from "../../assets/icons/sparkler.svg";
-import { theme } from "../../styles/theme";
+import useChat from "../../hooks/useChat";
+import Input from "../Input/Input";
+import Button from "../Button/Button";
+import TypingAnimation from "../TypingAnimation/TypingAnimation";
 
 interface Props {
-  closeModal: () => void;
+  productId: string;
   curiosity: string;
+  closeModal: () => void;
 }
 
-const ModalCuriosities = ({ closeModal, curiosity }: Props) => {
+const ModalCuriosities = ({ productId, curiosity, closeModal }: Props) => {
+  const { handleSendMessage, loadingChat } = useChat();
+
+  const [currentResponse, setCurrentResponse] = useState(curiosity);
+
+  const { control, watch, setValue } = useForm();
+
+  const handleSend = async () => {
+    const message = watch("message");
+    if (message) {
+      const response = await handleSendMessage(productId, message);
+      setCurrentResponse(response);
+      setValue("message", "");
+    }
+  };
+
   return (
     <Background onClick={closeModal}>
       <Container onClick={(e) => e.stopPropagation()}>
@@ -25,21 +46,20 @@ const ModalCuriosities = ({ closeModal, curiosity }: Props) => {
           <Text>Curiosidades</Text>
           <CloseIcon onClick={closeModal} />
         </Row>
-        <Row>
-          <TextArea>
-            <TypeAnimation
-              sequence={[curiosity, 1000]}
-              wrapper="span"
-              repeat={1}
-              speed={80}
-              style={{
-                fontSize: "1.2em",
-                display: "inline-block",
-                color: theme.colors.white_ff,
-              }}
-            />
-            {/* <ContentText>{curiosity}</ContentText> */}
-          </TextArea>
+        <TextArea>
+          {loadingChat ? (
+            <LoadingText>Carregando...</LoadingText>
+          ) : (
+            <TypingAnimation text={currentResponse} />
+          )}
+        </TextArea>
+        <Row style={{ gap: 10, marginTop: "auto" }}>
+          <Input
+            control={control}
+            name="message"
+            containerStyle={{ flex: 1 }}
+          />
+          <Button onClick={handleSend}>Enviar</Button>
         </Row>
       </Container>
     </Background>

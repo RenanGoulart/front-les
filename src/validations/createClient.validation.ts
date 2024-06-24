@@ -15,15 +15,22 @@ export const CreateClientSchema = Yup.object({
   email: Yup.string().email("Email Inválido").required("Email Obrigatório"),
   password: Yup.string()
     .min(8, "A senha deve ter ao menos 8 dígitos")
-    .required("Senha Obrigatória"),
+    .required("Senha Obrigatória")
+    .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula')
+    .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'A senha deve conter pelo menos um caractere especial'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "A senha de confirmação não confere")
-    .required("Confirmação de senha obrigatória"),
+    .required("Confirmação de senha obrigatória")
+    .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula')
+    .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'A senha deve conter pelo menos um caractere especial'),
   status: Yup.string(),
 });
 
 export const CreateAddressSchema = Yup.object({
   zipCode: Yup.string().required("CEP Obrigatório"),
+  isMain: Yup.boolean(),
   street: Yup.string().required("Rua Obrigatória"),
   number: Yup.string().required("Número Obrigatório"),
   state: Yup.string().required("Estado Obrigatório"),
@@ -37,6 +44,7 @@ export const CreateAddressSchema = Yup.object({
 });
 
 export const CreateCreditCardSchema = Yup.object({
+  isMain: Yup.boolean(),
   number: Yup.string().required("Número do Cartão Obrigatório"),
   cardHolder: Yup.string().required("Nome do Titular Obrigatório"),
   cvv: Yup.string().required("Código de Segurança Obrigatório"),
