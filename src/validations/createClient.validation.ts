@@ -15,10 +15,16 @@ export const CreateClientSchema = Yup.object({
   email: Yup.string().email("Email Inválido").required("Email Obrigatório"),
   password: Yup.string()
     .min(8, "A senha deve ter ao menos 8 dígitos")
-    .required("Senha Obrigatória"),
+    .required("Senha Obrigatória")
+    .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula')
+    .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'A senha deve conter pelo menos um caractere especial'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "A senha de confirmação não confere")
-    .required("Confirmação de senha obrigatória"),
+    .required("Confirmação de senha obrigatória")
+    .matches(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula')
+    .matches(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'A senha deve conter pelo menos um caractere especial'),
   status: Yup.string(),
 });
 
